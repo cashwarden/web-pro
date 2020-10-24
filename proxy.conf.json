@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://cashwarden-core-api.yii.work/v1",
+    "target": "http://cashwarden-api-pro.yii.work/v1",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
