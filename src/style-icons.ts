@@ -16,6 +16,8 @@ import {
   InfoOutline,
   LineChartOutline,
   LinkOutline,
+  PauseCircleOutline,
+  PlayCircleOutline,
   PlusOutline,
   ProfileOutline,
   SettingOutline,
@@ -41,4 +43,6 @@ export const ICONS = [
   AppstoreOutline,
   LineChartOutline,
   DownloadOutline,
+  PlayCircleOutline,
+  PauseCircleOutline,
 ];

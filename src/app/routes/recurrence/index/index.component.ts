@@ -13,6 +13,7 @@ export class RecurrenceIndexComponent implements OnInit {
   loading = true;
   list: any[] = [];
   q = {
+    expand: 'transaction',
     page: 1,
     name: '',
   };
@@ -30,6 +31,7 @@ export class RecurrenceIndexComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
     { title: '名称 ', index: 'name' },
+    { title: '交易', render: 'custom' },
     { title: '频率', index: 'frequency_text' },
     { title: '时间值', index: 'schedule' },
     { title: '开始时间', type: 'date', index: 'started_at', dateFormat: 'yyyy-MM-dd' },
@@ -39,25 +41,30 @@ export class RecurrenceIndexComponent implements OnInit {
       type: 'badge',
       index: 'status',
       badge: {
-        active: { text: 'active', color: 'success' },
-        unactivated: { text: 'unactivated', color: 'default' },
+        active: { text: '启用', color: 'success' },
+        unactivated: { text: '停用', color: 'default' },
       },
     },
     { title: '更新时间', type: 'date', index: 'updated_at' },
     {
       title: '',
       buttons: [
-        { text: '编辑', click: (item: any) => this.form(item) },
-        // { text: '复制', click: (item: any) => this.copy(item) },
+        { icon: 'edit', type: 'modal', click: (item: any) => this.form(item) },
         {
-          text: (record) => (record.status === 'active' ? `停用` : `启用`),
-          click: (record) => {
-            const status = record.status === 'active' ? `unactivated` : `active`;
-            this.updateStatus(record, status);
-          },
+          icon: 'play-circle',
+          click: (record) => this.updateStatus(record, 'active'),
+          iif: (record) => record.status === 'unactivated',
+          tooltip: `启用`,
         },
         {
-          text: '删除',
+          icon: 'pause-circle',
+          click: (record) => this.updateStatus(record, 'unactivated'),
+          iif: (record) => record.status === 'active',
+          tooltip: `停用`,
+        },
+        {
+          icon: 'delete',
+          type: 'del',
           pop: {
             title: '确定要删除吗？',
             okType: 'danger',

@@ -9,5 +9,13 @@
 </div>
 
 <nz-card>
-  <st #st [data]="list" [columns]="columns"></st>
+  <st #st [data]="list" [columns]="columns">
+    <ng-template st-row="custom" let-item let-index="index">
+      <span [ngClass]="item.transaction.type === 'expense' ? 'text-red' : 'text-green'">
+        {{ item.transaction.type === 'expense' ? '-' : '' }}
+        {{ item.transaction.currency_code }}
+        {{ item.transaction.currency_amount }}
+      </span>
+    </ng-template>
+  </st>
 </nz-card>
