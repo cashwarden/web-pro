@@ -91,10 +91,16 @@ export class UserRegisterComponent implements OnDestroy {
         this.error = res.message;
         return;
       }
-      this.msg.success('注册成功，请登录');
-      this.router.navigateByUrl('/passport/login', {
-        queryParams: { email: data.email },
-      });
+      if (res.data.status === 'unactivated') {
+        this.router.navigateByUrl('/passport/register-result', {
+          queryParams: { email: data.mail },
+        });
+      } else {
+        this.msg.success('注册成功，请登录');
+        this.router.navigateByUrl('/passport/login', {
+          queryParams: { email: data.email },
+        });
+      }
     });
   }
 
