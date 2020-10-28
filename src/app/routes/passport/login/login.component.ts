@@ -83,7 +83,7 @@ export class UserLoginComponent implements OnDestroy {
         this.tokenService.set({ token: res.data.token });
         const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
         if (res.data.user.status === 'unactivated') {
-          this.msg.success('您的邮箱暂未激活，为了不邮箱您找回密码，请去个人设置中激活邮箱', { nzDuration: 5000 });
+          this.msg.success('您的邮箱暂未激活，为了不邮箱您找回密码等功能，请去个人设置中激活邮箱', { nzDuration: 5000 });
         }
         this.settingsService.setUser(user);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
