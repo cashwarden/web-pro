@@ -3,23 +3,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StartupService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
-import { DA_SERVICE_TOKEN, ITokenService, SocialOpenType, SocialService } from '@delon/auth';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'passport-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
-  providers: [SocialService],
 })
 export class UserLoginComponent implements OnDestroy {
   constructor(
     fb: FormBuilder,
     private router: Router,
     private settingsService: SettingsService,
-    private socialService: SocialService,
     @Optional()
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
@@ -85,6 +82,9 @@ export class UserLoginComponent implements OnDestroy {
         // 设置用户Token信息
         this.tokenService.set({ token: res.data.token });
         const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
+        if (res.data.user.status === 'unactivated') {
+          this.msg.success('您的邮箱暂未激活，为了不邮箱您找回密码，请去个人设置中激活邮箱', { nzDuration: 5000 });
+        }
         this.settingsService.setUser(user);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
         this.startupSrv.load().then(() => {

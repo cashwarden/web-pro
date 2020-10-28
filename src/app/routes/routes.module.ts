@@ -5,6 +5,7 @@ import { SharedModule } from '@shared';
 import { CallbackComponent } from './callback/callback.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserConfirmEmailComponent } from './passport/confirm-email/confirm-email.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
@@ -17,6 +18,7 @@ const COMPONENTS = [
   // passport pages
   UserLoginComponent,
   UserRegisterComponent,
+  UserConfirmEmailComponent,
   UserRegisterResultComponent,
   // single pages
   CallbackComponent,
