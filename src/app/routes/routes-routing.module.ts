@@ -10,6 +10,7 @@ import { LayoutPassportComponent } from '../layout/passport/passport.component';
 import { CallbackComponent } from './callback/callback.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserConfirmEmailComponent } from './passport/confirm-email/confirm-email.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
@@ -49,6 +50,7 @@ const routes: Routes = [
       { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
       { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
       { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } },
+      { path: 'confirm-email', component: UserConfirmEmailComponent, data: { title: '确认邮箱' } },
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
     ],
   },
