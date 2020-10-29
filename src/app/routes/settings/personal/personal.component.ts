@@ -20,10 +20,10 @@ export class SettingsPersonalComponent implements AfterViewInit, OnDestroy {
       key: 'base',
       title: '基本设置',
     },
-    // {
-    //   key: 'security',
-    //   title: '安全设置',
-    // },
+    {
+      key: 'password',
+      title: '修改密码',
+    },
     {
       key: 'binding',
       title: '账号绑定',
