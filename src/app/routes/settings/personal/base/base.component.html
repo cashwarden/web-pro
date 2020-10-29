@@ -6,7 +6,10 @@
   <se label="邮箱" [extra]="extra">
     <input type="text" nz-input [(ngModel)]="form.email" name="email" required maxlength="120" />
     <ng-template #extra>
-      您的邮箱暂未激活，忘记密码将无法找回账户，请点击 <a (click)="sendEmail()">激活</a> 我们将给您的邮箱发送激活邮件。
+      <span *ngIf="form.status === 'unactivated'">
+        您的邮箱暂未激活，忘记密码将无法找回账户，请点击 <a (click)="sendEmail()">激活</a> 我们将给您的邮箱发送激活邮件。
+      </span>
+      <span *ngIf="form.status !== 'unactivated'">您的邮箱已激活</span>
     </ng-template>
   </se>
 
