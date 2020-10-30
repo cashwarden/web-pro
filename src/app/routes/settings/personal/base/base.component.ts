@@ -40,7 +40,8 @@ export class SettingsBaseComponent implements OnInit {
       }
       const user = { name: res.data.username, email: res.data.email, avatar: res.data.avatar };
       this.settings.setUser(user);
-      this.msg.success('保存成功');
+      this.form = res.data;
+      this.msg.success('更新成功');
     });
   }
 
@@ -50,7 +51,9 @@ export class SettingsBaseComponent implements OnInit {
         this.msg.warning(res.message);
         return;
       }
-      this.msg.success('发送邮件成功，请尽快去邮箱激活');
+      this.form.status = '';
+      this.cdr.detectChanges();
+      this.msg.success(res.data);
     });
   }
 
