@@ -12,6 +12,7 @@ import {
   DownloadOutline,
   EditOutline,
   ExceptionOutline,
+  FolderOpenOutline,
   GroupOutline,
   InfoOutline,
   LineChartOutline,
@@ -21,6 +22,7 @@ import {
   PlusOutline,
   ProfileOutline,
   SettingOutline,
+  WalletOutline,
 } from '@ant-design/icons-angular/icons';
 
 export const ICONS = [
@@ -45,4 +47,6 @@ export const ICONS = [
   DownloadOutline,
   PlayCircleOutline,
   PauseCircleOutline,
+  WalletOutline,
+  FolderOpenOutline,
 ];

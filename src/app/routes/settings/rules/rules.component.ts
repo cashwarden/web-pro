@@ -42,8 +42,8 @@ export class SettingsRulesComponent implements OnInit {
       type: 'badge',
       index: 'status',
       badge: {
-        active: { text: 'active', color: 'success' },
-        unactivated: { text: 'unactivated', color: 'default' },
+        active: { text: '启用', color: 'success' },
+        unactivated: { text: '停用', color: 'default' },
       },
     },
     { title: '时间', type: 'date', index: 'updated_at' },

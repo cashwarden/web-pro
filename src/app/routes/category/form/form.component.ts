@@ -4,10 +4,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-categories-edit',
-  templateUrl: './edit.component.html',
+  selector: 'app-category-form',
+  templateUrl: './form.component.html',
 })
-export class SettingsCategoriesEditComponent implements OnInit {
+export class CategoryFormComponent implements OnInit {
   record: any = {};
   form = {
     name: '',

@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <div class="modal-title">账本编辑</div>
+</div>
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
+  <!-- <se label="封面">
+    <input type="text" nz-input [(ngModel)]="form.cover" name="cover" />
+  </se> -->
+  <se label="名称">
+    <input type="text" nz-input [(ngModel)]="form.name" name="name" required />
+  </se>
+  <se label="类型">
+    <nz-select [(ngModel)]="form.type" name="type" required>
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.type" *ngFor="let i of types">
+        {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+  <se label="备注" col="1">
+    <textarea [(ngModel)]="form.remark" name="remark" nz-input rows="2"></textarea>
+  </se>
+  <se label="默认账本" col="1">
+    <nz-switch [(ngModel)]="form.default" name="default"></nz-switch>
+  </se>
+  <se col="1">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>

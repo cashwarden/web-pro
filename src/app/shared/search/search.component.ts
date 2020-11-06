@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } fro
 import { CacheService } from '@delon/cache';
 import { _HttpClient } from '@delon/theme';
 import { deepCopy, getTimeDistance } from '@delon/util';
+import { params } from '../params';
 
 @Component({
   selector: 'app-record-search',
@@ -68,6 +69,7 @@ export class RecordSearchComponent implements OnInit {
     if (this.date) {
       this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
     }
+    this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
     this.searched.emit(this.q);
   }
 

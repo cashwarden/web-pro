@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared';
-import { SettingsCategoriesComponent } from './categories/categories.component';
-import { SettingsCategoriesEditComponent } from './categories/edit/edit.component';
-import { SettingsCategoriesViewComponent } from './categories/view/view.component';
 import { SettingsBaseComponent } from './personal/base/base.component';
 import { SettingsBindingComponent } from './personal/binding/binding.component';
 import { SettingsPasswordComponent } from './personal/password/password.component';
@@ -21,15 +18,8 @@ const COMPONENTS = [
   SettingsBindingComponent,
   SettingsPasswordComponent,
   SettingsTagsComponent,
-  SettingsCategoriesComponent,
 ];
-const COMPONENTS_NOROUNT = [
-  SettingsRulesFormComponent,
-  SettingsTagsEditComponent,
-  SettingsTagsViewComponent,
-  SettingsCategoriesEditComponent,
-  SettingsCategoriesViewComponent,
-];
+const COMPONENTS_NOROUNT = [SettingsRulesFormComponent, SettingsTagsEditComponent, SettingsTagsViewComponent];
 
 @NgModule({
   imports: [SharedModule, SettingsRoutingModule],

@@ -1,0 +1,55 @@
+<div class="pt-lg">
+  <nz-card>
+    <form nz-form #f="ngForm" se-container size="compact" (ngSubmit)="search()" gutter="24" [labelWidth]="null">
+      <se col="6">
+        <input nz-input [(ngModel)]="q.name" name="name" placeholder="搜索账本名称" />
+      </se>
+      <se col="6">
+        <nz-select [(ngModel)]="q.type" name="type" [nzPlaceHolder]="'全部类型'" nzShowSearch nzAllowClear>
+          <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.type" *ngFor="let i of types">
+            {{ i.name }}
+          </nz-option>
+        </nz-select>
+      </se>
+      <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
+      <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
+    </form>
+    <button nz-button (click)="form()" [nzType]="'primary'">
+      <i nz-icon nzType="plus"></i>
+      <span>新建</span>
+    </button>
+  </nz-card>
+</div>
+
+<nz-list [nzDataSource]="list" [nzLoading]="loading" [nzRenderItem]="item" [nzGrid]="{ gutter: 24, lg: 6, md: 8, sm: 12, xs: 24 }">
+  <ng-template #item let-item>
+    <nz-card nzHoverable [nzCover]="cover">
+      <ng-template #cover>
+        <img alt="{{ item.title }}" src="{{ item.cover }}" />
+      </ng-template>
+      <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.remark">
+        <ng-template #nzTitle>
+          <a (click)="form(item)">{{ item.name }}</a>
+        </ng-template>
+      </nz-card-meta>
+      <div class="card-item-content">
+        <span class="text-grey">{{ item.updated_at | _date: 'fn' }}</span>
+        <div class="text-grey">
+          <span class="pl-sm">
+            <i nz-icon nzType="edit" (click)="form(item)"></i>
+          </span>
+          <span class="pl-sm">
+            <i
+              nz-icon
+              nzType="delete"
+              nz-popconfirm
+              nzPopconfirmTitle="确定要删除账本吗？如果账本被删除，所有涉及的交易、规则和定时配置将永远失去。"
+              nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="delete(item)"
+            ></i>
+          </span>
+        </div>
+      </div>
+    </nz-card>
+  </ng-template>
+</nz-list>

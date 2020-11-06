@@ -1,16 +1,18 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
+import { CacheService } from '@delon/cache';
 import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map } from 'rxjs/operators';
-import { SettingsCategoriesEditComponent } from './edit/edit.component';
+import { params } from 'src/app/shared/params';
+import { CategoryFormComponent } from './../form/form.component';
 
 @Component({
-  selector: 'app-settings-categories',
-  templateUrl: './categories.component.html',
+  selector: 'app-category-index',
+  templateUrl: './index.component.html',
 })
-export class SettingsCategoriesComponent implements OnInit {
+export class CategoryIndexComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
 
   loading = true;
@@ -21,6 +23,7 @@ export class SettingsCategoriesComponent implements OnInit {
     pageSize: 100,
     name: '',
     transaction_type: '',
+    ledger_id: 0,
   };
   transactionTypes: any[] = [];
 
@@ -71,7 +74,13 @@ export class SettingsCategoriesComponent implements OnInit {
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private cdr: ChangeDetectorRef, private msg: NzMessageService) {}
+  constructor(
+    private http: _HttpClient,
+    private modal: ModalHelper,
+    private cdr: ChangeDetectorRef,
+    private msg: NzMessageService,
+    private cache: CacheService,
+  ) {}
 
   ngOnInit() {
     this.getData();
@@ -79,7 +88,8 @@ export class SettingsCategoriesComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
-    const data = this.http.get('/api/categories', this.q).subscribe((res) => {
+    this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
+    this.http.get('/api/categories', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       this.loading = false;
@@ -87,7 +97,7 @@ export class SettingsCategoriesComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(SettingsCategoriesEditComponent, { record }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(CategoryFormComponent, { record }, { size: 'md' }).subscribe((res) => {
       if (record.id) {
         // record = res;
         this.getData();
