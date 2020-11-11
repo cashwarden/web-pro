@@ -34,6 +34,7 @@ const routes: Routes = [
       { path: 'analysis', loadChildren: () => import('./analysis/analysis.module').then((m) => m.AnalysisModule) },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then((m) => m.ExceptionModule) },
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule) },
+      { path: 'rule', loadChildren: () => import('./rule/rule.module').then((m) => m.RuleModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ],

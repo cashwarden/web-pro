@@ -4,18 +4,10 @@ import { SettingsBaseComponent } from './personal/base/base.component';
 import { SettingsBindingComponent } from './personal/binding/binding.component';
 import { SettingsPasswordComponent } from './personal/password/password.component';
 import { SettingsPersonalComponent } from './personal/personal.component';
-import { SettingsRulesFormComponent } from './rules/form/form.component';
-import { SettingsRulesComponent } from './rules/rules.component';
 import { SettingsRoutingModule } from './settings-routing.module';
 
-const COMPONENTS = [
-  SettingsRulesComponent,
-  SettingsPersonalComponent,
-  SettingsBaseComponent,
-  SettingsBindingComponent,
-  SettingsPasswordComponent,
-];
-const COMPONENTS_NOROUNT = [SettingsRulesFormComponent];
+const COMPONENTS = [SettingsPersonalComponent, SettingsBaseComponent, SettingsBindingComponent, SettingsPasswordComponent];
+const COMPONENTS_NOROUNT = [];
 
 @NgModule({
   imports: [SharedModule, SettingsRoutingModule],
