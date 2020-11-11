@@ -7,9 +7,6 @@ import { SettingsPersonalComponent } from './personal/personal.component';
 import { SettingsRulesFormComponent } from './rules/form/form.component';
 import { SettingsRulesComponent } from './rules/rules.component';
 import { SettingsRoutingModule } from './settings-routing.module';
-import { SettingsTagsEditComponent } from './tags/edit/edit.component';
-import { SettingsTagsComponent } from './tags/tags.component';
-import { SettingsTagsViewComponent } from './tags/view/view.component';
 
 const COMPONENTS = [
   SettingsRulesComponent,
@@ -17,9 +14,8 @@ const COMPONENTS = [
   SettingsBaseComponent,
   SettingsBindingComponent,
   SettingsPasswordComponent,
-  SettingsTagsComponent,
 ];
-const COMPONENTS_NOROUNT = [SettingsRulesFormComponent, SettingsTagsEditComponent, SettingsTagsViewComponent];
+const COMPONENTS_NOROUNT = [SettingsRulesFormComponent];
 
 @NgModule({
   imports: [SharedModule, SettingsRoutingModule],

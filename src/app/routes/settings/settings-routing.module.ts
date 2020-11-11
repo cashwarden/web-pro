@@ -5,7 +5,6 @@ import { SettingsBindingComponent } from './personal/binding/binding.component';
 import { SettingsPasswordComponent } from './personal/password/password.component';
 import { SettingsPersonalComponent } from './personal/personal.component';
 import { SettingsRulesComponent } from './rules/rules.component';
-import { SettingsTagsComponent } from './tags/tags.component';
 
 const routes: Routes = [
   { path: 'rules', component: SettingsRulesComponent },
@@ -19,7 +18,6 @@ const routes: Routes = [
       { path: 'password', component: SettingsPasswordComponent },
     ],
   },
-  { path: 'tags', component: SettingsTagsComponent },
 ];
 
 @NgModule({

@@ -27,6 +27,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'account', loadChildren: () => import('./account/account.module').then((m) => m.AccountModule) },
       { path: 'category', loadChildren: () => import('./category/category.module').then((m) => m.CategoryModule) },
+      { path: 'tag', loadChildren: () => import('./tag/tag.module').then((m) => m.TagModule) },
       { path: 'ledger', loadChildren: () => import('./ledger/ledger.module').then((m) => m.LedgerModule) },
       { path: 'record', loadChildren: () => import('./record/record.module').then((m) => m.RecordModule) },
       { path: 'recurrence', loadChildren: () => import('./recurrence/recurrence.module').then((m) => m.RecurrenceModule) },

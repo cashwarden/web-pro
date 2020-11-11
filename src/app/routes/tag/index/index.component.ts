@@ -3,13 +3,13 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { SettingsTagsEditComponent } from './edit/edit.component';
+import { TagFormComponent } from '.././form/form.component';
 
 @Component({
-  selector: 'app-settings-tags',
-  templateUrl: './tags.component.html',
+  selector: 'app-tag-index',
+  templateUrl: './index.component.html',
 })
-export class SettingsTagsComponent implements OnInit {
+export class TagIndexComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
 
   loading = true;
@@ -70,7 +70,7 @@ export class SettingsTagsComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(SettingsTagsEditComponent, { record }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(TagFormComponent, { record }, { size: 'md' }).subscribe((res) => {
       if (record.id) {
         // record = res;
         this.getData();

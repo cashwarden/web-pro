@@ -30,6 +30,7 @@ export class SidebarComponent {
   changeLedger(data: { id: number; name: string }): void {
     this.ledger = data;
     this.cache.set(params.cacheKey.defaultLedger, data);
+    this.cache.set(params.cacheKey.defaultIdLedger, data.id);
     window.location.reload();
   }
 
