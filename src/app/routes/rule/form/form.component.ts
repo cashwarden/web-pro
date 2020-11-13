@@ -24,7 +24,7 @@ export class RuleFormComponent implements OnInit {
     sort: 99,
   };
 
-  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {}
 
   ngOnInit(): void {
     if (this.record.id) {

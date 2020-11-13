@@ -1,22 +1,13 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnDestroy,
-} from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnDestroy } from '@angular/core';
+import { _HttpClient } from '@delon/theme';
+import format from 'date-fns/format';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 @Component({
   selector: 'header-search',
   template: `
     <nz-input-group [nzPrefix]="iconTpl" [nzSuffix]="loadingTpl">
       <ng-template #iconTpl>
-        <i nz-icon [nzType]="focus ? 'arrow-down' : 'search'"></i>
+        <i nz-icon [nzType]="focus ? 'arrow-down' : 'thunderbolt'"></i>
       </ng-template>
       <ng-template #loadingTpl>
         <i *ngIf="loading" nz-icon nzType="loading"></i>
@@ -24,25 +15,19 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
       <input
         type="text"
         nz-input
-        [(ngModel)]="q"
-        [nzAutocomplete]="auto"
-        (input)="search($event)"
+        [(ngModel)]="description"
+        (keyup.enter)="submit()"
         (focus)="qFocus()"
         (blur)="qBlur()"
-        [attr.placeholder]="'menu.search.placeholder' | translate"
+        placeholder="快速记账"
       />
     </nz-input-group>
-    <nz-autocomplete nzBackfill #auto>
-      <nz-auto-option *ngFor="let i of options" [nzValue]="i">{{ i }}</nz-auto-option>
-    </nz-autocomplete>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
-  q: string;
+export class HeaderSearchComponent {
+  description: string;
   qIpt: HTMLInputElement;
-  options: string[] = [];
-  search$ = new BehaviorSubject('');
   loading = false;
 
   @HostBinding('class.alain-default__search-focus')
@@ -57,19 +42,10 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
     }
     this.searchToggled = true;
     this.focus = true;
-    setTimeout(() => this.qIpt.focus(), 300);
+    setTimeout(() => this.qIpt.focus(), 100);
   }
 
-  constructor(private el: ElementRef<HTMLElement>, private cdr: ChangeDetectorRef) {}
-
-  ngAfterViewInit(): void {
-    this.qIpt = this.el.nativeElement.querySelector('.ant-input') as HTMLInputElement;
-    this.search$.pipe(debounceTime(500), distinctUntilChanged()).subscribe((value) => {
-      this.options = value ? [value, value + value, value + value + value] : [];
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
-  }
+  constructor(private http: _HttpClient, private notification: NzNotificationService, private cdr: ChangeDetectorRef) {}
 
   qFocus(): void {
     this.focus = true;
@@ -80,16 +56,21 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
     this.searchToggled = false;
   }
 
-  search(ev: KeyboardEvent): void {
-    if (ev.key === 'Enter') {
-      return;
-    }
-    this.loading = true;
-    this.search$.next((ev.target as HTMLInputElement).value);
-  }
-
-  ngOnDestroy(): void {
-    this.search$.complete();
-    this.search$.unsubscribe();
+  submit() {
+    const data = { description: this.description };
+    this.http.post('/api/transactions/by-description?expand=ledger,category', data).subscribe((res) => {
+      if (res.code !== 0) {
+        this.notification.create('error', '快速记账失败', res.message);
+        return;
+      }
+      const date = format(new Date(res.data.date), 'yyyy-MM-dd HH:mm');
+      this.notification.create(
+        'success',
+        '快速记账成功',
+        `账本：${res.data.ledger.name} | 分类：${res.data.category.name} | 日期：${date}`,
+      );
+      this.description = '';
+      this.cdr.detectChanges();
+    });
   }
 }

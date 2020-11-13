@@ -22,6 +22,7 @@ import {
   PlusOutline,
   ProfileOutline,
   SettingOutline,
+  ThunderboltOutline,
   WalletOutline,
 } from '@ant-design/icons-angular/icons';
 
@@ -49,4 +50,5 @@ export const ICONS = [
   PauseCircleOutline,
   WalletOutline,
   FolderOpenOutline,
+  ThunderboltOutline,
 ];
