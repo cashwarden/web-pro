@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SettingsService, TitleService, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
-import { NzIconService } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
@@ -16,16 +14,11 @@ export class SettingsBindingComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     public msg: NzMessageService,
-    private iconService: NzIconService,
     private modal: NzModalService,
     private cdr: ChangeDetectorRef,
     private titleSrv: TitleService,
     private settings: SettingsService,
-  ) {
-    this.iconService.fetchFromIconfont({
-      scriptUrl: environment.iconfontURl,
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.titleSrv.setTitle('账号绑定');

@@ -1,11 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
+import { CacheService } from '@delon/cache';
 import { G2BarData } from '@delon/chart/bar';
 import { G2PieData } from '@delon/chart/pie';
 import { _HttpClient } from '@delon/theme';
 import { deepCopy, getTimeDistance } from '@delon/util';
 import { yuan } from '@shared';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'app-analysis-index',
@@ -33,13 +35,14 @@ export class AnalysisIndexComponent implements OnInit {
     { key: 'year', name: '年视图' },
   ];
 
-  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private datePipe: DatePipe) {}
+  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private datePipe: DatePipe, private cache: CacheService) {}
 
   ngOnInit() {
     this.date = getTimeDistance('month');
     if (this.date) {
       this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
     }
+    this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
     this.getData();
     this.getRecordSumData();
   }
@@ -84,6 +87,7 @@ export class AnalysisIndexComponent implements OnInit {
 
   reloadData(value: {}) {
     if (value) {
+      this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
       this.q = value;
       this.getData();
       this.getRecordSumData();

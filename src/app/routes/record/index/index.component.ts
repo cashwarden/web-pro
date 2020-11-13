@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { XlsxService } from '@delon/abc/xlsx';
+import { CacheService } from '@delon/cache';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import format from 'date-fns/format';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { params } from 'src/app/shared/params';
 import { RecurrenceFormComponent } from '../../recurrence/form/form.component';
 import { RecordImportComponent } from '../import/import.component';
 import { RecordFormComponent } from './../form/form.component';
@@ -32,9 +34,11 @@ export class RecordIndexComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private xlsx: XlsxService,
+    private cache: CacheService,
   ) {}
 
   ngOnInit(): void {
+    this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
     this.getData();
   }
 
@@ -128,6 +132,7 @@ export class RecordIndexComponent implements OnInit {
   reloadData(value: {}) {
     if (value) {
       this.q.page = 1;
+      this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
       this.q = value;
       this.getData();
     }

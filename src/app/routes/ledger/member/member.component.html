@@ -1,0 +1,22 @@
+<div class="pt-md">
+  <nz-card>
+    <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
+      <div nz-col>
+        <!-- <button (click)="form()" nz-button nzType="primary">邀请新成员</button> -->
+        <span nz-typography nzCopyable [nzCopyText]="href" class="pl-md" *ngIf="this.ledger.type !== 'general_ledger'">账本邀请链接</span>
+        <span *ngIf="this.ledger.type === 'general_ledger'">普通账本只能自己使用</span>
+      </div>
+    </div>
+  </nz-card>
+</div>
+
+<nz-card>
+  <st #st [data]="list" [columns]="columns">
+    <ng-template st-row="customTitle" type="title" let-c>
+      {{ c.title.text }}
+    </ng-template>
+    <ng-template st-row="custom" let-item let-index="index">
+      {{ item.user.username }}
+    </ng-template>
+  </st>
+</nz-card>

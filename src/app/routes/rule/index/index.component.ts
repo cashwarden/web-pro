@@ -3,13 +3,13 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { SettingsRulesFormComponent } from './form/form.component';
+import { RuleFormComponent } from '../form/form.component';
 
 @Component({
-  selector: 'app-settings-rules',
-  templateUrl: './rules.component.html',
+  selector: 'app-rule-index',
+  templateUrl: './index.component.html',
 })
-export class SettingsRulesComponent implements OnInit {
+export class RuleIndexComponent implements OnInit {
   loading = true;
   pagination: {};
   list: any[] = [];
@@ -34,6 +34,7 @@ export class SettingsRulesComponent implements OnInit {
   columns: STColumn[] = [
     { title: '名称 ', index: 'name' },
     { title: '关键词', index: 'if_keywords' },
+    { title: '账本', index: 'ledger.name' },
     { title: '分配交易类型', index: 'then_transaction_type_text' },
     { title: '分配类别', index: 'thenCategory.name' },
     { title: '排序', index: 'sort' },
@@ -42,25 +43,31 @@ export class SettingsRulesComponent implements OnInit {
       type: 'badge',
       index: 'status',
       badge: {
-        active: { text: 'active', color: 'success' },
-        unactivated: { text: 'unactivated', color: 'default' },
+        active: { text: '启用', color: 'success' },
+        unactivated: { text: '停用', color: 'default' },
       },
     },
     { title: '时间', type: 'date', index: 'updated_at' },
     {
       title: '',
       buttons: [
-        { text: '编辑', click: (item: any) => this.form(item) },
-        { text: '复制', click: (item: any) => this.copy(item) },
+        { icon: 'edit', type: 'modal', click: (item: any) => this.form(item) },
+        { icon: 'copy', type: 'modal', click: (item: any) => this.copy(item) },
         {
-          text: (record) => (record.status === 'active' ? `停用` : `启用`),
-          click: (record) => {
-            const status = record.status === 'active' ? `unactivated` : `active`;
-            this.updateStatus(record, status);
-          },
+          icon: 'play-circle',
+          click: (record) => this.updateStatus(record, 'active'),
+          iif: (record) => record.status === 'unactivated',
+          tooltip: `启用`,
         },
         {
-          text: '删除',
+          icon: 'pause-circle',
+          click: (record) => this.updateStatus(record, 'unactivated'),
+          iif: (record) => record.status === 'active',
+          tooltip: `停用`,
+        },
+        {
+          icon: 'delete',
+          type: 'del',
           pop: {
             title: '确定要删除吗？',
             okType: 'danger',
@@ -80,13 +87,13 @@ export class SettingsRulesComponent implements OnInit {
   ngOnInit() {
     this.getData();
     this.loadSelect('/api/accounts', 'account_id');
-    this.loadSelect('/api/categories', 'category_id');
+    this.getLedgersCategories();
     this.loadSelect('/api/tags', 'tags');
   }
 
   getData(): void {
     this.loading = true;
-    const data = this.http.get('/api/rules', this.q).subscribe((res) => {
+    this.http.get('/api/rules', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       this.loading = false;
@@ -94,7 +101,7 @@ export class SettingsRulesComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(SettingsRulesFormComponent, { record, selectRawData: this.selectRawData }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(RuleFormComponent, { record, selectData: this.selectRawData }, { size: 'md' }).subscribe((res) => {
       this.getData();
     });
   }
@@ -140,16 +147,16 @@ export class SettingsRulesComponent implements OnInit {
           this.selectRawData[key] = res.data.items.map((item: any) => ({ value: item.name, label: item.name }));
         } else if (key === 'transaction_type') {
           this.selectRawData[key] = res.data.map((item: any) => ({ value: item.type, label: item.name }));
-        } else if (key === 'category_id') {
-          this.selectRawData[key] = res.data.items.map((item: any) => ({
-            value: item.id,
-            label: item.name,
-            transaction_type: item.transaction_type,
-          }));
         } else {
           this.selectRawData[key] = res.data.items.map((item: any) => ({ value: item.id, label: item.name }));
         }
       }
+    });
+  }
+
+  getLedgersCategories(): void {
+    this.http.get('/api/ledgers/categories').subscribe((res: any) => {
+      this.selectRawData.ledgersCategories = res.data;
     });
   }
 

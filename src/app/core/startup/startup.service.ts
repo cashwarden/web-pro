@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ACLService } from '@delon/acl';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
-import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzIconService } from 'ng-zorro-antd/icon';
@@ -10,6 +9,7 @@ import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
+import { params } from '../../shared/params';
 import { I18NService } from '../i18n/i18n.service';
 
 /**
@@ -31,7 +31,7 @@ export class StartupService {
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
     this.iconService.fetchFromIconfont({
-      scriptUrl: environment.iconfontURl,
+      scriptUrl: params.iconfontURl,
     });
   }
 

@@ -3,14 +3,13 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { map } from 'rxjs/operators';
-import { SettingsCategoriesEditComponent } from './edit/edit.component';
+import { TagFormComponent } from '.././form/form.component';
 
 @Component({
-  selector: 'app-settings-categories',
-  templateUrl: './categories.component.html',
+  selector: 'app-tag-index',
+  templateUrl: './index.component.html',
 })
-export class SettingsCategoriesComponent implements OnInit {
+export class TagIndexComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
 
   loading = true;
@@ -20,9 +19,7 @@ export class SettingsCategoriesComponent implements OnInit {
     page: 1,
     pageSize: 100,
     name: '',
-    transaction_type: '',
   };
-  transactionTypes: any[] = [];
 
   searchSchema: SFSchema = {
     properties: {
@@ -30,33 +27,11 @@ export class SettingsCategoriesComponent implements OnInit {
         type: 'string',
         title: '名称',
       },
-      transaction_type: {
-        type: 'string',
-        title: '交易类型',
-        default: '',
-        ui: {
-          widget: 'select',
-          asyncData: () => {
-            return this.http.get('/api/transactions/types').pipe(
-              map((res) => {
-                if (res.code !== 0) {
-                  this.msg.warning(res.message);
-                  return;
-                }
-                return res.data.map((item: any) => {
-                  return { value: item.type, label: item.name };
-                });
-              }),
-            );
-          },
-        } as SFSelectWidgetSchema,
-      },
     },
   };
   columns: STColumn[] = [
-    { title: '名称', renderTitle: 'customTitle', render: 'custom' },
-    { title: '交易类型', index: 'transaction_type_text' },
-    { title: '排序', index: 'sort' },
+    { title: '名称', index: 'name' },
+    { title: '次数', index: 'count' },
     { title: '时间', type: 'date', index: 'updated_at' },
     {
       title: '',
@@ -64,8 +39,16 @@ export class SettingsCategoriesComponent implements OnInit {
         {
           text: '编辑',
           click: (item: any) => this.form(item),
-          iif: (record) => !['adjust', 'transfer'].includes(record.transaction_type),
-          iifBehavior: 'disabled',
+        },
+        {
+          text: '删除',
+          pop: {
+            title: '确定要删除吗？',
+            okType: 'danger',
+          },
+          click: (record, _modal, comp) => {
+            this.delete(record, comp);
+          },
         },
       ],
     },
@@ -79,7 +62,7 @@ export class SettingsCategoriesComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
-    const data = this.http.get('/api/categories', this.q).subscribe((res) => {
+    const data = this.http.get('/api/tags', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       this.loading = false;
@@ -87,7 +70,7 @@ export class SettingsCategoriesComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(SettingsCategoriesEditComponent, { record }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(TagFormComponent, { record }, { size: 'md' }).subscribe((res) => {
       if (record.id) {
         // record = res;
         this.getData();
@@ -98,8 +81,23 @@ export class SettingsCategoriesComponent implements OnInit {
     });
   }
 
+  delete(record: any, comp): void {
+    this.http.delete(`/api/tags/${record.id}`).subscribe((res) => {
+      if (res?.code !== 0) {
+        this.msg.warning(res?.message);
+        return;
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      comp!.removeRow(record);
+      // this.getData();
+      this.msg.success('删除成功');
+    });
+  }
+
   submit(value: any): void {
-    this.q = value;
-    this.getData();
+    if (value.name) {
+      this.q.name = value.name;
+      this.getData();
+    }
   }
 }

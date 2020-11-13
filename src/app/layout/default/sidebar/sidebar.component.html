@@ -1,10 +1,18 @@
 <div class="alain-default__aside-inner">
-  <div class="alain-default__aside-user">
-    <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="user.avatar"></nz-avatar>
+  <div nz-dropdown [nzDropdownMenu]="menu" class="alain-default__aside-user">
+    <i nz-icon nzType="account-book" nzTheme="outline" class="alain-default__aside-user-avatar"></i>
+    <!-- <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="ledger.cover"></nz-avatar> -->
     <div class="alain-default__aside-user-info">
-      <strong>{{ user.name }}</strong>
-      <p class="mb0">{{ user.email }}</p>
+      <strong>{{ ledger.name }}</strong>
+      <i nz-icon nzType="caret-up" nzTheme="outline"></i>
+      <!-- <p class="mb0">{{ ledger.remark }}</p> -->
     </div>
   </div>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <nz-spin nzSimple *ngIf="loading"></nz-spin>
+      <li nz-menu-item (click)="changeLedger(item)" *ngFor="let item of list">{{ item.name }}</li>
+    </ul>
+  </nz-dropdown-menu>
   <sidebar-nav class="d-block py-lg"></sidebar-nav>
 </div>

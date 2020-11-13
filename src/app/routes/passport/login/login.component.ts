@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { StartupService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { CacheService } from '@delon/cache';
 import { SettingsService, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'passport-login',
@@ -24,6 +26,7 @@ export class UserLoginComponent implements OnDestroy {
     private startupSrv: StartupService,
     public http: _HttpClient,
     public msg: NzMessageService,
+    private cache: CacheService,
   ) {
     this.form = fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -79,6 +82,11 @@ export class UserLoginComponent implements OnDestroy {
         }
         // 清空路由复用信息
         this.reuseTabService.clear();
+
+        // 默认账本
+        this.cache.set(params.cacheKey.defaultLedger, res.data.default_ledger);
+        this.cache.set(params.cacheKey.defaultIdLedger, res.data.default_ledger.id);
+
         // 设置用户Token信息
         this.tokenService.set({ token: res.data.token });
         const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };

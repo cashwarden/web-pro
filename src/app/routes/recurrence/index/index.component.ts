@@ -13,7 +13,6 @@ export class RecurrenceIndexComponent implements OnInit {
   loading = true;
   list: any[] = [];
   q = {
-    expand: 'transaction',
     page: 1,
     name: '',
   };
@@ -31,6 +30,7 @@ export class RecurrenceIndexComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
     { title: '名称 ', index: 'name' },
+    { title: '账本', index: 'transaction.ledger_name' },
     { title: '交易', render: 'custom' },
     { title: '频率', index: 'frequency_text' },
     { title: '时间值', index: 'schedule' },

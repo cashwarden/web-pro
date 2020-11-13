@@ -1,16 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { CacheService } from '@delon/cache';
 import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { params } from 'src/app/shared/params';
 
 @Component({
-  selector: 'app-settings-tags-edit',
-  templateUrl: './edit.component.html',
+  selector: 'app-tag-form',
+  templateUrl: './form.component.html',
 })
-export class SettingsTagsEditComponent implements OnInit {
+export class TagFormComponent implements OnInit {
   @ViewChild('sf', { static: false }) private sf: SFComponent;
   record: any = {};
+  ledger_id = 0;
   schema: SFSchema = {
     properties: {
       name: { type: 'string', title: '名称' },
@@ -24,13 +27,16 @@ export class SettingsTagsEditComponent implements OnInit {
     },
   };
 
-  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {}
+  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient, private cache: CacheService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
+  }
 
   save(value: any) {
     const url = this.record.id ? `/${this.record.id}` : '';
     const method = this.record.id ? 'put' : 'post';
+    value.ledger_id = this.ledger_id;
     this.http.request(method, `/api/tags${url}`, { body: value }).subscribe((res: any) => {
       if (res.code !== 0) {
         this.msgSrv.warning(res.message);
