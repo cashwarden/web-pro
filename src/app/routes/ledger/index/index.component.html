@@ -14,10 +14,10 @@
       <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
       <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
     </form>
-    <button nz-button (click)="form()" [nzType]="'primary'">
+    <!-- <button nz-button (click)="form()" [nzType]="'primary'">
       <i nz-icon nzType="plus"></i>
       <span>新建</span>
-    </button>
+    </button> -->
   </nz-card>
 </div>
 
@@ -38,7 +38,7 @@
           <span class="pl-sm">
             <i nz-icon nzType="edit" (click)="form(item)"></i>
           </span>
-          <span class="pl-sm">
+          <!-- <span class="pl-sm">
             <i
               nz-icon
               nzType="delete"
@@ -47,7 +47,7 @@
               nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="delete(item)"
             ></i>
-          </span>
+          </span> -->
         </div>
       </div>
     </nz-card>
