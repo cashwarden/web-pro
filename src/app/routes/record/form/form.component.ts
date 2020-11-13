@@ -5,6 +5,7 @@ import { toDate } from '@delon/util';
 import format from 'date-fns/format';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'app-record-form',
@@ -63,7 +64,8 @@ export class RecordFormComponent implements OnInit {
   }
 
   changeTransactionType(type: string) {
-    this.http.get('/api/categories', { transaction_type: type }).subscribe((res: any) => {
+    const ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
+    this.http.get('/api/categories', { transaction_type: type, ledger_id }).subscribe((res: any) => {
       if (res.code !== 0) {
         this.msgSrv.warning(res.message);
         return;

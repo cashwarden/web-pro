@@ -18,6 +18,7 @@ export class RecordSearchComponent implements OnInit {
 
   selectCacheKey = 'RECORD_SEARCH_SELECT_CACHE_KEY';
   selectData: any = {};
+  ledger_id = 0;
 
   initQ: any;
   loading = true;
@@ -32,6 +33,7 @@ export class RecordSearchComponent implements OnInit {
 
   ngOnInit() {
     this.initQ = deepCopy(this.q);
+    this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
     this.loadSelect('/api/accounts?status=active', 'account_id');
     this.loadSelect('/api/categories', 'category_id');
     this.loadSelect('/api/tags', 'tags');
@@ -41,7 +43,7 @@ export class RecordSearchComponent implements OnInit {
 
   loadSelect(url: string, key: string) {
     this.loading = true;
-    this.http.get(url, { pageSize: 50 }).subscribe((res: any) => {
+    this.http.get(url, { pageSize: 50, ledger_id: this.ledger_id }).subscribe((res: any) => {
       if (res.data) {
         if (key === 'tags') {
           this.selectData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name }));
@@ -69,7 +71,7 @@ export class RecordSearchComponent implements OnInit {
     if (this.date) {
       this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
     }
-    this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
+    this.q.ledger_id = this.ledger_id;
     this.searched.emit(this.q);
   }
 

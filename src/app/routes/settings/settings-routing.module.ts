@@ -4,10 +4,8 @@ import { SettingsBaseComponent } from './personal/base/base.component';
 import { SettingsBindingComponent } from './personal/binding/binding.component';
 import { SettingsPasswordComponent } from './personal/password/password.component';
 import { SettingsPersonalComponent } from './personal/personal.component';
-import { SettingsRulesComponent } from './rules/rules.component';
 
 const routes: Routes = [
-  { path: 'rules', component: SettingsRulesComponent },
   {
     path: 'personal',
     component: SettingsPersonalComponent,

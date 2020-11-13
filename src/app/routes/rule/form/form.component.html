@@ -1,11 +1,81 @@
 <div class="modal-header">
-  <div class="modal-title">编辑 {{ record.id }} 信息</div>
+  <div class="modal-title">编辑规则</div>
 </div>
-<sf #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="record" button="none">
-  <div class="modal-footer">
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)">
+  <se label="名称">
+    <input nz-input [(ngModel)]="form.name" name="name" required />
+  </se>
+
+  <se label="关键词">
+    <nz-select [(ngModel)]="form.if_keywords" nzMode="tags" name="if_keywords" required>
+      <nz-option [nzLabel]="i.label" [nzValue]="i.value" *ngFor="let i of []"> </nz-option>
+    </nz-select>
+  </se>
+
+  <se label="分配账本">
+    <nz-select [(ngModel)]="form.ledger_id" name="ledger_id" required (ngModelChange)="changeTransactionType()">
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData.ledgersCategories">
+        {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+
+  <se label="分配交易类型">
+    <nz-radio-group [(ngModel)]="form.then_transaction_type" nzButtonStyle="solid" name="type" (ngModelChange)="changeTransactionType()">
+      <label nz-radio-button nzValue="expense"> <span>支出</span> </label>
+      <label nz-radio-button nzValue="income"> <span>收入</span> </label>
+      <label nz-radio-button nzValue="transfer"> <span>转账</span> </label>
+    </nz-radio-group>
+  </se>
+
+  <se label="类别">
+    <nz-select [(ngModel)]="form.then_category_id" name="category_id">
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData['category_id']">
+        <i nz-icon nzIconfont="icon-{{ i.icon_name }}"></i> {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+
+  <se label="分配支付帐户" *ngIf="['expense', 'transfer'].includes(form.then_transaction_type)">
+    <nz-select [(ngModel)]="form.then_from_account_id" name="from_account_id">
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData['account_id']">
+        <i nz-icon nzIconfont="icon-{{ i.icon }}"></i> {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+
+  <se label="分配收款帐户" *ngIf="['income', 'transfer'].includes(form.then_transaction_type)">
+    <nz-select [(ngModel)]="form.then_to_account_id" name="to_account_id">
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData['account_id']">
+        <i nz-icon nzIconfont="icon-{{ i.icon }}"></i> {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+
+  <se label="分配默认金额">
+    <nz-input-group [nzAddOnAfter]="addOnAfterBtn">
+      <input nz-input type="number" [(ngModel)]="form.then_currency_amount" name="then_currency_amount" />
+      <ng-template #addOnAfterBtn>
+        <nz-select [(ngModel)]="form.then_currency_code" name="then_currency_code" style="width: 80px;">
+          <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
+        </nz-select>
+      </ng-template>
+    </nz-input-group>
+  </se>
+
+  <se label="分配标签">
+    <nz-select [(ngModel)]="form.then_tags" nzMode="tags" name="then_tags">
+      <nz-option *ngFor="let option of selectData['tags']" [nzLabel]="option.value" [nzValue]="option.value"></nz-option>
+    </nz-select>
+  </se>
+
+  <se label="排序">
+    <input nz-input type="number" [(ngModel)]="form.sort" name="sort" required />
+  </se>
+
+  <se col="1">
     <button nz-button type="button" (click)="close()">关闭</button>
-    <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">
-      保存
-    </button>
-  </div>
-</sf>
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>
