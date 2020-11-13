@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import format from 'date-fns/format';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 @Component({
-  selector: 'header-search',
+  selector: 'header-input',
   template: `
     <nz-input-group [nzPrefix]="iconTpl" [nzSuffix]="loadingTpl">
       <ng-template #iconTpl>
@@ -25,7 +25,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderSearchComponent {
+export class HeaderInputComponent {
   description: string;
   qIpt: HTMLInputElement;
   loading = false;
@@ -33,14 +33,14 @@ export class HeaderSearchComponent {
   @HostBinding('class.alain-default__search-focus')
   focus = false;
   @HostBinding('class.alain-default__search-toggled')
-  searchToggled = false;
+  toggled = false;
 
   @Input()
   set toggleChange(value: boolean) {
     if (typeof value === 'undefined') {
       return;
     }
-    this.searchToggled = true;
+    this.toggled = true;
     this.focus = true;
     setTimeout(() => this.qIpt.focus(), 100);
   }
@@ -53,7 +53,7 @@ export class HeaderSearchComponent {
 
   qBlur(): void {
     this.focus = false;
-    this.searchToggled = false;
+    this.toggled = false;
   }
 
   submit() {

@@ -7,7 +7,7 @@ import { App, SettingsService } from '@delon/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  searchToggleStatus: boolean;
+  toggleStatus: boolean;
 
   get app(): App {
     return this.settings.app;
@@ -23,7 +23,7 @@ export class HeaderComponent {
     this.settings.setLayout('collapsed', !this.settings.layout.collapsed);
   }
 
-  searchToggleChange() {
-    this.searchToggleStatus = !this.searchToggleStatus;
+  toggleChange() {
+    this.toggleStatus = !this.toggleStatus;
   }
 }
