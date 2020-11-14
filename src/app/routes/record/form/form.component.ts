@@ -52,6 +52,7 @@ export class RecordFormComponent implements OnInit {
     const url = this.record?.id ? `/${this.record.id}` : '';
     const method = this.record?.id ? 'put' : 'post';
     value.date = format(new Date(value.date), 'yyyy-MM-dd HH:mm');
+    value.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
 
     this.http.request(method, `/api/transactions${url}`, { body: value }).subscribe((res: any) => {
       if (res.code !== 0) {
