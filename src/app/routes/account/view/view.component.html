@@ -33,7 +33,6 @@
     <div starkG2plotArea *ngIf="accountBalancesTrend" [options]="accountBalancesTrend"></div>
   </div>
   <div *ngIf="index === 1">
-    <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
-    <st #st [data]="url" [columns]="columns"></st>
+    <app-record-grid [q]="q" [showLedger]="true"></app-record-grid>
   </div>
 </nz-card>
