@@ -4,6 +4,7 @@ import {
   AccountBookOutline,
   AppstoreOutline,
   AreaChartOutline,
+  ArrowLeftOutline,
   BulbOutline,
   DashboardOutline,
   DashOutline,
@@ -51,4 +52,5 @@ export const ICONS = [
   WalletOutline,
   FolderOpenOutline,
   ThunderboltOutline,
+  ArrowLeftOutline,
 ];

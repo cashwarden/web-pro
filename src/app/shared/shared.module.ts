@@ -16,7 +16,6 @@ import { G2GaugeModule } from '@delon/chart/gauge';
 import { G2MiniAreaModule } from '@delon/chart/mini-area';
 import { G2PieModule } from '@delon/chart/pie';
 import { G2TagCloudModule } from '@delon/chart/tag-cloud';
-import { G2TimelineModule } from '@delon/chart/timeline';
 import { G2WaterWaveModule } from '@delon/chart/water-wave';
 import { NgxG2plotModule } from 'ngx-g2plot';
 import { RecordSearchComponent } from './search/search.component';
@@ -50,7 +49,6 @@ const DIRECTIVES = [];
     G2GaugeModule,
     G2WaterWaveModule,
     G2MiniAreaModule,
-    G2TimelineModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
@@ -77,7 +75,6 @@ const DIRECTIVES = [];
     G2GaugeModule,
     G2WaterWaveModule,
     G2MiniAreaModule,
-    G2TimelineModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
