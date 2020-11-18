@@ -35,6 +35,7 @@ const routes: Routes = [
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then((m) => m.ExceptionModule) },
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule) },
       { path: 'rule', loadChildren: () => import('./rule/rule.module').then((m) => m.RuleModule) },
+      { path: 'pricing', loadChildren: () => import('./pricing/pricing.module').then((m) => m.PricingModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ],
