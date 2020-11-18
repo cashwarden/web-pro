@@ -1,13 +1,14 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subject } from 'rxjs';
 import { RecordFormComponent } from 'src/app/routes/record/form/form.component';
 import { RecurrenceFormComponent } from 'src/app/routes/recurrence/form/form.component';
-
 @Component({
   selector: 'app-record-grid',
   templateUrl: './grid.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecordGridComponent implements OnInit {
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
@@ -16,6 +17,7 @@ export class RecordGridComponent implements OnInit {
   loadingMore = true;
   @Input() q: any = {};
   @Input() showLedger = false;
+  @Input() resetSubject: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private http: _HttpClient,
@@ -26,6 +28,11 @@ export class RecordGridComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.resetSubject.subscribe((response) => {
+      this.q = response;
+      this.getData();
+    });
+
     this.getData();
   }
   getData(): void {

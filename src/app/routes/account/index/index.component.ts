@@ -48,10 +48,6 @@ export class AccountIndexComponent implements OnInit {
 
   getAccountTypes(): void {
     this.http.get('/api/accounts/types').subscribe((res) => {
-      if (res.code !== 0) {
-        this.msg.warning(res.message);
-        return;
-      }
       if (res.data) {
         this.accountTypes = res.data;
         this.cdr.detectChanges();

@@ -3,16 +3,17 @@ import { XlsxService } from '@delon/abc/xlsx';
 import { CacheService } from '@delon/cache';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import format from 'date-fns/format';
+import { Subject } from 'rxjs';
 import { params } from 'src/app/shared/params';
 import { RecordImportComponent } from '../import/import.component';
 import { RecordFormComponent } from './../form/form.component';
-
 @Component({
   selector: 'app-record-index',
   styleUrls: ['./index.component.less'],
   templateUrl: './index.component.html',
 })
 export class RecordIndexComponent implements OnInit {
+  resetSubjectValue: Subject<boolean> = new Subject<boolean>();
   q: any = {
     page: 1,
     pageSize: 50,
@@ -39,7 +40,7 @@ export class RecordIndexComponent implements OnInit {
   import(): void {
     this.modal.create(RecordImportComponent, {}, { size: 'lg' }).subscribe(() => {
       this.q.page = 1;
-      // this.getData();
+      this.resetSubjectValue.next(this.q);
       this.cdr.detectChanges();
     });
   }
@@ -47,7 +48,7 @@ export class RecordIndexComponent implements OnInit {
   form(record: { id?: number; transaction?: {} } = {}): void {
     this.modal.create(RecordFormComponent, { record: record.transaction }, { size: 'md' }).subscribe(() => {
       this.q.page = 1;
-      // this.getData();
+      this.resetSubjectValue.next(this.q);
       this.cdr.detectChanges();
     });
   }
@@ -77,7 +78,7 @@ export class RecordIndexComponent implements OnInit {
       this.q.page = 1;
       this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
       this.q = value;
-      // this.getData();
+      this.resetSubjectValue.next(this.q);
     }
   }
 }

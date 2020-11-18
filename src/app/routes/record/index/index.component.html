@@ -22,5 +22,5 @@
 
 <app-record-search (searched)="reloadData($event)" (reseted)="reloadData($event)" [q]="q"></app-record-search>
 <nz-card [nzBordered]="false">
-  <app-record-grid [q]="q"></app-record-grid>
+  <app-record-grid [q]="q" [resetSubject]="resetSubjectValue"></app-record-grid>
 </nz-card>

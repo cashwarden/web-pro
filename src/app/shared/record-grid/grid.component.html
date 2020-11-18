@@ -31,7 +31,7 @@
         </ng-template>
       </nz-list-item-meta>
       <ng-template #nzContent>
-        <div class="width-sm" *ngIf="showLedger">
+        <div class="width-sm" *ngIf="showLedger && record.ledger">
           <p nz-typography nzType="secondary" class="text-sm">账本：{{ record.ledger.name }}</p>
         </div>
         <div class="width-sm">

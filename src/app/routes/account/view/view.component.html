@@ -1,7 +1,7 @@
 <div class="pt-md">
   <nz-card [nzTitle]="title" [nzExtra]="extraTemplate" [nzLoading]="loading">
     <ng-template #title>
-      <button nz-button><i nz-icon nzType="arrow-left"></i></button>
+      <button nz-button routerLink="/account/index"><i nz-icon nzType="arrow-left"></i></button>
       <span class="pl-md">账号详情</span>
     </ng-template>
     <div nz-row *ngIf="account">
@@ -16,8 +16,17 @@
     </div>
   </nz-card>
   <ng-template #extraTemplate>
-    <button nz-button nzType="primary">编辑</button>
-    <button nz-button nzDanger>删除</button>
+    <button nz-button nzType="primary" (click)="form(account)">编辑</button>
+    <button
+      nz-button
+      nzDanger
+      nz-popconfirm
+      nzPopconfirmTitle="确定要删除帐户吗？如果帐户被删除，所有涉及的交易、规则和定时配置将永远失去。"
+      nzPopconfirmPlacement="bottom"
+      (nzOnConfirm)="delete(account)"
+    >
+      删除
+    </button>
   </ng-template>
 </div>
 
@@ -30,9 +39,10 @@
   </nz-card-tab>
 
   <div *ngIf="index === 0">
-    <div starkG2plotArea *ngIf="accountBalancesTrend" [options]="accountBalancesTrend"></div>
+    <p>最近一个月余额变化</p>
+    <div starkG2plotArea *ngIf="!accountBalancesTrendLoading" [options]="accountBalancesTrend"></div>
   </div>
   <div *ngIf="index === 1">
-    <app-record-grid [q]="q" [showLedger]="true"></app-record-grid>
+    <app-record-grid [q]="q" [showLedger]="true" [resetSubject]="resetSubjectValue"></app-record-grid>
   </div>
 </nz-card>
