@@ -21,65 +21,6 @@
 </div>
 
 <app-record-search (searched)="reloadData($event)" (reseted)="reloadData($event)" [q]="q"></app-record-search>
-
 <nz-card [nzBordered]="false">
-  <nz-divider></nz-divider>
-  <nz-list [nzLoading]="loading">
-    <ng-container *ngFor="let item of list">
-      {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}
-      <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent" [nzActions]="[edit, recurrence, del]">
-        <ng-template #edit>
-          <a disabled *ngIf="!record.transaction"><i nz-icon nzType="edit" theme="outline"></i></a>
-          <a (click)="form(record)" *ngIf="record.transaction"><i nz-icon nzType="edit" theme="outline"></i></a>
-        </ng-template>
-        <ng-template #recurrence>
-          <a (click)="recurrenceForm(record)" nz-tooltip nzTooltipTitle="添加定时记账">
-            <i nz-icon nzType="field-time" theme="outline"></i>
-          </a>
-        </ng-template>
-        <ng-template #del>
-          <a nz-popconfirm nzPopconfirmTitle="确定要删除吗？" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(record)">
-            <i nz-icon nzType="delete" theme="outline"></i>
-          </a>
-        </ng-template>
-        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription" [nzAvatar]="nzAvatar">
-          <ng-template #nzTitle class="width-md">
-            <a (click)="form(item)">{{ record?.category?.name }}</a>
-          </ng-template>
-          <ng-template #nzDescription>
-            <p>
-              {{ record.transaction?.description }}
-              <span *ngIf="record.transaction?.remark">（{{ record.transaction.remark }}）</span>
-            </p>
-          </ng-template>
-          <ng-template #nzAvatar>
-            <i nz-icon nzIconfont="icon-{{ record.category?.icon_name }}" class="icon-md"></i>
-          </ng-template>
-        </nz-list-item-meta>
-        <ng-template #nzContent>
-          <div class="width-sm">
-            <p><nz-badge [nzColor]="record.account?.color" [nzText]="record.account?.name"></nz-badge></p>
-            <p nz-typography nzType="secondary" class="text-sm">来源：{{ record.source_text }}</p>
-          </div>
-          <div class="width-sm">
-            <div *ngFor="let tag of record?.transaction?.tags">
-              <nz-tag>{{ tag }}</nz-tag>
-            </div>
-          </div>
-          <div class="width-sm">
-            <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
-              {{ record.direction === 'expense' ? '-' : '' }}
-              {{ record.currency_code }}
-              {{ record.currency_amount }}
-              <nz-tag nzColor="warning" *ngIf="record.exclude_from_stats" class="text-xs">不计入</nz-tag>
-            </p>
-          </div>
-        </ng-template>
-      </nz-list-item>
-      <!-- <nz-skeleton *ngIf="item.loading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="true"> </nz-skeleton> -->
-    </ng-container>
-    <div class="loadmore" nz-list-load-more>
-      <button nz-button *ngIf="loadingMore" (click)="onLoadMore()">更多</button>
-    </div>
-  </nz-list>
+  <app-record-grid [q]="q" [resetSubject]="resetSubjectValue"></app-record-grid>
 </nz-card>

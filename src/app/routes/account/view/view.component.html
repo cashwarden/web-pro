@@ -1,14 +1,48 @@
-<div class="modal-header">
-  <div class="modal-title">查看 {{ record.id }} 信息</div>
+<div class="pt-md">
+  <nz-card [nzTitle]="title" [nzExtra]="extraTemplate" [nzLoading]="loading">
+    <ng-template #title>
+      <button nz-button routerLink="/account/index"><i nz-icon nzType="arrow-left"></i></button>
+      <span class="pl-md">账号详情</span>
+    </ng-template>
+    <div nz-row *ngIf="account">
+      <i nz-icon nzIconfont="icon-{{ account.type }}" class="icon-md pr-md"></i>
+      <sv-container size="small" col="2">
+        <sv label="名称">{{ account.name }}</sv>
+        <sv label="类型">{{ account.type_name }}</sv>
+        <sv label="余额">{{ account.currency_code }} {{ account.currency_balance }}</sv>
+        <sv label="状态">{{ account.status }}</sv>
+        <sv label="备注"></sv>
+      </sv-container>
+    </div>
+  </nz-card>
+  <ng-template #extraTemplate>
+    <button nz-button nzType="primary" (click)="form(account)">编辑</button>
+    <button
+      nz-button
+      nzDanger
+      nz-popconfirm
+      nzPopconfirmTitle="确定要删除帐户吗？如果帐户被删除，所有涉及的交易、规则和定时配置将永远失去。"
+      nzPopconfirmPlacement="bottom"
+      (nzOnConfirm)="delete(account)"
+    >
+      删除
+    </button>
+  </ng-template>
 </div>
-<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
-<div sv-container *ngIf="i">
-  <sv label="姓名">{{ i.owner }}</sv>
-  <sv label="会员卡号">32943898021309809423</sv>
-  <sv label="身份证">3321944288191034921</sv>
-  <sv label="联系方式">18112345678</sv>
-  <sv label="联系地址">曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口</sv>
-</div>
-<div class="modal-footer">
-  <button nz-button type="button" (click)="close()">关闭</button>
-</div>
+
+<nz-card style="width: 100%;">
+  <nz-card-tab>
+    <nz-tabset nzSize="large" [(nzSelectedIndex)]="index">
+      <nz-tab nzTitle="余额"> </nz-tab>
+      <nz-tab nzTitle="记录"> </nz-tab>
+    </nz-tabset>
+  </nz-card-tab>
+
+  <div *ngIf="index === 0">
+    <p>最近一个月余额变化</p>
+    <div starkG2plotArea *ngIf="!accountBalancesTrendLoading" [options]="accountBalancesTrend"></div>
+  </div>
+  <div *ngIf="index === 1">
+    <app-record-grid [q]="q" [showLedger]="true" [resetSubject]="resetSubjectValue"></app-record-grid>
+  </div>
+</nz-card>

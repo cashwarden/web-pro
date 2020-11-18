@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AccountFormComponent } from './../form/form.component';
@@ -25,13 +24,7 @@ export class AccountIndexComponent implements OnInit {
   loading = true;
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
-  constructor(
-    private http: _HttpClient,
-    private msg: NzMessageService,
-    private modal: ModalHelper,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {}
+  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getOverview();
@@ -55,10 +48,6 @@ export class AccountIndexComponent implements OnInit {
 
   getAccountTypes(): void {
     this.http.get('/api/accounts/types').subscribe((res) => {
-      if (res.code !== 0) {
-        this.msg.warning(res.message);
-        return;
-      }
       if (res.data) {
         this.accountTypes = res.data;
         this.cdr.detectChanges();
@@ -83,10 +72,6 @@ export class AccountIndexComponent implements OnInit {
       pageSize: 50,
     };
     this.getData();
-  }
-
-  to(item: { key: string }) {
-    this.router.navigateByUrl(`/account/view/${item.key}`);
   }
 
   form(record: { id?: number } = {}): void {
