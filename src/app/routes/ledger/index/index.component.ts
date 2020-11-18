@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LedgerFormComponent } from './../form/form.component';
@@ -21,13 +20,7 @@ export class LedgerIndexComponent implements OnInit {
   loading = true;
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
-  constructor(
-    private http: _HttpClient,
-    private msg: NzMessageService,
-    private modal: ModalHelper,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {}
+  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getData();

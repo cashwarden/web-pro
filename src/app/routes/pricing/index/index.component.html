@@ -1,0 +1,42 @@
+<div class="pt-lg">
+  <nz-card [nzBordered]="false">
+    <ng-container *ngIf="user">
+      <div nz-row class="avatarHolder">
+        <div class="pr-md">
+          <img src="{{ user.avatar }}" />
+        </div>
+        <sv-container size="small" col="1">
+          <sv>
+            <span class="name">{{ user.name }}<i nz-icon nzIconfont="icon-pro" class="icon-sm badge-pro"></i></span>
+          </sv>
+          <sv label="会员有效期">2020年12月31日</sv>
+        </sv-container>
+      </div>
+      <p>💗 付费支持 CashWarden ，我们不会出售您的数据，也不会投放广告，因此您的订阅是 CashWarden 不断创新的动力。</p>
+
+      <nz-divider nzDashed></nz-divider>
+
+      <div nz-col nzMd="24" nzLg="7">
+        <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false" nzPageSize="30" nzSize="small" [nzFooter]="footer">
+          <thead>
+            <tr>
+              <th>功能</th>
+              <th>Pro（49/年）</th>
+              <th>Free</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{ data.action }}</td>
+              <td>{{ data.pro }}</td>
+              <td>{{ data.free }}</td>
+            </tr>
+          </tbody>
+          <ng-template #footer>
+            <button nz-button nzType="primary" (click)="buy()">立即续费</button>
+          </ng-template>
+        </nz-table>
+      </div>
+    </ng-container>
+  </nz-card>
+</div>
