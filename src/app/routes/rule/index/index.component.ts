@@ -13,7 +13,7 @@ export class RuleIndexComponent implements OnInit {
   loading = true;
   pagination: {};
   list: any[] = [];
-  selectRawData: any = {};
+  selectData: any = {};
   q = {
     page: 1,
     pageSize: 100,
@@ -101,7 +101,7 @@ export class RuleIndexComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(RuleFormComponent, { record, selectData: this.selectRawData }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(RuleFormComponent, { record, selectData: this.selectData }, { size: 'md' }).subscribe((res) => {
       this.getData();
     });
   }
@@ -144,11 +144,11 @@ export class RuleIndexComponent implements OnInit {
     this.http.get(url, { pageSize: 50 }).subscribe((res: any) => {
       if (res.data) {
         if (key === 'tags') {
-          this.selectRawData[key] = res.data.items.map((item: any) => ({ value: item.name, label: item.name }));
+          this.selectData[key] = res.data.items.map((item: any) => ({ value: item.name, label: item.name }));
+        } else if (['account_id', 'category_id'].includes(key)) {
+          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
         } else if (key === 'transaction_type') {
-          this.selectRawData[key] = res.data.map((item: any) => ({ value: item.type, label: item.name }));
-        } else {
-          this.selectRawData[key] = res.data.items.map((item: any) => ({ value: item.id, label: item.name }));
+          this.selectData[key] = res.data.map((item: any) => ({ value: item.type, label: item.name }));
         }
       }
     });
@@ -156,7 +156,7 @@ export class RuleIndexComponent implements OnInit {
 
   getLedgersCategories(): void {
     this.http.get('/api/ledgers/categories').subscribe((res: any) => {
-      this.selectRawData.ledgersCategories = res.data;
+      this.selectData.ledgersCategories = res.data;
     });
   }
 
