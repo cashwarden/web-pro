@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
+import { CacheService } from '@delon/cache';
 import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { params } from 'src/app/shared/params';
 import { TagFormComponent } from '.././form/form.component';
 
 @Component({
@@ -19,6 +21,7 @@ export class TagIndexComponent implements OnInit {
     page: 1,
     pageSize: 100,
     name: '',
+    ledger_id: 0,
   };
 
   searchSchema: SFSchema = {
@@ -54,7 +57,7 @@ export class TagIndexComponent implements OnInit {
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private cdr: ChangeDetectorRef, private msg: NzMessageService) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private cache: CacheService, private msg: NzMessageService) {}
 
   ngOnInit() {
     this.getData();
@@ -62,7 +65,8 @@ export class TagIndexComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
-    const data = this.http.get('/api/tags', this.q).subscribe((res) => {
+    this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
+    this.http.get('/api/tags', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       this.loading = false;

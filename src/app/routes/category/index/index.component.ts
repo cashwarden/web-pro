@@ -74,13 +74,7 @@ export class CategoryIndexComponent implements OnInit {
     },
   ];
 
-  constructor(
-    private http: _HttpClient,
-    private modal: ModalHelper,
-    private cdr: ChangeDetectorRef,
-    private msg: NzMessageService,
-    private cache: CacheService,
-  ) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private msg: NzMessageService, private cache: CacheService) {}
 
   ngOnInit() {
     this.getData();
