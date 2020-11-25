@@ -14,6 +14,7 @@ export class CategoryFormComponent implements OnInit {
   ledger_id = 0;
   form = {
     name: '',
+    keywords: [],
     transaction_type: 'expense',
     sort: 99,
     icon_name: '',

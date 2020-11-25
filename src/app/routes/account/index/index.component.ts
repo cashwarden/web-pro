@@ -13,10 +13,15 @@ export class AccountIndexComponent implements OnInit {
   q: any = {
     page: 1,
     pageSize: 50,
+    status: 'active',
   };
   accountSorts = [
     { value: '-balance_cent', label: '余额倒序' },
     { value: 'balance_cent', label: '余额正序' },
+  ];
+  accountStatus = [
+    { value: 'active', label: '正常' },
+    { value: 'unactivated', label: '冻结' },
   ];
   accountTypes: any[] = [];
   list: Array<{ id: number; name: string; type: string; color: string; balance: string }> = [];

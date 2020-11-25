@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <div class="modal-title">编辑 {{ record.id }} 信息</div>
+  <div class="modal-title">编辑 {{ record.name }} 分类</div>
 </div>
 
 <form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
@@ -11,6 +11,12 @@
       <label nz-radio-button nzValue="expense"> <span>支出</span> </label>
       <label nz-radio-button nzValue="income"> <span>收入</span> </label>
     </nz-radio-group>
+  </se>
+
+  <se label="关键词">
+    <nz-select [(ngModel)]="form.keywords" nzMode="tags" name="keywords">
+      <nz-option [nzLabel]="i.label" [nzValue]="i.value" *ngFor="let i of []"> </nz-option>
+    </nz-select>
   </se>
 
   <se label="图标">
