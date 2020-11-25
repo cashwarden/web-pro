@@ -23,7 +23,7 @@ export class AccountViewComponent implements OnInit {
   accountTypes: any[] = [];
   loading = true;
   accountBalancesTrendLoading = true;
-  account: { type: string; status: string; name: string; currency_code: string; currency_balance: number; type_name: string };
+  account: { type: string; status_txt: string; name: string; currency_code: string; currency_balance: number; type_name: string };
   index = 0;
   list: Array<{ id: number; name: string; type: string; color: string; balance: string }> = [];
   accountBalancesTrend: any;

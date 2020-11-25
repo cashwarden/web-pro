@@ -23,12 +23,24 @@
       </ng-template>
     </nz-input-group>
   </se>
+
+  <se label="关键词">
+    <nz-select [(ngModel)]="form.keywords" nzMode="tags" name="keywords">
+      <nz-option [nzLabel]="i.label" [nzValue]="i.value" *ngFor="let i of []"> </nz-option>
+    </nz-select>
+  </se>
+
+  <se label="备注" col="1">
+    <textarea [(ngModel)]="form.remark" name="remark" nz-input rows="2"></textarea>
+  </se>
+
   <se label="状态">
     <nz-radio-group [(ngModel)]="form.status" nzButtonStyle="solid" name="status">
       <label nz-radio-button nzValue="active"> <span>启用</span> </label>
       <label nz-radio-button nzValue="unactivated"> <span>冻结</span> </label>
     </nz-radio-group>
   </se>
+
   <se label="默认账号" col="1">
     <nz-switch [(ngModel)]="form.default" name="default"></nz-switch>
   </se>

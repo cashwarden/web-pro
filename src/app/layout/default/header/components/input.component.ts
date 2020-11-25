@@ -58,16 +58,19 @@ export class HeaderInputComponent {
 
   submit() {
     const data = { description: this.description };
-    this.http.post('/api/transactions/by-description?expand=ledger,category', data).subscribe((res) => {
+    this.http.post('/api/transactions/by-description?expand=ledger,category,fromAccount,toAccount', data).subscribe((res) => {
       if (res.code !== 0) {
         this.notification.create('error', '快速记账失败', res.message);
         return;
       }
       const date = format(new Date(res.data.date), 'yyyy-MM-dd HH:mm');
+      const toAccount = res.data.toAccount ? ` | 收款账户：${res.data.toAccount.name} ` : '';
+      const fromAccount = res.data.fromAccount ? ` | 支付账户：${res.data.fromAccount.name} ` : '';
+
       this.notification.create(
         'success',
         '快速记账成功',
-        `账本：${res.data.ledger.name} | 分类：${res.data.category.name} | 日期：${date}`,
+        `账本：${res.data.ledger.name} | 分类：${res.data.category.name} ${toAccount}  ${fromAccount} | 日期：${date}`,
       );
       this.description = '';
       this.cdr.detectChanges();

@@ -13,11 +13,13 @@ export class AccountFormComponent implements OnInit {
 
   form = {
     name: '',
+    keywords: [],
     type: 'general_account',
     currency_balance: '',
     currency_code: 'CNY',
     status: 'active',
     default: false,
+    remark: '',
     exclude_from_stats: false,
   };
 
