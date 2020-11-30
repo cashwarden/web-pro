@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CacheService } from '@delon/cache';
-import { G2PieData } from '@delon/chart/pie';
+import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { G2TagCloudData } from '@delon/chart/tag-cloud';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
   categoriesTotal = 0;
 
   recordsAnalysisData: any;
+  categoriesOptions: any;
   recordsAnalysisLoading = true;
 
   recordsOverview: Array<{ overview: { surplus: number; expense: number; income: number }; key: string; text: string }>;
@@ -91,6 +92,13 @@ export class DashboardComponent implements OnInit {
     this.http.get('/api/categories/analysis', { ledger_id: this.ledger_id }).subscribe((res) => {
       this.categoriesData = res.data.filter((i: any) => i.y > 0);
       if (this.categoriesData) {
+        this.categoriesOptions = {
+          forceFit: true,
+          radius: 0.8,
+          data: this.categoriesData,
+          angleField: 'y',
+          colorField: 'x',
+        };
         this.categoriesTotal = this.categoriesData.reduce((pre, now) => Math.round((now.y + pre) * 100) / 100, 0);
       }
       this.loading = false;
@@ -120,5 +128,9 @@ export class DashboardComponent implements OnInit {
 
   handlePieValueFormat(value: string | number): string {
     return yuan(value);
+  }
+
+  handlePieClick(data: G2PieClickItem): void {
+    console.log(data);
   }
 }
