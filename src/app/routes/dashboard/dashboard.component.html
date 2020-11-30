@@ -46,18 +46,9 @@
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
     <nz-card [nzLoading]="loading" nzTitle="本月支出分类" [nzBordered]="false" class="sales-card mb-0" style="min-height: 419px;">
-      <g2-pie
-        *ngIf="categoriesData"
-        [data]="categoriesData"
-        [hasLegend]="true"
-        subTitle="总支出"
-        [height]="248"
-        [lineWidth]="4"
-        [total]="categoriesTotal"
-        [valueFormat]="handlePieValueFormat"
-      >
-      </g2-pie>
+      <div starkG2plotDonut *ngIf="categoriesOptions" [options]="categoriesOptions" style="width: 500px;"></div>
     </nz-card>
+
     <nz-card nzTitle="热门标签" [nzBordered]="false" class="my-card-body">
       <g2-tag-cloud [data]="tags" [height]="165" *ngIf="tags"></g2-tag-cloud>
     </nz-card>
