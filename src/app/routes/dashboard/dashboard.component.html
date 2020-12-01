@@ -45,8 +45,10 @@
 
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
+    <nz-card> <app-chart-relation></app-chart-relation> </nz-card>
     <nz-card [nzLoading]="loading" nzTitle="本月支出分类" [nzBordered]="false" class="sales-card mb-0" style="min-height: 419px;">
-      <div starkG2plotDonut *ngIf="categoriesOptions" [options]="categoriesOptions" style="width: 500px;"></div>
+      <!-- <div starkG2plotDonut *ngIf="categoriesOptions" [options]="categoriesOptions" style="width: 500px;"></div> -->
+      <div starkG2plotPie *ngIf="categoriesOptions" [options]="categoriesOptions"></div>
     </nz-card>
 
     <nz-card nzTitle="热门标签" [nzBordered]="false" class="my-card-body">

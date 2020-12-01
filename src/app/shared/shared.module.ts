@@ -18,6 +18,7 @@ import { G2PieModule } from '@delon/chart/pie';
 import { G2TagCloudModule } from '@delon/chart/tag-cloud';
 import { G2WaterWaveModule } from '@delon/chart/water-wave';
 import { NgxG2plotModule } from 'ngx-g2plot';
+import { ChartRelationComponent } from './chart/relation.component';
 import { RecordGridComponent } from './record-grid/grid.component';
 import { RecordSearchComponent } from './search/search.component';
 
@@ -29,7 +30,7 @@ const THIRDMODULES = [NgxG2plotModule];
 
 // #region your componets & directives
 
-const COMPONENTS = [RecordSearchComponent, RecordGridComponent];
+const COMPONENTS = [RecordSearchComponent, RecordGridComponent, ChartRelationComponent];
 const DIRECTIVES = [];
 
 // #endregion

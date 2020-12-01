@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Datum } from '@antv/g2plot/lib/dependents';
 import { CacheService } from '@delon/cache';
 import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { G2TagCloudData } from '@delon/chart/tag-cloud';
@@ -92,12 +93,24 @@ export class DashboardComponent implements OnInit {
     this.http.get('/api/categories/analysis', { ledger_id: this.ledger_id }).subscribe((res) => {
       this.categoriesData = res.data.filter((i: any) => i.y > 0);
       if (this.categoriesData) {
+        // this.categoriesOptions = {
+        //   forceFit: true,
+        //   radius: 0.8,
+        //   data: this.categoriesData,
+        //   angleField: 'y',
+        //   colorField: 'x',
+        // };
         this.categoriesOptions = {
           forceFit: true,
           radius: 0.8,
           data: this.categoriesData,
           angleField: 'y',
           colorField: 'x',
+          label: {
+            visible: true,
+            type: 'spider',
+            content: '{name}\n¥{percentage}',
+          },
         };
         this.categoriesTotal = this.categoriesData.reduce((pre, now) => Math.round((now.y + pre) * 100) / 100, 0);
       }
