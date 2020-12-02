@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v1
+      - name: Setup kernel for react native, increase watchers
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -32,7 +34,7 @@ jobs:
         run: |
           npm ci
           (echo y; echo y; echo y; echo y;) | sudo npm install -g @angular/cli
-          npm run build --prod
+          ng build --prod
 
       - name: Copy folder content recursively to remote
         uses: burnett01/rsync-deployments@4.1

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Datum } from '@antv/g2plot/lib/dependents';
 import { CacheService } from '@delon/cache';
 import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { G2TagCloudData } from '@delon/chart/tag-cloud';
@@ -21,7 +22,7 @@ export class DashboardComponent implements OnInit {
   tags: G2TagCloudData[];
   ledger_id = 0;
 
-  categoriesData: G2PieData[];
+  categoriesData: any;
   categoriesTotal = 0;
 
   recordsAnalysisData: any;
@@ -90,17 +91,7 @@ export class DashboardComponent implements OnInit {
 
   getCategoryiesData() {
     this.http.get('/api/categories/analysis', { ledger_id: this.ledger_id }).subscribe((res) => {
-      this.categoriesData = res.data.filter((i: any) => i.y > 0);
-      if (this.categoriesData) {
-        this.categoriesOptions = {
-          forceFit: true,
-          radius: 0.8,
-          data: this.categoriesData,
-          angleField: 'y',
-          colorField: 'x',
-        };
-        this.categoriesTotal = this.categoriesData.reduce((pre, now) => Math.round((now.y + pre) * 100) / 100, 0);
-      }
+      this.categoriesData = res.data;
       this.loading = false;
       this.cdr.detectChanges();
     });
