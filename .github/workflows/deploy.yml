@@ -34,7 +34,7 @@ jobs:
         run: |
           npm ci
           (echo y; echo y; echo y; echo y;) | sudo npm install -g @angular/cli
-          npm run build --prod
+          ng build --prod
 
       - name: Copy folder content recursively to remote
         uses: burnett01/rsync-deployments@4.1
