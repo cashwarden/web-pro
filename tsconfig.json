@@ -16,8 +16,8 @@
       "@shared": ["src/app/shared/index"],
       "@core": ["src/app/core/index"],
       "@env/*": ["src/environments/*"]
-    }
-  },
-  "esModuleInterop": true,
-  "allowSyntheticDefaultImports": true
+    },
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  }
 }

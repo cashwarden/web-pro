@@ -35,6 +35,7 @@ export class RecordGridComponent implements OnInit {
 
     this.getData();
   }
+
   getData(): void {
     this.loading = true;
     this.loadingMore = true;

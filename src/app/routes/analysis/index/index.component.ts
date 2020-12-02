@@ -4,10 +4,12 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { CacheService } from '@delon/cache';
 import { G2BarData } from '@delon/chart/bar';
 import { G2PieData } from '@delon/chart/pie';
-import { _HttpClient } from '@delon/theme';
+import { DrawerHelper, ModalHelper, _HttpClient } from '@delon/theme';
 import { deepCopy, getTimeDistance } from '@delon/util';
 import { yuan } from '@shared';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { params } from 'src/app/shared/params';
+import { RecordModalComponent } from 'src/app/shared/record/modal.component';
 
 @Component({
   selector: 'app-analysis-index',
@@ -15,6 +17,7 @@ import { params } from 'src/app/shared/params';
   templateUrl: './index.component.html',
 })
 export class AnalysisIndexComponent implements OnInit {
+  isVisible = false;
   q: any = {};
   data: { total: { expense: number; income: number; surplus: number }; expense: []; income: [] };
   pieData: { total: { expense: number; income: number; surplus: number }; expense: G2PieData[]; income: G2PieData[] };
@@ -25,7 +28,10 @@ export class AnalysisIndexComponent implements OnInit {
 
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '分类', index: 'category_name' },
+    {
+      title: '分类',
+      render: 'custom',
+    },
     { title: '金额', type: 'number', index: 'currency_amount' },
   ];
 
@@ -35,7 +41,14 @@ export class AnalysisIndexComponent implements OnInit {
     { key: 'year', name: '年视图' },
   ];
 
-  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private datePipe: DatePipe, private cache: CacheService) {}
+  constructor(
+    private http: _HttpClient,
+    private cdr: ChangeDetectorRef,
+    private datePipe: DatePipe,
+    private cache: CacheService,
+    private modal: ModalHelper,
+    private msg: NzMessageService,
+  ) {}
 
   ngOnInit() {
     this.date = getTimeDistance('month');
@@ -104,5 +117,11 @@ export class AnalysisIndexComponent implements OnInit {
 
   handlePieValueFormat(value: string | number): string {
     return yuan(value);
+  }
+
+  open(id: number): void {
+    this.q.category_id = id;
+    this.q.pageSize = 100;
+    this.modal.create(RecordModalComponent, { q: this.q }, { size: 'md' }).subscribe((res) => {});
   }
 }
