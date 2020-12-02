@@ -1,4 +1,3 @@
-<!-- <nz-list> -->
 <ng-container *ngFor="let item of items">
   <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent">
     <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
@@ -12,18 +11,19 @@
       </ng-template>
       <ng-template #nzDescription>
         {{ record.date | _date: 'MM-dd HH:ii' }}
+        <span *ngIf="record.transaction.description"> | {{ record.transaction.description }}</span>
+        <span *ngIf="record.transaction.remark"> | {{ record.transaction.remark }}</span>
       </ng-template>
     </nz-list-item-meta>
     <ng-template #nzContent>
-      <div class="width-sm">
-        <p><nz-badge [nzColor]="record.account?.color" [nzText]="record.account?.name"></nz-badge></p>
-        <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
+      <div class="width-sm p-0">
+        <div class="mb-4"><nz-badge [nzColor]="record.account?.color" [nzText]="record.account?.name"></nz-badge></div>
+        <div [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
           {{ record.direction === 'expense' ? '-' : '' }}
           {{ record.currency_code }}
           {{ record.currency_amount }}
-        </p>
+        </div>
       </div>
     </ng-template>
   </nz-list-item>
 </ng-container>
-<!-- </nz-list> -->
