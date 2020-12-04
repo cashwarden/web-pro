@@ -4,8 +4,8 @@ import { LayoutDefaultComponent } from './default/default.component';
 import { HeaderFullScreenComponent } from './default/header/components/fullscreen.component';
 import { HeaderI18nComponent } from './default/header/components/i18n.component';
 import { HeaderIconComponent } from './default/header/components/icon.component';
+import { HeaderInputComponent } from './default/header/components/input.component';
 import { HeaderNotifyComponent } from './default/header/components/notify.component';
-import { HeaderSearchComponent } from './default/header/components/search.component';
 import { HeaderStorageComponent } from './default/header/components/storage.component';
 import { HeaderTaskComponent } from './default/header/components/task.component';
 import { HeaderUserComponent } from './default/header/components/user.component';
@@ -17,41 +17,26 @@ import { LayoutFullScreenComponent } from './fullscreen/fullscreen.component';
 
 const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent];
 
-const COMPONENTS = [
-  LayoutDefaultComponent,
-  LayoutFullScreenComponent,
-  HeaderComponent,
-  SidebarComponent,
-  ...SETTINGDRAWER
-];
+const COMPONENTS = [LayoutDefaultComponent, LayoutFullScreenComponent, HeaderComponent, SidebarComponent, ...SETTINGDRAWER];
 
 const HEADERCOMPONENTS = [
-  HeaderSearchComponent,
+  HeaderInputComponent,
   HeaderNotifyComponent,
   HeaderTaskComponent,
   HeaderIconComponent,
   HeaderFullScreenComponent,
   HeaderI18nComponent,
   HeaderStorageComponent,
-  HeaderUserComponent
+  HeaderUserComponent,
 ];
 
 // passport
 import { LayoutPassportComponent } from './passport/passport.component';
-const PASSPORT = [
-  LayoutPassportComponent
-];
+const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
   imports: [SharedModule],
-  declarations: [
-    ...COMPONENTS,
-    ...HEADERCOMPONENTS,
-    ...PASSPORT
-  ],
-  exports: [
-    ...COMPONENTS,
-    ...PASSPORT
-  ]
+  declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
+  exports: [...COMPONENTS, ...PASSPORT],
 })
-export class LayoutModule { }
+export class LayoutModule {}

@@ -10,6 +10,7 @@ import { LayoutPassportComponent } from '../layout/passport/passport.component';
 import { CallbackComponent } from './callback/callback.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserConfirmEmailComponent } from './passport/confirm-email/confirm-email.component';
 import { UserLockComponent } from './passport/lock/lock.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
@@ -25,12 +26,17 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'account', loadChildren: () => import('./account/account.module').then((m) => m.AccountModule) },
+      { path: 'category', loadChildren: () => import('./category/category.module').then((m) => m.CategoryModule) },
+      { path: 'tag', loadChildren: () => import('./tag/tag.module').then((m) => m.TagModule) },
+      { path: 'ledger', loadChildren: () => import('./ledger/ledger.module').then((m) => m.LedgerModule) },
       { path: 'record', loadChildren: () => import('./record/record.module').then((m) => m.RecordModule) },
       { path: 'budget', loadChildren: () => import('./budget/budget.module').then((m) => m.BudgetModule) },
       { path: 'recurrence', loadChildren: () => import('./recurrence/recurrence.module').then((m) => m.RecurrenceModule) },
       { path: 'analysis', loadChildren: () => import('./analysis/analysis.module').then((m) => m.AnalysisModule) },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then((m) => m.ExceptionModule) },
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule) },
+      { path: 'rule', loadChildren: () => import('./rule/rule.module').then((m) => m.RuleModule) },
+      { path: 'pricing', loadChildren: () => import('./pricing/pricing.module').then((m) => m.PricingModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ],
@@ -50,6 +56,7 @@ const routes: Routes = [
       { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
       { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
       { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } },
+      { path: 'confirm-email', component: UserConfirmEmailComponent, data: { title: '确认邮箱' } },
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
     ],
   },

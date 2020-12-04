@@ -19,13 +19,13 @@
       </div>
     </li> -->
     <!-- Search Button -->
-    <!-- <li class="hidden-pc" (click)="searchToggleChange()">
+    <li class="hidden-pc" (click)="toggleChange()">
       <div class="alain-default__nav-item">
-        <i nz-icon nzType="search"></i>
+        <i nz-icon nzType="thunderbolt"></i>
       </div>
-    </li> -->
+    </li>
   </ul>
-  <!-- <header-search class="alain-default__search" [toggleChange]="searchToggleStatus"></header-search> -->
+  <header-input class="alain-default__search" [toggleChange]="toggleStatus"></header-input>
   <ul class="alain-default__nav">
     <!-- Settings -->
     <li class="hidden-mobile">
@@ -46,7 +46,7 @@
         </div>
       </nz-dropdown-menu>
     </li>
-    <li class="hidden-mobile">
+    <li>
       <header-user></header-user>
     </li>
   </ul>

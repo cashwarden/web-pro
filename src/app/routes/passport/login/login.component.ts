@@ -3,23 +3,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StartupService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
-import { DA_SERVICE_TOKEN, ITokenService, SocialOpenType, SocialService } from '@delon/auth';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { CacheService } from '@delon/cache';
 import { SettingsService, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'passport-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
-  providers: [SocialService],
 })
 export class UserLoginComponent implements OnDestroy {
   constructor(
     fb: FormBuilder,
     private router: Router,
     private settingsService: SettingsService,
-    private socialService: SocialService,
     @Optional()
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
@@ -27,6 +26,7 @@ export class UserLoginComponent implements OnDestroy {
     private startupSrv: StartupService,
     public http: _HttpClient,
     public msg: NzMessageService,
+    private cache: CacheService,
   ) {
     this.form = fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -82,9 +82,17 @@ export class UserLoginComponent implements OnDestroy {
         }
         // 清空路由复用信息
         this.reuseTabService.clear();
+
+        // 默认账本
+        this.cache.set(params.cacheKey.defaultLedger, res.data.default_ledger);
+        this.cache.set(params.cacheKey.defaultIdLedger, res.data.default_ledger.id);
+
         // 设置用户Token信息
         this.tokenService.set({ token: res.data.token });
         const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
+        if (res.data.user.status === 'unactivated') {
+          this.msg.success('您的邮箱暂未激活，为了方便您找回密码等功能，请去个人设置中激活邮箱', { nzDuration: 5000 });
+        }
         this.settingsService.setUser(user);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
         this.startupSrv.load().then(() => {

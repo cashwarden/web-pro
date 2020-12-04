@@ -28,7 +28,6 @@
             "scripts": ["node_modules/ajv/dist/ajv.bundle.js"],
             "allowedCommonJsDependencies": [
               "/",
-              "@",
               "@angularclass/hmr",
               "@ant-design/colors",
               "@antv/adjust",
@@ -40,18 +39,8 @@
               "@antv/g-svg",
               "@antv/path-util",
               "@antv/util",
-              "a",
-              "c",
               "file-saver",
-              "g",
-              "h",
-              "hammerjs",
-              "l",
-              "m",
-              "n",
-              "r",
-              "s",
-              "u"
+              "hammerjs"
             ]
           },
           "configurations": {

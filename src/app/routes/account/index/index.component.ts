@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AccountFormComponent } from './../form/form.component';
@@ -14,10 +13,15 @@ export class AccountIndexComponent implements OnInit {
   q: any = {
     page: 1,
     pageSize: 50,
+    status: 'active',
   };
   accountSorts = [
     { value: '-balance_cent', label: '余额倒序' },
     { value: 'balance_cent', label: '余额正序' },
+  ];
+  accountStatus = [
+    { value: 'active', label: '正常' },
+    { value: 'unactivated', label: '冻结' },
   ];
   accountTypes: any[] = [];
   list: Array<{ id: number; name: string; type: string; color: string; balance: string }> = [];
@@ -25,13 +29,7 @@ export class AccountIndexComponent implements OnInit {
   loading = true;
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
-  constructor(
-    private http: _HttpClient,
-    private msg: NzMessageService,
-    private modal: ModalHelper,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {}
+  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getOverview();
@@ -55,10 +53,6 @@ export class AccountIndexComponent implements OnInit {
 
   getAccountTypes(): void {
     this.http.get('/api/accounts/types').subscribe((res) => {
-      if (res.code !== 0) {
-        this.msg.warning(res.message);
-        return;
-      }
       if (res.data) {
         this.accountTypes = res.data;
         this.cdr.detectChanges();
@@ -83,10 +77,6 @@ export class AccountIndexComponent implements OnInit {
       pageSize: 50,
     };
     this.getData();
-  }
-
-  to(item: { key: string }) {
-    this.router.navigateByUrl(`/account/view/${item.key}`);
   }
 
   form(record: { id?: number } = {}): void {

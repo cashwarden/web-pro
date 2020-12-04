@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { G2PieData } from '@delon/chart/pie';
+import { Datum } from '@antv/g2plot/lib/dependents';
+import { CacheService } from '@delon/cache';
+import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { G2TagCloudData } from '@delon/chart/tag-cloud';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
 import { zip } from 'rxjs';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,20 +20,23 @@ export class DashboardComponent implements OnInit {
   loading = true;
   data: any = {};
   tags: G2TagCloudData[];
+  ledger_id = 0;
 
-  categoriesData: G2PieData[];
+  categoriesData: any;
   categoriesTotal = 0;
 
   recordsAnalysisData: any;
+  categoriesOptions: any;
   recordsAnalysisLoading = true;
 
   recordsOverview: Array<{ overview: { surplus: number; expense: number; income: number }; key: string; text: string }>;
   water: { overview: { surplus: number; expense: number; income: number }; key: string; text: string; percent?: string };
   accountsOverview: { percent: number; color: string };
-  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private cache: CacheService) {}
 
   ngOnInit() {
-    this.getAccounts();
+    this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
+    // this.getAccounts();
     this.getOverview();
     this.getTags();
     this.getLastRecords();
@@ -38,16 +44,16 @@ export class DashboardComponent implements OnInit {
     this.getRecordAnalysisData();
   }
 
-  getAccounts(): void {
-    this.http.get('/api/accounts', { pageSize: 3, sort: '-balance_cent' }).subscribe((res) => {
-      this.accounts = res.data.items;
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
-  }
+  // getAccounts(): void {
+  //   this.http.get('/api/accounts', { pageSize: 3, sort: '-balance_cent' }).subscribe((res) => {
+  //     this.accounts = res.data.items;
+  //     this.loading = false;
+  //     this.cdr.detectChanges();
+  //   });
+  // }
 
   getLastRecords() {
-    this.http.get('/api/records', { pageSize: 6, transaction_type: 'expense' }).subscribe((res) => {
+    this.http.get('/api/records', { pageSize: 6, transaction_type: 'expense', ledger_id: this.ledger_id }).subscribe((res) => {
       this.lastRecords = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();
@@ -55,7 +61,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getRecordAnalysisData() {
-    this.http.get('/api/records/analysis').subscribe((res) => {
+    this.http.get('/api/records/analysis', { ledger_id: this.ledger_id }).subscribe((res) => {
       this.recordsAnalysisData = {
         data: res.data,
         xField: 'x',
@@ -84,20 +90,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getCategoryiesData() {
-    this.http.get('/api/categories/analysis').subscribe((res) => {
-      this.categoriesData = res.data.filter((i: any) => i.y > 0);
-      if (this.categoriesData) {
-        this.categoriesTotal = this.categoriesData.reduce((pre, now) => Math.round((now.y + pre) * 100) / 100, 0);
-      }
+    this.http.get('/api/categories/analysis', { ledger_id: this.ledger_id }).subscribe((res) => {
+      this.categoriesData = res.data;
       this.loading = false;
       this.cdr.detectChanges();
     });
   }
 
   getOverview(): void {
-    zip(this.http.get('/api/accounts/overview'), this.http.get('/api/records/overview')).subscribe(([accounts, records]: [any, any]) => {
-      const percent = (accounts.data.net_asset <= 0 ? 0 : accounts.data.total_assets / accounts.data.net_asset) * 100;
-      this.accountsOverview = { percent: +percent.toFixed(2), color: percent > 50 ? '#2f9cff' : '#f50' };
+    this.http.get('/api/records/overview', { ledger_id: this.ledger_id }).subscribe((records) => {
       this.recordsOverview = records.data;
       this.water = [...this.recordsOverview].pop();
       this.recordsOverview.pop();
@@ -107,7 +108,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTags(): void {
-    this.http.get('/api/tags', { sort: 'count' }).subscribe((res) => {
+    this.http.get('/api/tags', { sort: 'count', ledger_id: this.ledger_id }).subscribe((res) => {
       const data = res.data.items.filter((i: any) => i.count > 0);
       if (data) {
         this.tags = res.data.items.map((item: any) => ({ value: item.count, name: item.name }));
@@ -118,5 +119,9 @@ export class DashboardComponent implements OnInit {
 
   handlePieValueFormat(value: string | number): string {
     return yuan(value);
+  }
+
+  handlePieClick(data: G2PieClickItem): void {
+    console.log(data);
   }
 }

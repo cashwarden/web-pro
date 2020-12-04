@@ -14,12 +14,16 @@ import { SettingsService, User } from '@delon/theme';
       <div nz-menu class="width-sm">
         <div nz-menu-item routerLink="/settings/personal/base">
           <i nz-icon nzType="setting" class="mr-sm"></i>
-          {{ 'menu.account.settings' | translate }}
+          个人设置
+        </div>
+        <div nz-menu-item routerLink="/pricing/index">
+          <i nz-icon nzIconfont="icon-membership" class="mr-sm"></i>
+          会员计划
         </div>
         <li nz-menu-divider></li>
         <div nz-menu-item (click)="logout()">
           <i nz-icon nzType="logout" class="mr-sm"></i>
-          {{ 'menu.account.logout' | translate }}
+          退出登录
         </div>
       </div>
     </nz-dropdown-menu>

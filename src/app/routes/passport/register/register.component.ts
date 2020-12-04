@@ -1,7 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, Optional } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { _HttpClient } from '@delon/theme';
+import { StartupService } from '@core';
+import { ReuseTabService } from '@delon/abc/reuse-tab';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { SettingsService, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -10,7 +13,18 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./register.component.less'],
 })
 export class UserRegisterComponent implements OnDestroy {
-  constructor(fb: FormBuilder, private router: Router, public http: _HttpClient, public msg: NzMessageService) {
+  constructor(
+    fb: FormBuilder,
+    private router: Router,
+    private settingsService: SettingsService,
+    @Optional()
+    @Inject(ReuseTabService)
+    private reuseTabService: ReuseTabService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private startupSrv: StartupService,
+    public http: _HttpClient,
+    public msg: NzMessageService,
+  ) {
     this.form = fb.group({
       email: [null, [Validators.required, Validators.email]],
       username: [null, [Validators.required, Validators.minLength(3)]],
@@ -91,9 +105,20 @@ export class UserRegisterComponent implements OnDestroy {
         this.error = res.message;
         return;
       }
-      this.msg.success('注册成功，请登录');
-      this.router.navigateByUrl('/passport/login', {
-        queryParams: { email: data.email },
+      this.msg.success('注册成功，已给您的邮箱发送了一封激活邮件，请尽快激活', { nzDuration: 5000 });
+      // 清空路由复用信息
+      this.reuseTabService.clear();
+      // 设置用户Token信息
+      this.tokenService.set({ token: res.data.token });
+      const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
+      this.settingsService.setUser(user);
+      // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
+      this.startupSrv.load().then(() => {
+        let url = this.tokenService.referrer.url || '/';
+        if (url.includes('/passport')) {
+          url = '/';
+        }
+        this.router.navigateByUrl(url);
       });
     });
   }

@@ -1,1 +1,25 @@
-<sf #sf mode="edit" [schema]="schema" [formData]="user" (formSubmit)="submit($event)"></sf>
+<nz-alert nzType="warning" nzMessage="注意！更新邮箱需要重新激活"></nz-alert>
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100" class="pt-lg">
+  <se label="用户名">
+    <input type="text" nz-input [(ngModel)]="form.username" name="username" required maxlength="32" />
+  </se>
+
+  <se label="邮箱" [extra]="extra">
+    <input type="text" nz-input [(ngModel)]="form.email" name="email" required maxlength="120" />
+    <ng-template #extra>
+      <span *ngIf="form.status === 'unactivated'">
+        您的邮箱暂未激活，忘记密码将无法找回账户，请点击 <a (click)="sendEmail()">激活</a> 我们将给您的邮箱发送激活邮件。
+      </span>
+      <span *ngIf="form.status === 'active'">您的邮箱已激活</span>
+    </ng-template>
+  </se>
+
+  <se label="基础货币">
+    <input type="text" nz-input [(ngModel)]="form.base_currency_code" name="base_currency_code" disabled />
+  </se>
+
+  <se col="1">
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>

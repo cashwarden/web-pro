@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SettingsService, User } from '@delon/theme';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { CacheService } from '@delon/cache';
+import { _HttpClient } from '@delon/theme';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'layout-sidebar',
@@ -7,9 +9,32 @@ import { SettingsService, User } from '@delon/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
-  get user(): User {
-    return this.settings.user;
+  loading = true;
+  list = [];
+  ledger: any;
+
+  constructor(private http: _HttpClient, private cache: CacheService, private cdr: ChangeDetectorRef) {
+    this.getDefaultLedger();
+    this.getData();
   }
 
-  constructor(private settings: SettingsService) {}
+  getData(): void {
+    this.loading = true;
+    this.http.get('/api/ledgers').subscribe((res) => {
+      this.list = res.data.items;
+      this.loading = false;
+      this.cdr.detectChanges();
+    });
+  }
+
+  changeLedger(data: { id: number; name: string }): void {
+    this.ledger = data;
+    this.cache.set(params.cacheKey.defaultLedger, data);
+    this.cache.set(params.cacheKey.defaultIdLedger, data.id);
+    window.location.reload();
+  }
+
+  getDefaultLedger(): void {
+    this.ledger = this.cache.getNone(params.cacheKey.defaultLedger);
+  }
 }

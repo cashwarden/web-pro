@@ -1,4 +1,4 @@
-<div class="pt-lg">
+<div class="pt-md">
   <nz-card>
     <div nz-row>
       <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
@@ -36,6 +36,11 @@
       </nz-select>
     </se>
     <se col="6">
+      <nz-select [(ngModel)]="q.status" name="status" [nzPlaceHolder]="'状态'" nzShowSearch nzAllowClear>
+        <nz-option *ngFor="let i of accountStatus" [nzLabel]="i.label" [nzValue]="i.value"></nz-option>
+      </nz-select>
+    </se>
+    <se col="6">
       <nz-select [(ngModel)]="q.sort" name="sort" [nzPlaceHolder]="'默认排序'" nzShowSearch nzAllowClear>
         <nz-option *ngFor="let i of accountSorts" [nzLabel]="i.label" [nzValue]="i.value"></nz-option>
       </nz-select>
@@ -54,7 +59,7 @@
   <ng-template #item let-item>
     <g2-card [title]="title" [bordered]="true" [total]="item.balance | _currency" [footer]="footer" [avatar]="avatar" [action]="action">
       <ng-template #title>
-        <p (click)="form(item)">{{ item.name }}</p>
+        <a routerLink="/account/view/{{ item.id }}">{{ item.name }}</a>
       </ng-template>
       <ng-template #avatar>
         <i nz-icon nzIconfont="icon-{{ item.type }}" class="icon-md" (click)="form(item)"></i>
@@ -75,9 +80,16 @@
         </span>
       </ng-template>
       <ng-template #footer>
-        <nz-tag>{{ item.type_name }}</nz-tag>
-        <nz-tag *ngIf="item.default">默认账户</nz-tag>
-        <nz-tag *ngIf="item.status == 'unactivated'">冻结</nz-tag>
+        <sv-container size="small" col="2">
+          <sv label="类型">{{ item.type_name }}</sv>
+          <sv label="状态">{{ item.status_txt }}</sv>
+          <sv label="默认账号">{{ item.default ? '是' : '否' }}</sv>
+          <sv label="不计入统计">{{ item.exclude_from_stats ? '是' : '否' }}</sv>
+          <sv label="关键词" col="1">
+            <nz-tag *ngFor="let i of item.keywords">{{ i }}</nz-tag>
+          </sv>
+          <sv label="备注" col="1">{{ item.remark }}</sv>
+        </sv-container>
       </ng-template>
     </g2-card>
   </ng-template>

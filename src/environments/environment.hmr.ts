@@ -7,7 +7,6 @@ export const environment = {
   production: false,
   useHash: true,
   hmr: true,
-  iconfontURl: 'https://at.alicdn.com/t/font_2007518_gto6oizgx6s.js',
 };
 
 /*
