@@ -12,6 +12,7 @@ import { SVModule } from '@delon/abc/sv';
 import { TagSelectModule } from '@delon/abc/tag-select';
 import { XlsxModule } from '@delon/abc/xlsx';
 import { G2CustomModule } from '@delon/chart/custom';
+import { G2MiniProgressModule } from '@delon/chart/mini-progress';
 import { NumberInfoModule } from '@delon/chart/number-info';
 import { TrendModule } from '@delon/chart/trend';
 
@@ -31,5 +32,6 @@ export const SHARED_DELON_MODULES = [
   G2CustomModule,
   XlsxModule,
   NumberInfoModule,
+  G2MiniProgressModule,
   // ReuseTabModule,
 ];
