@@ -1,0 +1,78 @@
+<div class="modal-header">
+  <div class="modal-title">编辑预算</div>
+</div>
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)">
+  <se label="名称" required>
+    <input nz-input [(ngModel)]="form.name" name="name" required />
+  </se>
+
+  <se label="交易类型" required>
+    <nz-radio-group
+      [(ngModel)]="form.transaction_type"
+      nzButtonStyle="solid"
+      name="transaction_type"
+      (ngModelChange)="changeTransactionType()"
+    >
+      <label nz-radio-button nzValue="expense"> <span>支出</span> </label>
+      <label nz-radio-button nzValue="income"> <span>收入</span> </label>
+    </nz-radio-group>
+  </se>
+
+  <se label="类别" required>
+    <nz-select [(ngModel)]="form.category_ids" name="category_ids" nzMode="multiple" required>
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of category_ids">
+        <i nz-icon nzIconfont="icon-{{ i.icon_name }}"></i> {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+
+  <se label="周期" required>
+    <nz-radio-group [(ngModel)]="form.period" nzButtonStyle="solid" name="period" (ngModelChange)="changePeriod()">
+      <label nz-radio-button nzValue="month"> <span>每月</span> </label>
+      <label nz-radio-button nzValue="year"> <span>每年</span> </label>
+      <label nz-radio-button nzValue="one_time"> <span>一次性</span> </label>
+    </nz-radio-group>
+  </se>
+
+  <se label="预算金额" required>
+    <nz-input-group nzAddOnAfter="CNY">
+      <input nz-input type="number" [(ngModel)]="form.amount" name="amount" required />
+    </nz-input-group>
+  </se>
+
+  <se label="结转" col="1">
+    <nz-switch [(ngModel)]="form.rollover" name="exclude_from_stats"></nz-switch>
+  </se>
+
+  <se label="初始预算" *ngIf="form.rollover">
+    <nz-input-group nzAddOnAfter="CNY">
+      <input nz-input type="number" [(ngModel)]="form.init_amount" name="init_amount" />
+    </nz-input-group>
+  </se>
+
+  <se label="包含标签">
+    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="选择一个" name="include_tags" [(ngModel)]="form.include_tags">
+      <nz-option *ngFor="let o of selectData['tags']" [nzLabel]="o.label" [nzValue]="o.value"></nz-option>
+    </nz-select>
+  </se>
+
+  <se label="排除标签">
+    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="选择一个" name="exclude_tags" [(ngModel)]="form.exclude_tags">
+      <nz-option *ngFor="let o of selectData['tags']" [nzLabel]="o.label" [nzValue]="o.value"></nz-option>
+    </nz-select>
+  </se>
+
+  <se label="开始日期" required>
+    <nz-date-picker [(ngModel)]="form.started_at" name="started_at" [nzMode]="dateMode" required></nz-date-picker>
+  </se>
+
+  <se label="结束日期" required>
+    <nz-date-picker [(ngModel)]="form.ended_at" name="ended_at" [nzMode]="dateMode" required></nz-date-picker>
+  </se>
+
+  <se col="1">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>
