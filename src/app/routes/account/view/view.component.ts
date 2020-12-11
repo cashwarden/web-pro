@@ -1,13 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { STColumn, STComponent } from '@delon/abc/st';
-import { G2TimelineData } from '@delon/chart/timeline';
-import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
-import getTime from 'date-fns/getTime';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject } from 'rxjs';
 import { AccountFormComponent } from '../form/form.component';
+
 @Component({
   selector: 'app-account-view',
   templateUrl: './view.component.html',
@@ -56,7 +53,7 @@ export class AccountViewComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(AccountFormComponent, { record, accountTypes: this.accountTypes }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(AccountFormComponent, { record, accountTypes: this.accountTypes }, { size: 'md' }).subscribe(() => {
       this.getAccount();
       if (this.index === 1) {
         this.resetSubjectValue.next(this.q);

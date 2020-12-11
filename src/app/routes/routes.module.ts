@@ -9,16 +9,20 @@ import { UserConfirmEmailComponent } from './passport/confirm-email/confirm-emai
 import { UserLockComponent } from './passport/lock/lock.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
+import { UserPasswordResetComponent } from './passport/password-reset/password-reset.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 import { UserRegisterComponent } from './passport/register/register.component';
+import { UserRequestPasswordResetComponent } from './passport/request-password-reset/request-password-reset.component';
 import { RouteRoutingModule } from './routes-routing.module';
 
 const COMPONENTS = [
   DashboardComponent,
   // passport pages
   UserLoginComponent,
+  UserRequestPasswordResetComponent,
   UserRegisterComponent,
   UserConfirmEmailComponent,
+  UserPasswordResetComponent,
   UserRegisterResultComponent,
   // single pages
   CallbackComponent,
