@@ -14,8 +14,10 @@ import { UserConfirmEmailComponent } from './passport/confirm-email/confirm-emai
 import { UserLockComponent } from './passport/lock/lock.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
+import { UserPasswordResetComponent } from './passport/password-reset/password-reset.component';
 import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 import { UserRegisterComponent } from './passport/register/register.component';
+import { UserRequestPasswordResetComponent } from './passport/request-password-reset/request-password-reset.component';
 
 const routes: Routes = [
   {
@@ -58,6 +60,8 @@ const routes: Routes = [
       { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } },
       { path: 'confirm-email', component: UserConfirmEmailComponent, data: { title: '确认邮箱' } },
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
+      { path: 'request-password-reset', component: UserRequestPasswordResetComponent, data: { title: '找回密码' } },
+      { path: 'password-reset', component: UserPasswordResetComponent, data: { title: '重置密码' } },
     ],
   },
   // 单页不包裹Layout
