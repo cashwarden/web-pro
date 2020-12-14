@@ -40,11 +40,12 @@ export class TagIndexComponent implements OnInit {
       title: '',
       buttons: [
         {
-          text: '编辑',
+          icon: 'edit',
           click: (item: any) => this.form(item),
         },
         {
-          text: '删除',
+          icon: 'delete',
+          type: 'del',
           pop: {
             title: '确定要删除吗？',
             okType: 'danger',
