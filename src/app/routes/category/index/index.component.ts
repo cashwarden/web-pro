@@ -66,10 +66,21 @@ export class CategoryIndexComponent implements OnInit {
       title: '',
       buttons: [
         {
-          text: '编辑',
+          icon: 'edit',
           click: (item: any) => this.form(item),
           iif: (record) => !['adjust', 'transfer'].includes(record.transaction_type),
           iifBehavior: 'disabled',
+        },
+        {
+          icon: 'delete',
+          type: 'del',
+          pop: {
+            title: '确定要删除吗？',
+            okType: 'danger',
+          },
+          click: (record, _modal, comp) => {
+            this.delete(record, comp);
+          },
         },
       ],
     },
@@ -100,6 +111,19 @@ export class CategoryIndexComponent implements OnInit {
         this.list.splice(0, 0, res);
         this.list = [...this.list];
       }
+    });
+  }
+
+  delete(record: any, comp): void {
+    this.http.delete(`/api/categories/${record.id}`).subscribe((res) => {
+      if (res?.code !== 0) {
+        this.msg.warning(res?.message);
+        return;
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      comp!.removeRow(record);
+      // this.getData();
+      this.msg.success('删除成功');
     });
   }
 
