@@ -45,6 +45,9 @@
       </ng-template>
       <ng-template #action>
         <span class="pl-sm">
+          <i nz-icon nzType="copy" (click)="copy(item)"></i>
+        </span>
+        <span class="pl-sm">
           <i nz-icon nzType="edit" (click)="form(item)"></i>
         </span>
         <span class="pl-sm">
@@ -52,7 +55,7 @@
             nz-icon
             nzType="delete"
             nz-popconfirm
-            nzPopconfirmTitle="确定要删除帐户吗？如果帐户被删除，所有涉及的交易、规则和定时配置将永远失去。"
+            nzPopconfirmTitle="确定要删除吗？"
             nzPopconfirmPlacement="bottom"
             (nzOnConfirm)="delete(item)"
           ></i>
