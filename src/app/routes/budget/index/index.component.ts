@@ -80,10 +80,13 @@ export class BudgetIndexComponent implements OnInit {
         this.message.warning(res?.message);
         return;
       }
-      this.list.splice(0, 0, res.data);
-      this.list = [...this.list];
+      this.getData();
       this.message.success('复制成功');
     });
+  }
+
+  view(): void {
+    this.message.success('敬请期待');
   }
 
   delete(record: any): void {
