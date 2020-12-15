@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CacheService } from '@delon/cache';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
@@ -35,7 +35,13 @@ export class BudgetIndexComponent implements OnInit {
     },
   };
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService, private cache: CacheService) {}
+  constructor(
+    private http: _HttpClient,
+    private modal: ModalHelper,
+    private message: NzMessageService,
+    private cache: CacheService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
@@ -48,9 +54,17 @@ export class BudgetIndexComponent implements OnInit {
     this.loading = true;
     this.q.ledger_id = this.ledger_id;
     this.http.get(this.url, this.q).subscribe((res) => {
-      this.list = res.data.items;
-      this.pagination = res.data._meta;
+      const data = res.data;
+      const list = [
+        { name: '月度额度', items: data.items.filter((item: any) => item.period === 'month') },
+        { name: '年度额度', items: data.items.filter((item: any) => item.period === 'year') },
+        { name: '一次性额度', items: data.items.filter((item: any) => item.period === 'one_time') },
+      ];
+      this.list = list.filter((item: any) => item.items.length > 0);
+
+      this.pagination = data._meta;
       this.loading = false;
+      this.cdr.detectChanges();
     });
   }
 
@@ -66,10 +80,13 @@ export class BudgetIndexComponent implements OnInit {
         this.message.warning(res?.message);
         return;
       }
-      this.list.splice(0, 0, res.data);
-      this.list = [...this.list];
+      this.getData();
       this.message.success('复制成功');
     });
+  }
+
+  view(): void {
+    this.message.success('敬请期待');
   }
 
   delete(record: any): void {
