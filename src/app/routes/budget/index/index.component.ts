@@ -20,6 +20,7 @@ export class BudgetIndexComponent implements OnInit {
     page: 1,
     pageSize: 100,
     name: '',
+    ledger_id: 0,
     transaction_type: '',
   };
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
@@ -45,6 +46,7 @@ export class BudgetIndexComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
+    this.q.ledger_id = this.ledger_id;
     this.http.get(this.url, this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
