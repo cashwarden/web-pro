@@ -71,7 +71,9 @@
               [nzShowInfo]="false"
             ></nz-progress>
           </sv>
-          <sv label="类别" col="1">{{ item.category_ids_txt }}</sv>
+          <sv label="类别" col="1" class="text-truncate">
+            {{ item.category_ids_txt }}
+          </sv>
           <sv label="时间">
             {{ item.budgetProgress.started_at | _date: 'yyyy-MM-dd' }}～{{ item.budgetProgress.ended_at | _date: 'yyyy-MM-dd' }}
           </sv>
