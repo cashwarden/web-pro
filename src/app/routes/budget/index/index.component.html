@@ -1,4 +1,4 @@
-<div class="pt-lg">
+<div class="pt-md">
   <nz-card>
     <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
       <div nz-col>
@@ -11,72 +11,79 @@
   </nz-card>
 </div>
 
-<nz-card [nzBordered]="false">
-  <nz-list [nzDataSource]="list" [nzLoading]="loading" [nzRenderItem]="item">
-    <ng-template #item let-item>
-      <nz-list-item [nzContent]="nzDrawerContent" [nzActions]="[edit, del]">
-        <ng-template #edit>
-          <a (click)="form(item)"><i nz-icon nzType="edit" theme="outline"></i></a>
-        </ng-template>
-        <ng-template #del>
-          <a nz-popconfirm nzPopconfirmTitle="确定要删除吗？" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(item)">
-            <i nz-icon nzType="delete" theme="outline"></i>
-          </a>
-        </ng-template>
-        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription" [nzAvatar]="nzAvatar">
-          <ng-template #nzTitle>
-            <a href="{{ item.href }}" target="_blank">{{ item.name }}</a>
-          </ng-template>
-          <ng-template #nzDescription>
-            {{ item.category_ids_txt }}
-          </ng-template>
-          <ng-template #nzAvatar>
-            <nz-progress
-              *ngIf="item.budgetProgress.started_at"
-              [nzPercent]="item.budgetProgress?.progress"
-              nzType="circle"
-              [nzStatus]="item.budgetProgress?.progress > 100 ? 'exception' : 'normal'"
-              [nzWidth]="50"
-            ></nz-progress>
-            <nz-progress
-              *ngIf="!item.budgetProgress.started_at"
-              [nzPercent]="0"
-              nzType="circle"
-              nzStatus="exception"
-              [nzWidth]="50"
-            ></nz-progress>
-          </ng-template>
-        </nz-list-item-meta>
-        <ng-template #nzDrawerContent>
-          <div class="width-sm">
-            <p>
-              <nz-badge [nzColor]="item.transaction_type === 'expense' ? 'green' : 'red'" [nzText]="item.transaction_type_txt"></nz-badge>
-            </p>
-            <p nz-typography nzType="secondary" class="text-sm">{{ item.period_txt }}</p>
-          </div>
-          <div class="width-md" *ngIf="!item.budgetProgress.started_at">
-            <div class="text-grey-dark d-flex">
-              <div class="flex-1">{{ item.started_at | _date: 'yyyy-MM-dd' }}</div>
-              <div class="text-right">{{ item.ended_at | _date: 'yyyy-MM-dd' }}</div>
-            </div>
-          </div>
-          <div class="width-md" *ngIf="item.budgetProgress.started_at">
-            <div class="text-grey-dark d-flex">
-              <div class="flex-1">{{ item.budgetProgress.started_at | _date: 'yyyy-MM-dd' }}</div>
-              <div class="text-right">{{ item.budgetProgress.ended_at | _date: 'yyyy-MM-dd' }}</div>
-            </div>
-            <div class="text-grey-dark d-flex">
-              <div class="flex-1">{{ item.budgetProgress?.actual_amount }}</div>
-              <div class="text-right">{{ item.budgetProgress?.budget_amount }}</div>
-            </div>
+<nz-list [nzDataSource]="list" [nzLoading]="loading" [nzRenderItem]="item" [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }">
+  <ng-template #item let-item>
+    <g2-card
+      [title]="title"
+      [bordered]="true"
+      [total]="item.budgetProgress?.surplus_amount | _currency"
+      [footer]="footer"
+      [avatar]="avatar"
+      [action]="action"
+    >
+      <ng-template #title>
+        <strong>
+          <a routerLink="/budget/view/{{ item.id }}">{{ item.name }}</a>
+        </strong>
+        剩余额度
+      </ng-template>
+      <ng-template #avatar>
+        <nz-progress
+          *ngIf="item.budgetProgress.started_at"
+          [nzPercent]="item.budgetProgress?.progress"
+          nzType="circle"
+          [nzStatus]="item.budgetProgress?.progress > 100 ? 'exception' : 'normal'"
+          [nzWidth]="50"
+        ></nz-progress>
+        <nz-progress
+          *ngIf="!item.budgetProgress.started_at"
+          [nzPercent]="0"
+          nzType="circle"
+          nzStatus="exception"
+          [nzWidth]="50"
+        ></nz-progress>
+      </ng-template>
+      <ng-template #action>
+        <span class="pl-sm">
+          <i nz-icon nzType="edit" (click)="form(item)"></i>
+        </span>
+        <span class="pl-sm">
+          <i
+            nz-icon
+            nzType="delete"
+            nz-popconfirm
+            nzPopconfirmTitle="确定要删除帐户吗？如果帐户被删除，所有涉及的交易、规则和定时配置将永远失去。"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="delete(item)"
+          ></i>
+        </span>
+      </ng-template>
+      <div class="d-flex justify-content-between text-truncate">
+        <span>已用: {{ item.budgetProgress?.actual_amount }}</span>
+        <span class="pl-sm">预算: {{ item.budgetProgress?.budget_amount }}</span>
+      </div>
+      <ng-template #footer>
+        <sv-container size="small" col="2">
+          <sv label="进度" col="1">
             <nz-progress
               [nzPercent]="item.budgetProgress?.progress"
               [nzStatus]="item.budgetProgress?.progress > 100 ? 'exception' : 'normal'"
               [nzShowInfo]="false"
             ></nz-progress>
-          </div>
-        </ng-template>
-      </nz-list-item>
-    </ng-template>
-  </nz-list>
-</nz-card>
+          </sv>
+          <sv label="类别" col="1">{{ item.category_ids_txt }}</sv>
+          <sv label="时间">
+            {{ item.budgetProgress.started_at | _date: 'yyyy-MM-dd' }}～{{ item.budgetProgress.ended_at | _date: 'yyyy-MM-dd' }}
+          </sv>
+          <sv label="转结">{{ item.rollover ? '是' : '否' }}</sv>
+          <sv label="周期">{{ item.period_txt }}</sv>
+          <sv label="交易类型">
+            <nz-badge [nzColor]="item.transaction_type === 'expense' ? 'green' : 'red'" [nzText]="item.transaction_type_txt"></nz-badge>
+          </sv>
+          <sv label="包含标签">{{ item.include_tags }}</sv>
+          <sv label="排除标签">{{ item.exclude_tags }}</sv>
+        </sv-container>
+      </ng-template>
+    </g2-card>
+  </ng-template>
+</nz-list>

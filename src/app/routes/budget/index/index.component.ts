@@ -22,6 +22,7 @@ export class BudgetIndexComponent implements OnInit {
     name: '',
     transaction_type: '',
   };
+  overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
   url = '/api/budget-configs';
   searchSchema: SFSchema = {
