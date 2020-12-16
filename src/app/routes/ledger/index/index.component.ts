@@ -15,7 +15,7 @@ export class LedgerIndexComponent implements OnInit {
     pageSize: 50,
   };
   types: any[] = [];
-  list: Array<{ id: number; name: string; type: string; color: string; balance: string }> = [];
+  list: any[] = [];
 
   loading = true;
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
@@ -35,7 +35,12 @@ export class LedgerIndexComponent implements OnInit {
       .map(([key, value]) => (q[key] = value));
     this.q = q;
     this.http.get('/api/ledgers', this.q).subscribe((res) => {
-      this.list = res.data.items;
+      const data = res.data;
+      const list = [
+        { name: '我的账本', items: data.items.filter((item: any) => item.creator === true) },
+        { name: '他人账本', items: data.items.filter((item: any) => item.creator === false) },
+      ];
+      this.list = list.filter((item: any) => item.items.length > 0);
       this.loading = false;
       this.cdr.detectChanges();
     });

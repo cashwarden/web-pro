@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { CacheService } from '@delon/cache';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'app-ledger-form',
@@ -10,6 +12,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 export class LedgerFormComponent implements OnInit {
   record: any = {};
   types: [];
+  ledger_id = 0;
 
   form = {
     cover: '',
@@ -19,13 +22,14 @@ export class LedgerFormComponent implements OnInit {
     remark: '',
   };
 
+  constructor(private http: _HttpClient, private modal: NzModalRef, private msgSrv: NzMessageService, private cache: CacheService) {}
+
   ngOnInit(): void {
+    this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
     if (this.record.id) {
       this.form = this.record;
     }
   }
-
-  constructor(private http: _HttpClient, private modal: NzModalRef, private msgSrv: NzMessageService) {}
 
   save(value: any) {
     const url = this.record.id ? `/${this.record.id}` : '';
@@ -34,6 +38,9 @@ export class LedgerFormComponent implements OnInit {
       if (res.code !== 0) {
         this.msgSrv.warning(res.message);
         return;
+      }
+      if (this.ledger_id === res.data.id) {
+        this.cache.set(params.cacheKey.defaultLedger, res.data);
       }
       this.msgSrv.success('保存成功');
       this.modal.close(res.data);

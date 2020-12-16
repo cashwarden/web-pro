@@ -7,7 +7,10 @@
         <a (click)="form(record)" *ngIf="record.transaction"><i nz-icon nzType="edit" theme="outline"></i></a>
       </ng-template>
       <ng-template #recurrence>
-        <a (click)="recurrenceForm(record)" nz-tooltip nzTooltipTitle="添加定时记账">
+        <a disabled *ngIf="!record.creator" (click)="recurrenceForm(record)" nz-tooltip nzTooltipTitle="添加定时记账">
+          <i nz-icon nzType="field-time" theme="outline"></i>
+        </a>
+        <a *ngIf="record.creator" (click)="recurrenceForm(record)" nz-tooltip nzTooltipTitle="添加定时记账">
           <i nz-icon nzType="field-time" theme="outline"></i>
         </a>
       </ng-template>
