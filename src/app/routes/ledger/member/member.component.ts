@@ -1,11 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { CacheService } from '@delon/cache';
-import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { map } from 'rxjs/operators';
 import { params } from 'src/app/shared/params';
 import { LedgerMemberFormComponent } from './form/form.component';
 
@@ -95,7 +92,7 @@ export class LedgerMemberComponent implements OnInit {
     this.ledger = this.cache.getNone(params.cacheKey.defaultLedger);
     this.q.ledger_id = this.ledger.id;
 
-    this.href = `${window.location.origin}/#/passport/ledger-confirm?token=${this.ledger.hash_id}`;
+    this.href = `${window.location.origin}/#/ledger/confirm-join?token=${this.ledger.hash_id}`;
     this.getData();
   }
 
