@@ -55,12 +55,12 @@ export class LedgerMemberComponent implements OnInit {
           iif: (record) => record.status === 'archived',
           tooltip: `启用`,
         },
-        {
-          icon: 'folder-open',
-          click: (record) => this.updateStatus(record, 'archived'),
-          iif: (record) => record.rule !== 'owner' && record.status === 'normal',
-          tooltip: `归档`,
-        },
+        // {
+        //   icon: 'folder-open',
+        //   click: (record) => this.updateStatus(record, 'archived'),
+        //   iif: (record) => record.rule !== 'owner' && record.status === 'normal',
+        //   tooltip: `归档`,
+        // },
         {
           icon: 'delete',
           type: 'del',
