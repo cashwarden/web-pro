@@ -32,7 +32,7 @@ export class PricingIndexComponent {
     },
     {
       key: '1',
-      action: '微信记账',
+      action: '微信记账（2021）',
       pro: '✅',
       free: '✅',
     },
@@ -76,7 +76,7 @@ export class PricingIndexComponent {
       key: '1',
       action: '规则',
       pro: '无限',
-      free: '10个',
+      free: '5个',
     },
     {
       key: '1',
@@ -99,6 +99,12 @@ export class PricingIndexComponent {
     {
       key: '1',
       action: '投资类型账户（2021Q1）',
+      pro: '✅',
+      free: '❌',
+    },
+    {
+      key: '1',
+      action: '购物清单（2021Q1）',
       pro: '✅',
       free: '❌',
     },
