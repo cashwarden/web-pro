@@ -110,6 +110,12 @@ export class PricingIndexComponent {
     },
     {
       key: '1',
+      action: '日历图（2021Q1）',
+      pro: '✅',
+      free: '❌',
+    },
+    {
+      key: '1',
       action: 'API（2021Q1）',
       pro: '✅',
       free: '❌',
