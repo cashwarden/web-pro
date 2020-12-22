@@ -15,6 +15,8 @@ import { G2CustomModule } from '@delon/chart/custom';
 import { G2MiniProgressModule } from '@delon/chart/mini-progress';
 import { NumberInfoModule } from '@delon/chart/number-info';
 import { TrendModule } from '@delon/chart/trend';
+import { QRModule } from '@delon/abc/qr';
+import { LoadingModule } from '@delon/abc/loading';
 
 export const SHARED_DELON_MODULES = [
   PageHeaderModule,
@@ -33,5 +35,7 @@ export const SHARED_DELON_MODULES = [
   XlsxModule,
   NumberInfoModule,
   G2MiniProgressModule,
+  QRModule,
+  LoadingModule,
   // ReuseTabModule,
 ];

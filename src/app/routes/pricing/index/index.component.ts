@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STComponent } from '@delon/abc/st';
-import { SFSchema } from '@delon/form';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ModalHelper, SettingsService, User, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { PricingFormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-pricing-index',
@@ -110,6 +109,12 @@ export class PricingIndexComponent {
     },
     {
       key: '1',
+      action: '日历图（2021Q1）',
+      pro: '✅',
+      free: '❌',
+    },
+    {
+      key: '1',
       action: 'API（2021Q1）',
       pro: '✅',
       free: '❌',
@@ -126,9 +131,13 @@ export class PricingIndexComponent {
     return this.settings.user;
   }
 
-  constructor(private settings: SettingsService, private msg: NzMessageService) {}
+  constructor(private settings: SettingsService, private msg: NzMessageService, private modalHelper: ModalHelper) {}
 
   buy(): void {
-    this.msg.success('敬请期待');
+    this.modalHelper.static(PricingFormComponent).subscribe((res) => {
+      if (res) {
+        this.msg.info('支付成功');
+      }
+    });
   }
 }
