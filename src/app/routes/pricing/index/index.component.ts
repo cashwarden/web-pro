@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ModalHelper, SettingsService, User, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PricingFormComponent } from '../form/form.component';
@@ -9,7 +9,8 @@ import { PricingFormComponent } from '../form/form.component';
   styleUrls: ['./index.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PricingIndexComponent {
+export class PricingIndexComponent implements OnInit {
+  record: any;
   listOfData = [
     {
       key: '1',
@@ -131,11 +132,30 @@ export class PricingIndexComponent {
     return this.settings.user;
   }
 
-  constructor(private settings: SettingsService, private msg: NzMessageService, private modalHelper: ModalHelper) {}
+  constructor(
+    private settings: SettingsService,
+    private msg: NzMessageService,
+    private modalHelper: ModalHelper,
+    private http: _HttpClient,
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  getData(): void {
+    this.http.get('/api/users/pro').subscribe((res) => {
+      this.record = res.data;
+
+      this.cdr.detectChanges();
+    });
+  }
 
   buy(): void {
     this.modalHelper.static(PricingFormComponent).subscribe((res) => {
       if (res) {
+        this.getData();
         this.msg.info('支付成功');
       }
     });
