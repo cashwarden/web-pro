@@ -23,6 +23,7 @@ import { RecordGridComponent } from './record/grid.component';
 import { RecordModalComponent } from './record/modal.component';
 import { RecordRowsComponent } from './record/rows.component';
 import { RecordSearchComponent } from './search/search.component';
+import { UserUpgradeComponent } from './modal/user-upgrade/user-upgrade.component';
 
 // #region third libs
 
@@ -32,7 +33,14 @@ const THIRDMODULES = [NgxG2plotModule];
 
 // #region your componets & directives
 
-const COMPONENTS = [RecordSearchComponent, RecordGridComponent, ChartRelationComponent, RecordModalComponent, RecordRowsComponent];
+const COMPONENTS = [
+  RecordSearchComponent,
+  RecordGridComponent,
+  ChartRelationComponent,
+  RecordModalComponent,
+  RecordRowsComponent,
+  UserUpgradeComponent,
+];
 const DIRECTIVES = [];
 
 // #endregion

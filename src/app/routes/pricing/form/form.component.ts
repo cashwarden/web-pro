@@ -32,7 +32,7 @@ export class PricingFormComponent implements OnInit, OnDestroy {
   }
 
   checkReocrd(out_sn: string) {
-    this.http.get(`/api/users/user-pro-record/${out_sn}`).subscribe((res: any) => {
+    this.http.get(`/api/users/pro-record/${out_sn}`).subscribe((res: any) => {
       if (res.code !== 0) {
         this.msgSrv.warning(res.message);
         return;

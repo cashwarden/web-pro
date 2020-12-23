@@ -7,9 +7,10 @@
         </div>
         <sv-container size="small" col="1">
           <sv>
-            <span class="name">{{ user.name }}<i nz-icon nzIconfont="icon-pro" class="icon-sm badge-pro"></i></span>
+            <span class="name">{{ user.name }}<i nz-icon nzIconfont="icon-pro" class="icon-sm badge-pro" *ngIf="record"></i></span>
           </sv>
-          <sv label="会员有效期">2020年12月31日</sv>
+          <sv label="Pro 会员有效期" *ngIf="record">{{ record.ended_at | _date }}</sv>
+          <sv label="Free 会员有效期" *ngIf="!record">永久有效</sv>
         </sv-container>
       </div>
       <p>💗 付费支持 CashWarden ，我们不会出售您的数据，也不会投放广告，因此您的订阅是 CashWarden 不断创新的动力。</p>

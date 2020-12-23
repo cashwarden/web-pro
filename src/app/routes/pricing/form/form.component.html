@@ -4,5 +4,9 @@
 <div class="center">
   <nz-spin nzSimple *ngIf="!buy_url"></nz-spin>
   <qr [value]="buy_url" *ngIf="buy_url"></qr>
-  <p nz-typography>39/年</p>
+  <h3 nz-typography>39/年</h3>
+  <p nz-typography *ngIf="buy_url">
+    <nz-spin nzSimple [nzIndicator]="indicatorTemplate"> </nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i> 正在等待支付结果（支付成功之后，请勿手动关闭窗口）</ng-template>
+  </p>
 </div>
