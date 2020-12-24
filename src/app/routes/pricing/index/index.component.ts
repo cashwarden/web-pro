@@ -80,19 +80,19 @@ export class PricingIndexComponent implements OnInit {
     },
     {
       key: '1',
-      action: 'AA 账本（2020Q4）',
+      action: 'AA 账本',
       pro: '✅',
       free: '❌',
     },
     {
       key: '1',
-      action: '共享账本（2020Q4）',
+      action: '共享账本',
       pro: '✅',
       free: '❌',
     },
     {
       key: '1',
-      action: '预算（2020Q4）',
+      action: '预算',
       pro: '✅',
       free: '❌',
     },
@@ -104,7 +104,7 @@ export class PricingIndexComponent implements OnInit {
     },
     {
       key: '1',
-      action: '购物清单（2021Q1）',
+      action: '愿望清单',
       pro: '✅',
       free: '❌',
     },
