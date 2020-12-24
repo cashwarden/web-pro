@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <div class="modal-title">任务编辑</div>
+  <div class="modal-title">编辑记录</div>
 </div>
 
 <form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
@@ -49,7 +49,7 @@
       <nz-option *ngFor="let option of selectData['tags']" [nzLabel]="option.id" [nzValue]="option.name"></nz-option>
     </nz-select>
   </se>
-  <se label="描述" col="1">
+  <se label="描述" col="1" *ngIf="record && record.id">
     <input nz-input [(ngModel)]="form.description" name="description" />
   </se>
   <se label="备注" col="1">
