@@ -35,7 +35,7 @@
     <nz-input-group [nzAddOnAfter]="addOnAfterBtn">
       <input nz-input type="number" [(ngModel)]="form.currency_amount" name="currency_amount" required />
       <ng-template #addOnAfterBtn>
-        <nz-select [(ngModel)]="form.currency_code" name="currency_code" style="width: 80px;">
+        <nz-select [(ngModel)]="form.currency_code" name="currency_code" style="width: 80px">
           <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
         </nz-select>
       </ng-template>
@@ -48,6 +48,9 @@
     <nz-select [(ngModel)]="form.tags" nzMode="tags" name="tags">
       <nz-option *ngFor="let option of selectData['tags']" [nzLabel]="option.id" [nzValue]="option.name"></nz-option>
     </nz-select>
+  </se>
+  <se label="描述" col="1">
+    <input nz-input [(ngModel)]="form.description" name="description" />
   </se>
   <se label="备注" col="1">
     <textarea [(ngModel)]="form.remark" name="remark" nz-input rows="2"></textarea>

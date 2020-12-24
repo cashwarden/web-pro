@@ -24,6 +24,7 @@ export class RecordFormComponent implements OnInit {
     currency_code: 'CNY',
     category_id: '',
     tags: [],
+    description: '',
     remark: '',
     date: new Date(),
     reimbursement_status: 'none',
