@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <div class="modal-title">编辑愿望</div>
+</div>
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)">
+  <se label="名称">
+    <input nz-input [(ngModel)]="form.name" name="name" required />
+  </se>
+
+  <se label="金额">
+    <nz-input-group [nzAddOnAfter]="addOnAfterBtn">
+      <input nz-input type="number" [(ngModel)]="form.currency_amount" name="currency_amount" required />
+      <ng-template #addOnAfterBtn>
+        <nz-select [(ngModel)]="form.currency_code" name="currency_code" style="width: 80px">
+          <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
+        </nz-select>
+      </ng-template>
+    </nz-input-group>
+  </se>
+
+  <se label="备注">
+    <textarea [(ngModel)]="form.remark" name="remark" nz-input rows="4"></textarea>
+  </se>
+
+  <se col="1">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>

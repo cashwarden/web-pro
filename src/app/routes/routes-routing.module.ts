@@ -39,6 +39,7 @@ const routes: Routes = [
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule) },
       { path: 'rule', loadChildren: () => import('./rule/rule.module').then((m) => m.RuleModule) },
       { path: 'pricing', loadChildren: () => import('./pricing/pricing.module').then((m) => m.PricingModule) },
+      { path: 'wish-list', loadChildren: () => import('./wish-list/wish-list.module').then((m) => m.WishListModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ],

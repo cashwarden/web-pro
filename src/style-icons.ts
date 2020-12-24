@@ -26,6 +26,7 @@ import {
   ThunderboltOutline,
   WalletOutline,
   FunnelPlotOutline,
+  UnorderedListOutline,
 } from '@ant-design/icons-angular/icons';
 
 export const ICONS = [
@@ -55,4 +56,5 @@ export const ICONS = [
   ThunderboltOutline,
   ArrowLeftOutline,
   FunnelPlotOutline,
+  UnorderedListOutline,
 ];
