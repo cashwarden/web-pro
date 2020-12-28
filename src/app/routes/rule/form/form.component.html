@@ -57,7 +57,7 @@
     <nz-input-group [nzAddOnAfter]="addOnAfterBtn">
       <input nz-input type="number" [(ngModel)]="form.then_currency_amount" name="then_currency_amount" />
       <ng-template #addOnAfterBtn>
-        <nz-select [(ngModel)]="form.then_currency_code" name="then_currency_code" style="width: 80px;">
+        <nz-select [(ngModel)]="form.then_currency_code" name="then_currency_code" style="width: 80px">
           <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
         </nz-select>
       </ng-template>
@@ -68,6 +68,14 @@
     <nz-select [(ngModel)]="form.then_tags" nzMode="tags" name="then_tags">
       <nz-option *ngFor="let option of selectData['tags']" [nzLabel]="option.value" [nzValue]="option.value"></nz-option>
     </nz-select>
+  </se>
+
+  <se label="分配报销状态">
+    <nz-radio-group [(ngModel)]="form.then_reimbursement_status" nzButtonStyle="solid" name="then_reimbursement_status">
+      <label nz-radio-button nzValue="none"> <span>不需要</span> </label>
+      <label nz-radio-button nzValue="todo"> <span>待报销</span> </label>
+      <label nz-radio-button nzValue="done"> <span>已报销</span> </label>
+    </nz-radio-group>
   </se>
 
   <se label="排序">

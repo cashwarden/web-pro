@@ -122,6 +122,8 @@ export class AnalysisIndexComponent implements OnInit {
   open(id: number): void {
     this.q.category_id = id;
     this.q.pageSize = 100;
+    this.q.reimbursement_status = 'none,todo';
+    this.q.exclude_from_stats = 'false';
     this.modal.create(RecordModalComponent, { q: this.q }, { size: 'md' }).subscribe((res) => {});
   }
 }
