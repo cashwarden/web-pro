@@ -52,8 +52,16 @@
             {{ record.currency_code }}
             {{ record.currency_amount }}
           </p>
-          <nz-tag nzColor="warning" *ngIf="record.reimbursement_status === 'todo'" class="text-xs">待报销</nz-tag>
-          <nz-tag nzColor="success" *ngIf="record.reimbursement_status === 'done'" class="text-xs">已报销</nz-tag>
+          <nz-switch
+            nzSize="small"
+            [nzControl]="true"
+            [nzLoading]="reimbursement_status_loading"
+            *ngIf="record.reimbursement_status !== 'none'"
+            [ngModel]="record.reimbursement_status === 'todo'"
+            nzCheckedChildren="待报销"
+            nzUnCheckedChildren="已报销"
+            (click)="updateReimbursementStatus(record)"
+          ></nz-switch>
           <nz-tag nzColor="warning" *ngIf="record.exclude_from_stats" class="text-xs">不统计</nz-tag>
         </div>
       </ng-template>
