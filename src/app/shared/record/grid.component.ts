@@ -14,7 +14,8 @@ export class RecordGridComponent implements OnInit {
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
   loading = true;
-  loadingMore = true;
+  loadingMore = false;
+  reimbursement_status_loading = false;
   @Input() q: any = {};
   @Input() showLedger = false;
   @Input() resetSubject: Subject<boolean> = new Subject<boolean>();
@@ -38,8 +39,6 @@ export class RecordGridComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
-    this.loadingMore = true;
-
     const q = {};
     Object.entries(this.q)
       .filter(([, value]) => value !== null)
@@ -51,6 +50,8 @@ export class RecordGridComponent implements OnInit {
       this.pagination = res.data._meta;
       if (res.data._meta.pageCount <= res.data._meta.currentPage) {
         this.loadingMore = false;
+      } else {
+        this.loadingMore = true;
       }
       this.loading = false;
       this.cdr.detectChanges();
@@ -83,6 +84,22 @@ export class RecordGridComponent implements OnInit {
     });
   }
 
+  updateReimbursementStatus(record: any): void {
+    this.reimbursement_status_loading = true;
+    const status = record.reimbursement_status === 'done' ? 'todo' : 'done';
+    this.http.put(`/api/records/${record.id}/reimbursement-status`, { status: status }).subscribe((res) => {
+      if (res?.code !== 0) {
+        this.msg.warning(res?.message);
+        return;
+      }
+      this.reimbursement_status_loading = false;
+      record.reimbursement_status = status;
+      record.transaction.reimbursement_status = status;
+      this.msg.success('报销状态更新成功');
+      this.cdr.detectChanges();
+    });
+  }
+
   onLoadMore(): void {
     this.loadingMore = true;
     this.q.page++;
@@ -92,6 +109,7 @@ export class RecordGridComponent implements OnInit {
       if (res.data._meta.pageCount <= res.data._meta.currentPage) {
         this.loadingMore = false;
       }
+      this.cdr.detectChanges();
     });
   }
 }

@@ -15,6 +15,7 @@ export class RuleFormComponent implements OnInit {
     if_keywords: [],
     ledger_id: '',
     then_transaction_type: 'expense',
+    then_reimbursement_status: 'none',
     then_from_account_id: '',
     then_to_account_id: '',
     then_category_id: '',
