@@ -14,7 +14,7 @@ export class RecordGridComponent implements OnInit {
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
   loading = true;
-  loadingMore = true;
+  loadingMore = false;
   reimbursement_status_loading = false;
   @Input() q: any = {};
   @Input() showLedger = false;
@@ -39,8 +39,6 @@ export class RecordGridComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
-    this.loadingMore = true;
-
     const q = {};
     Object.entries(this.q)
       .filter(([, value]) => value !== null)
@@ -52,6 +50,8 @@ export class RecordGridComponent implements OnInit {
       this.pagination = res.data._meta;
       if (res.data._meta.pageCount <= res.data._meta.currentPage) {
         this.loadingMore = false;
+      } else {
+        this.loadingMore = true;
       }
       this.loading = false;
       this.cdr.detectChanges();
@@ -109,6 +109,7 @@ export class RecordGridComponent implements OnInit {
       if (res.data._meta.pageCount <= res.data._meta.currentPage) {
         this.loadingMore = false;
       }
+      this.cdr.detectChanges();
     });
   }
 }
