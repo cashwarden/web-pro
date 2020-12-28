@@ -27,6 +27,7 @@ export class RecordSearchComponent implements OnInit {
     { key: 'category_id', label: '分类' },
     { key: 'transaction_type', label: '类型' },
     { key: 'source', label: '来源' },
+    { key: 'reimbursement_status', label: '报销' },
   ];
 
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private datePipe: DatePipe, private cache: CacheService) {}
@@ -39,6 +40,7 @@ export class RecordSearchComponent implements OnInit {
     this.loadSelect('/api/tags', 'tags');
     this.loadSelect('/api/transactions/types', 'transaction_type');
     this.loadSelect('/api/records/sources', 'source');
+    this.loadSelect('/api/records/reimbursement-statuses', 'reimbursement_status');
   }
 
   loadSelect(url: string, key: string) {
@@ -47,7 +49,7 @@ export class RecordSearchComponent implements OnInit {
       if (res.data) {
         if (key === 'tags') {
           this.selectData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name }));
-        } else if (['transaction_type', 'source'].includes(key)) {
+        } else if (['transaction_type', 'source', 'reimbursement_status'].includes(key)) {
           this.selectData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name }));
         } else if (['account_id', 'category_id'].includes(key)) {
           this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
