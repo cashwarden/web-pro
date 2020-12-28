@@ -58,6 +58,13 @@
   <se label="不计入统计" col="1" *ngIf="form.type !== 'transfer'">
     <nz-switch [(ngModel)]="form.exclude_from_stats" name="exclude_from_stats"></nz-switch>
   </se>
+  <se label="报销状态">
+    <nz-radio-group [(ngModel)]="form.reimbursement_status" nzButtonStyle="solid" name="reimbursement_status">
+      <label nz-radio-button nzValue="none"> <span>不需要</span> </label>
+      <label nz-radio-button nzValue="todo"> <span>待报销</span> </label>
+      <label nz-radio-button nzValue="done"> <span>已报销</span> </label>
+    </nz-radio-group>
+  </se>
   <se col="1">
     <button nz-button type="button" (click)="close()">关闭</button>
     <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>

@@ -51,8 +51,10 @@
             {{ record.direction === 'expense' ? '-' : '' }}
             {{ record.currency_code }}
             {{ record.currency_amount }}
-            <nz-tag nzColor="warning" *ngIf="record.exclude_from_stats" class="text-xs">不计入</nz-tag>
           </p>
+          <nz-tag nzColor="warning" *ngIf="record.reimbursement_status === 'todo'" class="text-xs">待报销</nz-tag>
+          <nz-tag nzColor="success" *ngIf="record.reimbursement_status === 'done'" class="text-xs">已报销</nz-tag>
+          <nz-tag nzColor="warning" *ngIf="record.exclude_from_stats" class="text-xs">不统计</nz-tag>
         </div>
       </ng-template>
     </nz-list-item>
