@@ -60,6 +60,15 @@ export class CategoryIndexComponent implements OnInit {
     { title: '名称', renderTitle: 'customTitle', render: 'custom' },
     { title: '关键词', index: 'keywords' },
     { title: '交易类型', index: 'transaction_type_text' },
+    {
+      title: '默认',
+      type: 'badge',
+      index: 'default',
+      badge: {
+        1: { text: '是', color: 'success' },
+        0: { text: '否', color: 'default' },
+      },
+    },
     { title: '排序', index: 'sort' },
     { title: '时间', type: 'date', index: 'updated_at' },
     {
