@@ -18,6 +18,7 @@ export class CategoryFormComponent implements OnInit {
     transaction_type: 'expense',
     sort: 99,
     icon_name: '',
+    default: false,
   };
   icons: [];
 

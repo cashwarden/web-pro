@@ -25,6 +25,10 @@
     </nz-radio-group>
   </se>
 
+  <se label="默认账号" col="1">
+    <nz-switch [(ngModel)]="form.default" name="default"></nz-switch>
+  </se>
+
   <se label="排序">
     <input type="number" nz-input [(ngModel)]="form.sort" name="sort" required />
   </se>
