@@ -1,0 +1,19 @@
+<nz-alert nzType="warning" nzMessage="注意！此功能只为 Pro 并且已经绑定 Telegram 的用户使用"></nz-alert>
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100" class="pt-lg">
+  <se label="日报" extra="每天早上 10 点报告昨日消费汇总">
+    <nz-switch [(ngModel)]="form.daily_report" nzCheckedChildren="开" nzUnCheckedChildren="关" name="daily_report"></nz-switch>
+  </se>
+
+  <se label="周报" extra="每周一早上 10 点报告上周消费汇总">
+    <nz-switch [(ngModel)]="form.weekly_report" nzCheckedChildren="开" nzUnCheckedChildren="关" name="weekly_report"></nz-switch>
+  </se>
+
+  <se label="月报" extra="每月 1 号早上 10 点报告上个月消费汇总">
+    <nz-switch [(ngModel)]="form.monthly_report" nzCheckedChildren="开" nzUnCheckedChildren="关" name="monthly_report"></nz-switch>
+  </se>
+
+  <se col="1">
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>

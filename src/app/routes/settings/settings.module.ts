@@ -4,9 +4,16 @@ import { SettingsBaseComponent } from './personal/base/base.component';
 import { SettingsBindingComponent } from './personal/binding/binding.component';
 import { SettingsPasswordComponent } from './personal/password/password.component';
 import { SettingsPersonalComponent } from './personal/personal.component';
+import { SettingsReportComponent } from './personal/report/report.component';
 import { SettingsRoutingModule } from './settings-routing.module';
 
-const COMPONENTS = [SettingsPersonalComponent, SettingsBaseComponent, SettingsBindingComponent, SettingsPasswordComponent];
+const COMPONENTS = [
+  SettingsPersonalComponent,
+  SettingsBaseComponent,
+  SettingsBindingComponent,
+  SettingsPasswordComponent,
+  SettingsReportComponent,
+];
 const COMPONENTS_NOROUNT = [];
 
 @NgModule({
