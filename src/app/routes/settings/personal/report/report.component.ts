@@ -23,8 +23,6 @@ export class SettingsReportComponent implements OnInit {
   }
 
   save(value: any): void {
-    console.log(value);
-
     this.http.post(this.url, value).subscribe((res: any) => {
       if (res.code !== 0) {
         this.msg.warning(res.message);
