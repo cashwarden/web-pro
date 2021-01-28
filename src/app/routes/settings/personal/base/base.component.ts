@@ -29,7 +29,6 @@ export class SettingsBaseComponent implements OnInit {
   ngOnInit() {
     this.titleSrv.setTitle('基本设置');
     this.load();
-    console.log(this.form);
   }
 
   save(value: any): void {

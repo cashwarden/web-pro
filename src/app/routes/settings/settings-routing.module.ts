@@ -4,6 +4,7 @@ import { SettingsBaseComponent } from './personal/base/base.component';
 import { SettingsBindingComponent } from './personal/binding/binding.component';
 import { SettingsPasswordComponent } from './personal/password/password.component';
 import { SettingsPersonalComponent } from './personal/personal.component';
+import { SettingsReportComponent } from './personal/report/report.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'base', component: SettingsBaseComponent },
       { path: 'binding', component: SettingsBindingComponent },
       { path: 'password', component: SettingsPasswordComponent },
+      { path: 'report', component: SettingsReportComponent },
     ],
   },
 ];

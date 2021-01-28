@@ -28,6 +28,10 @@ export class SettingsPersonalComponent implements AfterViewInit, OnDestroy {
       key: 'binding',
       title: '账号绑定',
     },
+    {
+      key: 'report',
+      title: '设置报告',
+    },
   ];
   constructor(private router: Router, private cdr: ChangeDetectorRef, private el: ElementRef<HTMLElement>) {
     this.router$ = this.router.events.pipe(filter((e) => e instanceof ActivationEnd)).subscribe(() => this.setActive());
