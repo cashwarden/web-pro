@@ -44,7 +44,7 @@
     "ajv": "^6.12.6",
     "file-saver": "^2.0.5",
     "ng-alain": "^10.1.2",
-    "ng-zorro-antd": "^10.2.0",
+    "ng-zorro-antd": "^11.1.0",
     "ngx-g2plot": "^0.0.8",
     "rxjs": "~6.5.5",
     "screenfull": "^5.0.2",
