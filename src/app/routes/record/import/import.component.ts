@@ -1,14 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { CacheService } from '@delon/cache';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'app-record-import',
   templateUrl: './import.component.html',
 })
 export class RecordImportComponent {
+  url: string;
   dataSet = [
     { column_name: '账单日期', description: '消费时间, 常见的时间格式都支持，如：「2020-09-08 20:35」 「2020-09-08」', required: '是' },
     { column_name: '类别', description: '账单类别，必须已经存在的分类', required: '是' },
@@ -25,7 +28,10 @@ export class RecordImportComponent {
     { column_name: '账户2', description: '转账类型时的转入账户', required: '交易类型为「转账」时必填' },
   ];
 
-  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {}
+  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient, private cache: CacheService) {
+    const ledger_id = cache.getNone(params.cacheKey.defaultIdLedger);
+    this.url = `/api/transactions/upload?ledger_id=${ledger_id}`;
+  }
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
     const status = file.status;
