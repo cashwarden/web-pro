@@ -60,7 +60,7 @@ export class HeaderInputComponent {
     const data = { description: this.description };
     this.http.post('/api/transactions/by-description?expand=ledger,category,fromAccount,toAccount', data).subscribe((res) => {
       if (res.code !== 0) {
-        this.notification.create('error', '快速记账失败', res.message);
+        this.notification.create('error', '操作失败', res.message);
         return;
       }
       if (res.data.date) {
