@@ -63,15 +63,20 @@ export class HeaderInputComponent {
         this.notification.create('error', '快速记账失败', res.message);
         return;
       }
-      const date = format(new Date(res.data.date), 'yyyy-MM-dd HH:mm');
-      const toAccount = res.data.toAccount ? ` | 收款账户：${res.data.toAccount.name} ` : '';
-      const fromAccount = res.data.fromAccount ? ` | 支付账户：${res.data.fromAccount.name} ` : '';
+      if (res.data.date) {
+        const date = format(new Date(res.data.date), 'yyyy-MM-dd HH:mm');
+        const toAccount = res.data.toAccount ? ` | 收款账户：${res.data.toAccount.name} ` : '';
+        const fromAccount = res.data.fromAccount ? ` | 支付账户：${res.data.fromAccount.name} ` : '';
 
-      this.notification.create(
-        'success',
-        '快速记账成功',
-        `账本：${res.data.ledger.name} | 分类：${res.data.category.name} ${toAccount}  ${fromAccount} | 日期：${date}`,
-      );
+        this.notification.create(
+          'success',
+          '快速记账成功',
+          `账本：${res.data.ledger.name} | 分类：${res.data.category.name} ${toAccount}  ${fromAccount} | 日期：${date}`,
+        );
+      } else {
+        this.notification.create('success', '余额调整成功', `账号：${res.data.name}`);
+      }
+
       this.description = '';
       this.cdr.detectChanges();
     });
