@@ -42,6 +42,7 @@ const routes: Routes = [
       { path: 'wish-list', loadChildren: () => import('./wish-list/wish-list.module').then((m) => m.WishListModule) },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
+      { path: 'assets', loadChildren: () => import('./assets/assets.module').then((m) => m.AssetsModule) },
     ],
   },
   // 全屏布局
