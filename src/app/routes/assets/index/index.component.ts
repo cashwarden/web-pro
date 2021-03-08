@@ -11,7 +11,7 @@ export class AssetsIndexComponent implements OnInit {
   q: any = {
     page: 1,
     pageSize: 50,
-    status: 'active',
+    status: '',
     type: 'investment_account',
     expand: 'incomeSum',
   };
