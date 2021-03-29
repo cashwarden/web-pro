@@ -79,7 +79,7 @@ export class LedgerIndexComponent implements OnInit {
   }
 
   delete(record: any): void {
-    this.http.delete(`/api/accounts/${record.id}`).subscribe((res) => {
+    this.http.delete(`/api/ledgers/${record.id}`).subscribe((res) => {
       if (res?.code !== 0) {
         this.msg.warning(res?.message);
         return;
