@@ -16,6 +16,7 @@ export class RecordGridComponent implements OnInit {
   loading = true;
   loadingMore = false;
   reimbursement_status_loading = false;
+  exclude_from_stats_loading = false;
   @Input() q: any = {};
   @Input() showLedger = false;
   @Input() resetSubject: Subject<boolean> = new Subject<boolean>();
@@ -87,7 +88,7 @@ export class RecordGridComponent implements OnInit {
   updateReimbursementStatus(record: any): void {
     this.reimbursement_status_loading = true;
     const status = record.reimbursement_status === 'done' ? 'todo' : 'done';
-    this.http.put(`/api/records/${record.id}/reimbursement-status`, { status: status }).subscribe((res) => {
+    this.http.put(`/api/records/${record.id}/reimbursement_status/status`, { status }).subscribe((res) => {
       if (res?.code !== 0) {
         this.msg.warning(res?.message);
         return;
@@ -96,6 +97,24 @@ export class RecordGridComponent implements OnInit {
       record.reimbursement_status = status;
       record.transaction.reimbursement_status = status;
       this.msg.success('报销状态更新成功');
+      this.cdr.detectChanges();
+    });
+  }
+
+  updateExcludeFromStats(record: any): void {
+    this.exclude_from_stats_loading = true;
+    const status = record.exclude_from_stats === true ? false : true;
+    this.http.put(`/api/records/${record.id}/exclude_from_stats/status`, { status }).subscribe((res) => {
+      if (res?.code !== 0) {
+        this.msg.warning(res?.message);
+        return;
+      }
+      this.exclude_from_stats_loading = false;
+      record.exclude_from_stats = status;
+      if (record.transaction) {
+        record.transaction.exclude_from_stats = status;
+      }
+      this.msg.success('更新成功');
       this.cdr.detectChanges();
     });
   }

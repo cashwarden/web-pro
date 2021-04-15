@@ -63,6 +63,15 @@
             nzUnCheckedChildren="已报销"
             (click)="updateReimbursementStatus(record)"
           ></nz-switch>
+          <nz-switch
+            nzSize="small"
+            [nzControl]="true"
+            [nzLoading]="exclude_from_stats_loading"
+            [ngModel]="record.exclude_from_stats"
+            nzCheckedChildren="不统计"
+            nzUnCheckedChildren="统计"
+            (click)="updateExcludeFromStats(record)"
+          ></nz-switch>
         </div>
       </ng-template>
     </nz-list-item>
