@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import { getTimeDistance } from '@delon/util';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AccountFormComponent } from '../../account/form/form.component';
 
@@ -8,12 +10,17 @@ import { AccountFormComponent } from '../../account/form/form.component';
   templateUrl: './index.component.html',
 })
 export class AssetsIndexComponent implements OnInit {
+  date: any;
+  r: any = {
+    date: '',
+  };
   q: any = {
     page: 1,
     pageSize: 50,
     status: '',
     type: 'investment_account',
     expand: 'incomeSum',
+    date: '',
   };
   accountSorts = [
     { value: '-balance_cent', label: '余额倒序' },
@@ -29,7 +36,13 @@ export class AssetsIndexComponent implements OnInit {
   loading = true;
   overview: { count: number; init_balance_sum: number; income_sum: number; balance_sum: number };
 
-  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private http: _HttpClient,
+    private msg: NzMessageService,
+    private modal: ModalHelper,
+    private cdr: ChangeDetectorRef,
+    private datePipe: DatePipe,
+  ) {}
 
   ngOnInit(): void {
     this.getOverview();
@@ -51,7 +64,10 @@ export class AssetsIndexComponent implements OnInit {
   }
 
   getOverview(): void {
-    this.http.get('/api/investments/overview').subscribe((res) => {
+    if (this.date) {
+      this.r.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
+    }
+    this.http.get('/api/investments/overview', this.r).subscribe((res) => {
       if (res?.code !== 0) {
         this.msg.warning(res?.message);
         return;
@@ -62,13 +78,21 @@ export class AssetsIndexComponent implements OnInit {
   }
 
   search(): void {
+    if (this.date) {
+      this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
+    }
     this.getData();
+    this.getOverview();
   }
 
   reset(): void {
     this.q = {
       page: 1,
       pageSize: 50,
+      status: '',
+      type: 'investment_account',
+      expand: 'incomeSum',
+      date: '',
     };
     this.getData();
   }
@@ -91,5 +115,10 @@ export class AssetsIndexComponent implements OnInit {
       this.getOverview();
       this.msg.success('删除成功');
     });
+  }
+
+  setDate(type: 'today' | 'week' | 'month' | 'year'): void {
+    this.date = getTimeDistance(type);
+    setTimeout(() => this.cdr.detectChanges());
   }
 }

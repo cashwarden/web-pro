@@ -38,7 +38,11 @@
         <nz-option *ngFor="let i of accountSorts" [nzLabel]="i.label" [nzValue]="i.value"></nz-option>
       </nz-select>
     </se>
-
+    <se label="日期" col="3">
+      <nz-range-picker [(ngModel)]="date" name="date"></nz-range-picker>
+      <a (click)="setDate('today')" class="data-extra">今天</a> / <a (click)="setDate('week')">本周</a> /
+      <a (click)="setDate('month')">本月</a> / <a (click)="setDate('year')">本年</a>
+    </se>
     <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
     <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
   </form>
