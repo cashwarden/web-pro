@@ -3,7 +3,6 @@ import { SharedModule } from '@shared';
 import { LayoutDefaultComponent } from './default/default.component';
 import { HeaderFullScreenComponent } from './default/header/components/fullscreen.component';
 import { HeaderI18nComponent } from './default/header/components/i18n.component';
-import { HeaderIconComponent } from './default/header/components/icon.component';
 import { HeaderInputComponent } from './default/header/components/input.component';
 import { HeaderNotifyComponent } from './default/header/components/notify.component';
 import { HeaderStorageComponent } from './default/header/components/storage.component';
@@ -23,7 +22,6 @@ const HEADERCOMPONENTS = [
   HeaderInputComponent,
   HeaderNotifyComponent,
   HeaderTaskComponent,
-  HeaderIconComponent,
   HeaderFullScreenComponent,
   HeaderI18nComponent,
   HeaderStorageComponent,
