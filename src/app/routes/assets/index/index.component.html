@@ -79,7 +79,7 @@
 
       <ng-template #footer>
         <sv-container size="small" col="2">
-          <sv label="累计收益">{{ item.incomeSum }}</sv>
+          <sv label="累计收益">{{ statistics[item.id]['income_sum'] }}</sv>
           <sv label="年化收益率">--</sv>
         </sv-container>
       </ng-template>

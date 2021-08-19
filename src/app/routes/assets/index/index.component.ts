@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { getTimeDistance } from '@delon/util';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { zip } from 'rxjs';
 import { AccountFormComponent } from '../../account/form/form.component';
 
 @Component({
@@ -14,6 +15,7 @@ export class AssetsIndexComponent implements OnInit {
   r: any = {
     date: '',
   };
+  statistics: any;
   q: any = {
     page: 1,
     pageSize: 50,
@@ -56,11 +58,22 @@ export class AssetsIndexComponent implements OnInit {
       .filter(([, value]) => value !== null)
       .map(([key, value]) => (q[key] = value));
     this.q = q;
-    this.http.get('/api/accounts', this.q).subscribe((res) => {
-      this.list = res.data.items;
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
+    zip(this.http.get('/api/accounts', this.q), this.http.get('/api/investments/statistics', this.q)).subscribe(
+      ([accounts, statistics]: [any, any]) => {
+        this.list = accounts.data.items;
+        this.statistics = statistics.data;
+        console.log(this.statistics);
+
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+    );
+
+    // this.http.get('/api/accounts', this.q).subscribe((res) => {
+    //   this.list = res.data.items;
+    //   this.loading = false;
+    //   this.cdr.detectChanges();
+    // });
   }
 
   getOverview(): void {

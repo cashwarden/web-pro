@@ -5,7 +5,6 @@ import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { G2TagCloudData } from '@delon/chart/tag-cloud';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
-import { zip } from 'rxjs';
 import { params } from 'src/app/shared/params';
 
 @Component({
