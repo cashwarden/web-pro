@@ -27,15 +27,15 @@
         <ul class="rank-list" *ngIf="water">
           <li>
             <span class="title">累计结余</span>
-            <span class="value">{{ water.overview.surplus | _currency }}</span>
+            <span class="value">{{ water.overview.surplus | price }}</span>
           </li>
           <li>
             <span class="title">累计支出</span>
-            <span class="value">{{ water.overview.expense | _currency }}</span>
+            <span class="value">{{ water.overview.expense | price }}</span>
           </li>
           <li>
             <span class="title">累计收入</span>
-            <span class="value">{{ water.overview.income | _currency }}</span>
+            <span class="value">{{ water.overview.income | price }}</span>
           </li>
         </ul>
       </div>

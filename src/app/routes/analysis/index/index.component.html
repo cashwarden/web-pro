@@ -9,7 +9,7 @@
           [hasLegend]="true"
           title="总支出"
           subTitle="总支出"
-          [total]="pieData.total.expense | _currency"
+          [total]="pieData.total.expense | price"
           [valueFormat]="handlePieValueFormat"
           [data]="pieData.expense"
           height="295"
@@ -20,7 +20,7 @@
           [hasLegend]="true"
           title="总收入"
           subTitle="总收入"
-          [total]="pieData.total.income | _currency"
+          [total]="pieData.total.income | price"
           [valueFormat]="handlePieValueFormat"
           [data]="pieData.income"
           height="295"
@@ -71,13 +71,13 @@
             <tr>
               <td><strong>合计</strong></td>
               <td class="text-right">
-                <strong>{{ (data?.total)[type] | _currency }}</strong>
+                <strong>{{ (data?.total)[type] | price }}</strong>
               </td>
             </tr>
             <tr *ngIf="type === 'income'">
               <td><strong>结余</strong></td>
               <td class="text-right">
-                <strong>{{ data.total.surplus | _currency }}</strong>
+                <strong>{{ data.total.surplus | price }}</strong>
               </td>
             </tr>
           </ng-template>

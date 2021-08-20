@@ -22,13 +22,6 @@ const alainConfig: AlainConfig = {
 const alainModules = [AlainThemeModule.forRoot(), DelonACLModule.forRoot(), DelonMockModule.forRoot()];
 const alainProvides = [{ provide: ALAIN_CONFIG, useValue: alainConfig }];
 
-// mock
-import { environment } from '@env/environment';
-import * as MOCKDATA from '../../_mock';
-if (!environment.production) {
-  alainConfig.mock = { data: MOCKDATA };
-}
-
 // #region reuse-tab
 /**
  * 若需要[路由复用](https://ng-alain.com/components/reuse-tab)需要：

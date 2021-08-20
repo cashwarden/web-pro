@@ -153,7 +153,7 @@ export class PricingIndexComponent implements OnInit {
   }
 
   buy(): void {
-    this.modalHelper.static(PricingFormComponent).subscribe((res) => {
+    this.modalHelper.createStatic(PricingFormComponent).subscribe((res) => {
       if (res) {
         this.getData();
         this.msg.info('支付成功');

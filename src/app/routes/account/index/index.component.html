@@ -57,7 +57,7 @@
 
 <nz-list [nzDataSource]="list" [nzLoading]="loading" [nzRenderItem]="item" [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }">
   <ng-template #item let-item>
-    <g2-card [title]="title" [bordered]="true" [total]="item.balance | _currency" [footer]="footer" [avatar]="avatar" [action]="action">
+    <g2-card [title]="title" [bordered]="true" [total]="item.balance | price" [footer]="footer" [avatar]="avatar" [action]="action">
       <ng-template #title>
         <a routerLink="/account/view/{{ item.id }}">{{ item.name }}</a>
       </ng-template>
