@@ -37,6 +37,7 @@ jobs:
           ng build --prod
 
       - name: Copy folder content recursively to remote
+        if: github.ref == 'refs/heads/master'
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -avuz
@@ -47,6 +48,7 @@ jobs:
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Slack Workflow Notification
+        if: github.ref == 'refs/heads/master'
         uses: Gamesight/slack-workflow-status@master
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
