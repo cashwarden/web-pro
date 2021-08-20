@@ -1,6 +1,6 @@
 {
   "name": "cashwarden-web",
-  "version": "0.0.0",
+  "version": "0.13.0",
   "scripts": {
     "ng-high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng",
     "ng": "ng",
@@ -63,7 +63,7 @@
     "@types/jszip": "^3.1.7",
     "@types/node": "^12.19.8",
     "codelyzer": "^6.0.0",
-    "husky": "^4.3.0",
+    "husky": "^7.0.1",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.2.3",
