@@ -17,7 +17,7 @@ import { G2MiniAreaModule } from '@delon/chart/mini-area';
 import { G2PieModule } from '@delon/chart/pie';
 import { G2TagCloudModule } from '@delon/chart/tag-cloud';
 import { G2WaterWaveModule } from '@delon/chart/water-wave';
-import { NgxG2plotModule } from 'ngx-g2plot';
+import { G2plotBarModule } from 'ngx-g2plot';
 import { ChartRelationComponent } from './chart/relation.component';
 import { RecordGridComponent } from './record/grid.component';
 import { RecordModalComponent } from './record/modal.component';
@@ -27,7 +27,7 @@ import { UserUpgradeComponent } from './modal/user-upgrade/user-upgrade.componen
 
 // #region third libs
 
-const THIRDMODULES = [NgxG2plotModule];
+const THIRDMODULES = [G2plotBarModule];
 
 // #endregion
 
