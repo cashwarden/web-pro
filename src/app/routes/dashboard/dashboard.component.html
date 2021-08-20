@@ -17,7 +17,7 @@
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
     <nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="日支出曲线" [nzBordered]="false" class="mb-0">
-      <div starkG2plotArea *ngIf="recordsAnalysisData" [options]="recordsAnalysisData"></div>
+      <g2-bar *ngIf="!recordsAnalysisLoading" height="270" [data]="recordsAnalysisData"></g2-bar>
     </nz-card>
   </div>
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
@@ -46,7 +46,17 @@
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
     <nz-card [nzLoading]="loading" nzTitle="本月支出分类" [nzBordered]="false" class="sales-card mb-0">
-      <app-chart-relation *ngIf="categoriesData" [items]="categoriesData.items"></app-chart-relation>
+      <g2-pie
+        *ngIf="categoriesData"
+        [data]="categoriesData"
+        [hasLegend]="true"
+        [height]="300"
+        [lineWidth]="4"
+        [total]="categoriesTotal"
+        [valueFormat]="handleValueFormat"
+        subTitle="本月总支出"
+      >
+      </g2-pie>
     </nz-card>
     <nz-card nzTitle="热门标签" [nzBordered]="false" class="my-card-body">
       <g2-tag-cloud [data]="tags" [height]="165" *ngIf="tags"></g2-tag-cloud>
