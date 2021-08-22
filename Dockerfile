@@ -7,7 +7,7 @@ WORKDIR /srv
 
 COPY package*.json ./
 
-RUN npm install
+RUN  npm ci && npm install -g @angular/cli
 
 #################################
 # STEP 2: Build
@@ -18,7 +18,7 @@ WORKDIR /srv
 
 COPY . .
 
-RUN npm run build -- --prod --build-optimizer
+RUN ng build --prod
 
 #################################
 # STEP 3: Deployment
