@@ -1,0 +1,25 @@
+policy:
+  approval:
+    - unprotected
+    - cashwarden approved
+  disapproval:
+    requires:
+      organizations:
+        - cashwarden
+approval_rules:
+  - name: unprotected
+    requires:
+      count: 0
+  - name: cashwarden approved
+    if:
+      targets_branch:
+        pattern: ^development|^release|^master$
+    options:
+      allow_author: true
+      allow_contributor: true
+      invalidate_on_push: true
+      ignore_update_merges: true
+    requires:
+      count: 1
+      organizations:
+        - cashwarden
