@@ -23,10 +23,11 @@ import { RecordModalComponent } from './record/modal.component';
 import { RecordRowsComponent } from './record/rows.component';
 import { RecordSearchComponent } from './search/search.component';
 import { UserUpgradeComponent } from './modal/user-upgrade/user-upgrade.component';
+import { G2plotAreaModule } from 'ngx-g2plot';
 
 // #region third libs
 
-const THIRDMODULES = [];
+const THIRDMODULES = [G2plotAreaModule];
 
 // #endregion
 

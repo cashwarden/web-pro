@@ -48,6 +48,7 @@
     "ng-alain": "^11.10.4",
     "ng-zorro-antd": "~11.4.2",
     "ngx-countdown": "^11.0.1",
+    "ngx-g2plot": "^2.2.0",
     "rxjs": "~6.5.5",
     "screenfull": "^5.0.2",
     "tslib": "^2.0.0",
