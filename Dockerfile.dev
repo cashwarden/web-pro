@@ -1,7 +1,7 @@
 #################################
 # Development
 #################################
-FROM node:13-alpine as build-stage
+FROM node:15-alpine as build-stage
 
 WORKDIR /app
 
