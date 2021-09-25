@@ -1,22 +1,23 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { CacheService } from '@delon/cache';
-import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { params } from 'src/app/shared/params';
-import { TagFormComponent } from '../form/form.component';
+import { CurrencyFormComponent } from '../form/form.component';
+
 
 @Component({
-  selector: 'app-tag-index',
+  selector: 'app-currency-index',
   templateUrl: './index.component.html',
 })
-export class TagIndexComponent implements OnInit {
+export class CurrencyIndexComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
 
   loading = true;
   pagination: {};
   list: any[] = [];
+  ledger: any;
   q = {
     page: 1,
     pageSize: 100,
@@ -24,17 +25,10 @@ export class TagIndexComponent implements OnInit {
     ledger_id: 0,
   };
 
-  searchSchema: SFSchema = {
-    properties: {
-      name: {
-        type: 'string',
-        title: '名称',
-      },
-    },
-  };
   columns: STColumn[] = [
-    { title: '名称', index: 'name' },
-    { title: '次数', index: 'count' },
+    { title: '货币', index: 'currency_code_from' },
+    { title: '汇率', index: 'rate' },
+    { title: '描述', render: 'custom' },
     { title: '时间', type: 'date', index: 'updated_at' },
     {
       title: '',
@@ -57,18 +51,29 @@ export class TagIndexComponent implements OnInit {
       ],
     },
   ];
+  codes: [{ code: string, name: string }];
+  base_currency_code: string;
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private cache: CacheService, private msg: NzMessageService) {
+  constructor(
+    private http: _HttpClient,
+    private modal: ModalHelper,
+    private cache: CacheService,
+    private msg: NzMessageService,
+    private cdr: ChangeDetectorRef,
+  ) {
   }
 
   ngOnInit() {
     this.getData();
+    this.loadCodes();
+    this.ledger = this.cache.getNone(params.cacheKey.defaultLedger);
+    this.base_currency_code = this.ledger.base_currency_code;
   }
 
   getData(): void {
     this.loading = true;
     this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
-    this.http.get('/api/tags', this.q).subscribe((res) => {
+    this.http.get('/api/currencies', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       this.loading = false;
@@ -76,9 +81,12 @@ export class TagIndexComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(TagFormComponent, { record }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(
+      CurrencyFormComponent,
+      { record: record, codes: this.codes, base_currency_code: this.base_currency_code },
+      { size: 'md' },
+    ).subscribe((res) => {
       if (record.id) {
-        // record = res;
         this.getData();
       } else {
         this.list.splice(0, 0, res);
@@ -88,7 +96,7 @@ export class TagIndexComponent implements OnInit {
   }
 
   delete(record: any, comp): void {
-    this.http.delete(`/api/tags/${record.id}`).subscribe((res) => {
+    this.http.delete(`/api/currencies/${record.id}`).subscribe((res) => {
       if (res?.code !== 0) {
         this.msg.warning(res?.message);
         return;
@@ -97,6 +105,17 @@ export class TagIndexComponent implements OnInit {
       comp!.removeRow(record);
       // this.getData();
       this.msg.success('删除成功');
+    });
+  }
+
+  loadCodes(): void {
+    this.http.get('/api/currencies/codes').subscribe((res: any) => {
+      if (res.code !== 0) {
+        this.msg.warning(res.message);
+        return;
+      }
+      this.codes = res.data.filter((item: { code: string, name: string }) => item.code !== this.base_currency_code);
+      this.cdr.detectChanges();
     });
   }
 

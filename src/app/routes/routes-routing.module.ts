@@ -33,7 +33,10 @@ const routes: Routes = [
       { path: 'ledger', loadChildren: () => import('./ledger/ledger.module').then((m) => m.LedgerModule) },
       { path: 'record', loadChildren: () => import('./record/record.module').then((m) => m.RecordModule) },
       { path: 'budget', loadChildren: () => import('./budget/budget.module').then((m) => m.BudgetModule) },
-      { path: 'recurrence', loadChildren: () => import('./recurrence/recurrence.module').then((m) => m.RecurrenceModule) },
+      {
+        path: 'recurrence',
+        loadChildren: () => import('./recurrence/recurrence.module').then((m) => m.RecurrenceModule),
+      },
       { path: 'analysis', loadChildren: () => import('./analysis/analysis.module').then((m) => m.AnalysisModule) },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then((m) => m.ExceptionModule) },
       { path: 'settings', loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule) },
@@ -43,7 +46,7 @@ const routes: Routes = [
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
       { path: 'assets', loadChildren: () => import('./assets/assets.module').then((m) => m.AssetsModule) },
-    ],
+      { path: 'currency', loadChildren: () => import('./currency/currency.module').then((m) => m.CurrencyModule) }],
   },
   // 全屏布局
   // {
@@ -83,4 +86,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule {
+}

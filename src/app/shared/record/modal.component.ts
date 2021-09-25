@@ -10,7 +10,6 @@ export class RecordModalComponent implements OnInit {
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
   loading = true;
-  loadingMore = true;
   @Input() q: any = {};
 
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef) {}

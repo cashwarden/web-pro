@@ -35,10 +35,12 @@
       </nz-list-item-meta>
       <ng-template #nzContent>
         <div class="width-sm" *ngIf="showLedger && record.ledger">
-          <p nz-typography nzType="secondary" class="text-sm">账本：{{ record.ledger.name }}</p>
+          <div nz-typography nzType="secondary" class="text-sm">账本：{{ record.ledger.name }}</div>
         </div>
         <div class="width-sm">
-          <p><nz-badge [nzColor]="record.account?.color" [nzText]="record.account?.name"></nz-badge></p>
+          <div>
+            <nz-badge [nzColor]="record.account?.color" [nzText]="record.account?.name"></nz-badge>
+          </div>
           <span nz-typography nzType="secondary">{{ record.date | _date }}</span>
         </div>
         <div class="width-sm">
@@ -48,11 +50,16 @@
           <nz-tag nzColor="warning" *ngIf="record.exclude_from_stats" class="text-xs">不统计</nz-tag>
         </div>
         <div class="width-sm">
-          <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
+          <div  [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
             {{ record.direction === 'expense' ? '-' : '' }}
             {{ record.currency_code }}
             {{ record.currency_amount }}
-          </p>
+          </div>
+          <span nz-typography class="text-xs" nzType="secondary" *ngIf="record.currency_code !== record.ledger.base_currency_code">
+            ~
+            {{ record.ledger.base_currency_code }}
+            {{ record.amount }}
+          </span>
           <nz-switch
             nzSize="small"
             [nzControl]="true"

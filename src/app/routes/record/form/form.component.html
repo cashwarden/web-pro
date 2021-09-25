@@ -36,7 +36,7 @@
       <input nz-input type="number" [(ngModel)]="form.currency_amount" name="currency_amount" required />
       <ng-template #addOnAfterBtn>
         <nz-select [(ngModel)]="form.currency_code" name="currency_code" style="width: 80px">
-          <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
+          <nz-option nzLabel="{{i.code}}" nzValue="{{i.code}}" *ngFor="let i of selectData['currencies']"></nz-option>
         </nz-select>
       </ng-template>
     </nz-input-group>

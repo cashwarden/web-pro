@@ -40,6 +40,7 @@ export class RecordSearchComponent implements OnInit {
     this.loadSelect('/api/tags', 'tags');
     this.loadSelect('/api/transactions/types', 'transaction_type');
     this.loadSelect('/api/records/sources', 'source');
+    this.loadSelect('/api/currencies/can-use-codes', 'currencies');
     this.loadSelect('/api/records/reimbursement-statuses', 'reimbursement_status');
   }
 
@@ -53,8 +54,10 @@ export class RecordSearchComponent implements OnInit {
           this.selectData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name }));
         } else if (['account_id', 'category_id'].includes(key)) {
           this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
+        } else if(key === 'currencies') {
+          this.selectData[key] = res.data;
         } else {
-          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name }));
+          this.selectData[key] = res.data.items;
         }
         this.loading = false;
         this.cache.set(this.selectCacheKey, this.selectData);
