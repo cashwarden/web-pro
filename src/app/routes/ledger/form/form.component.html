@@ -16,6 +16,13 @@
       </nz-option>
     </nz-select>
   </se>
+  <se label="基础货币" optionalHelp="账本有记录之后不支持修改">
+    <nz-select [(ngModel)]="form.base_currency_code" name="base_currency_code" required >
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.code" *ngFor="let i of codes">
+        {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
   <se label="备注" col="1">
     <textarea [(ngModel)]="form.remark" name="remark" nz-input rows="2"></textarea>
   </se>

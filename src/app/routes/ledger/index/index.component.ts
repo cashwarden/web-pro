@@ -19,12 +19,20 @@ export class LedgerIndexComponent implements OnInit {
 
   loading = true;
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
+  codes: [{ code: string, name: string }];
 
-  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private http: _HttpClient,
+    private msg: NzMessageService,
+    private modal: ModalHelper,
+    private cdr: ChangeDetectorRef,
+  ) {
+  }
 
   ngOnInit(): void {
     this.getData();
     this.getTypes();
+    this.loadCodes();
   }
 
   getData(): void {
@@ -72,8 +80,23 @@ export class LedgerIndexComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(LedgerFormComponent, { record, types: this.types }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(
+      LedgerFormComponent,
+      { record, types: this.types, codes: this.codes },
+      { size: 'md' },
+    ).subscribe((res) => {
       this.getData();
+      this.cdr.detectChanges();
+    });
+  }
+
+  loadCodes(): void {
+    this.http.get('/api/currencies/codes').subscribe((res: any) => {
+      if (res.code !== 0) {
+        this.msg.warning(res.message);
+        return;
+      }
+      this.codes = res.data;
       this.cdr.detectChanges();
     });
   }

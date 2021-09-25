@@ -32,7 +32,7 @@ export class AnalysisIndexComponent implements OnInit {
       title: '分类',
       render: 'custom',
     },
-    { title: '金额', type: 'number', index: 'currency_amount' },
+    { title: '金额', type: 'number', index: 'amount' },
   ];
 
   tabs: Array<{ key: string; name: string; show?: boolean }> = [
@@ -71,8 +71,8 @@ export class AnalysisIndexComponent implements OnInit {
     this.http.get('/api/analysis/category', this.q).subscribe((res) => {
       this.data = deepCopy(res.data);
       this.pieData = deepCopy(res.data);
-      this.pieData.expense = this.pieData.expense.map((item: any) => ({ x: item.category_name, y: item.currency_amount }));
-      this.pieData.income = this.pieData.income.map((item: any) => ({ x: item.category_name, y: item.currency_amount }));
+      this.pieData.expense = this.pieData.expense.map((item: any) => ({ x: item.category_name, y: item.amount }));
+      this.pieData.income = this.pieData.income.map((item: any) => ({ x: item.category_name, y: item.amount }));
 
       this.loading = false;
       this.cdr.detectChanges();
@@ -89,11 +89,11 @@ export class AnalysisIndexComponent implements OnInit {
       this.recordSumData = res.data;
       this.recordSumData.expense = this.recordSumData.expense.map((item: any) => ({
         x: item.date,
-        y: item.currency_amount,
+        y: item.amount,
         color: '#f50',
       }));
 
-      this.recordSumData.income = this.recordSumData.income.map((item: any) => ({ x: item.date, y: item.currency_amount }));
+      this.recordSumData.income = this.recordSumData.income.map((item: any) => ({ x: item.date, y: item.amount }));
       this.cdr.detectChanges();
     });
   }
