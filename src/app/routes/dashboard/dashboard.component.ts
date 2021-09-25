@@ -1,13 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Datum } from '@antv/g2plot/lib/dependents';
 import { CacheService } from '@delon/cache';
-import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { G2TagCloudData } from '@delon/chart/tag-cloud';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
-import { zip } from 'rxjs';
 import { params } from 'src/app/shared/params';
-import { ChartEChartsEvent, ChartEChartsOption } from '@delon/chart/chart-echarts';
 
 @Component({
   selector: 'app-dashboard',
@@ -57,7 +53,7 @@ export class DashboardComponent implements OnInit {
 
   getLastRecords() {
     this.http.get('/api/records', {
-      pageSize: 6,
+      pageSize: 10,
       transaction_type: 'expense',
       ledger_id: this.ledger_id,
     }).subscribe((res) => {
