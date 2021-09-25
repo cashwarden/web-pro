@@ -48,11 +48,7 @@ export class RecordGridComponent implements OnInit {
     this.http.get('/api/records', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
-      if (res.data._meta.pageCount <= res.data._meta.currentPage) {
-        this.loadingMore = false;
-      } else {
-        this.loadingMore = true;
-      }
+      this.loadingMore = res.data._meta.pageCount > res.data._meta.currentPage;
       this.loading = false;
       this.cdr.detectChanges();
     });

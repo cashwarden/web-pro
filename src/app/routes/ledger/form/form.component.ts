@@ -20,9 +20,12 @@ export class LedgerFormComponent implements OnInit {
     type: 'general_ledger',
     default: false,
     remark: '',
+    base_currency_code: '',
   };
+  codes: [{ code: string, name: string }];
 
-  constructor(private http: _HttpClient, private modal: NzModalRef, private msgSrv: NzMessageService, private cache: CacheService) {}
+  constructor(private http: _HttpClient, private modal: NzModalRef, private msgSrv: NzMessageService, private cache: CacheService) {
+  }
 
   ngOnInit(): void {
     this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);

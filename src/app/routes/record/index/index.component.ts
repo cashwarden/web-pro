@@ -6,7 +6,8 @@ import format from 'date-fns/format';
 import { Subject } from 'rxjs';
 import { params } from 'src/app/shared/params';
 import { RecordImportComponent } from '../import/import.component';
-import { RecordFormComponent } from './../form/form.component';
+import { RecordFormComponent } from '../form/form.component';
+
 @Component({
   selector: 'app-record-index',
   styleUrls: ['./index.component.less'],
@@ -20,7 +21,6 @@ export class RecordIndexComponent implements OnInit {
   };
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
   loading = true;
-  loadingMore = true;
 
   overview: [];
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
@@ -73,7 +73,7 @@ export class RecordIndexComponent implements OnInit {
     });
   }
 
-  reloadData(value: {}) {
+  reloadData(value) {
     if (value) {
       this.q.page = 1;
       this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
