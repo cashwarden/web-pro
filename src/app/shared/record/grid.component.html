@@ -55,9 +55,9 @@
             {{ record.currency_code }}
             {{ record.currency_amount }}
           </div>
-          <span nz-typography class="text-xs" nzType="secondary" *ngIf="record.currency_code !== record.ledger.base_currency_code">
+          <span nz-typography class="text-xs" nzType="secondary" *ngIf="record.currency_code !== record.ledger?.base_currency_code">
             ~
-            {{ record.ledger.base_currency_code }}
+            {{ record.ledger?.base_currency_code }}
             {{ record.amount }}
           </span>
           <nz-switch
