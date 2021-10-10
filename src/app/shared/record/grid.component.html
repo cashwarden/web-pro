@@ -1,10 +1,18 @@
 <nz-list [nzLoading]="loading">
   <ng-container *ngFor="let item of list">
     {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}
-    <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent" [nzActions]="[edit, recurrence, del]">
+    <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent"
+                  [nzActions]="[edit, review, recurrence, del]">
       <ng-template #edit>
         <a disabled *ngIf="!record.transaction"><i nz-icon nzType="edit" theme="outline"></i></a>
         <a (click)="form(record)" *ngIf="record.transaction"><i nz-icon nzType="edit" theme="outline"></i></a>
+      </ng-template>
+      <ng-template #review>
+        <a disabled *ngIf="!record.transaction"><i nz-icon nzType="check-circle" theme="outline"></i></a>
+        <a (click)="updateStatus(record, 'review')" *ngIf="record.transaction" nz-tooltip
+           [nzTooltipTitle]="record.review === 'reviewed' ? '取消对账' : '已对账'">
+          <i nz-icon [nzType]="record.review === 'reviewed' ? 'close-circle' : 'check-circle' " theme="outline"></i>
+        </a>
       </ng-template>
       <ng-template #recurrence>
         <a disabled *ngIf="!record.creator" (click)="recurrenceForm(record)" nz-tooltip nzTooltipTitle="添加定时记账">
@@ -50,12 +58,14 @@
           <nz-tag nzColor="warning" *ngIf="record.exclude_from_stats" class="text-xs">不统计</nz-tag>
         </div>
         <div class="width-sm">
-          <div  [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
+          <div [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
             {{ record.direction === 'expense' ? '-' : '' }}
             {{ record.currency_code }}
             {{ record.currency_amount }}
+            <i nz-icon *ngIf="record.review === 'reviewed'" nzType="check" theme="outline" class="text-blue"></i>
           </div>
-          <span nz-typography class="text-xs" nzType="secondary" *ngIf="record.currency_code !== record.ledger?.base_currency_code">
+          <span nz-typography class="text-xs" nzType="secondary"
+                *ngIf="record.currency_code !== record.ledger?.base_currency_code">
             ~
             {{ record.ledger?.base_currency_code }}
             {{ record.amount }}
@@ -63,12 +73,12 @@
           <nz-switch
             nzSize="small"
             [nzControl]="true"
-            [nzLoading]="reimbursement_status_loading"
+            [nzLoading]="statusLoading"
             *ngIf="record.reimbursement_status !== 'none'"
             [ngModel]="record.reimbursement_status === 'todo'"
             nzCheckedChildren="待报销"
             nzUnCheckedChildren="已报销"
-            (click)="updateReimbursementStatus(record)"
+            (click)="updateStatus(record, 'reimbursement_status')"
           ></nz-switch>
         </div>
       </ng-template>
