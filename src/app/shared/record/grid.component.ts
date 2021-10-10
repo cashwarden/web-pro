@@ -90,22 +90,6 @@ export class RecordGridComponent implements OnInit {
     });
   }
 
-  updateReimbursementStatus(record: any): void {
-    this.statusLoading = true;
-    const status = record.reimbursement_status === 'done' ? 'todo' : 'done';
-    this.http.put(`/api/records/status/${record.id}/reimbursement_status`, { status: status }).subscribe((res) => {
-      if (res?.code !== 0) {
-        this.msg.warning(res?.message);
-        return;
-      }
-      this.statusLoading = false;
-      record.reimbursement_status = status;
-      record.transaction.reimbursement_status = status;
-      this.msg.success('报销状态更新成功');
-      this.cdr.detectChanges();
-    });
-  }
-
   updateStatus(record: any, name: string): void {
     this.statusLoading = true;
     let status = '';
