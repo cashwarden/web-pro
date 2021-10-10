@@ -1,10 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject } from 'rxjs';
 import { RecordFormComponent } from 'src/app/routes/record/form/form.component';
 import { RecurrenceFormComponent } from 'src/app/routes/recurrence/form/form.component';
+
 @Component({
   selector: 'app-record-grid',
   templateUrl: './grid.component.html',
@@ -15,7 +24,7 @@ export class RecordGridComponent implements OnInit {
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
   loading = true;
   loadingMore = false;
-  reimbursement_status_loading = false;
+  statusLoading = false;
   @Input() q: any = {};
   @Input() showLedger = false;
   @Input() resetSubject: Subject<boolean> = new Subject<boolean>();
@@ -26,7 +35,8 @@ export class RecordGridComponent implements OnInit {
     private modal: ModalHelper,
     private router: Router,
     private msg: NzMessageService,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.resetSubject.subscribe((response) => {
@@ -81,17 +91,41 @@ export class RecordGridComponent implements OnInit {
   }
 
   updateReimbursementStatus(record: any): void {
-    this.reimbursement_status_loading = true;
+    this.statusLoading = true;
     const status = record.reimbursement_status === 'done' ? 'todo' : 'done';
-    this.http.put(`/api/records/${record.id}/reimbursement-status`, { status: status }).subscribe((res) => {
+    this.http.put(`/api/records/status/${record.id}/reimbursement_status`, { status: status }).subscribe((res) => {
       if (res?.code !== 0) {
         this.msg.warning(res?.message);
         return;
       }
-      this.reimbursement_status_loading = false;
+      this.statusLoading = false;
       record.reimbursement_status = status;
       record.transaction.reimbursement_status = status;
       this.msg.success('报销状态更新成功');
+      this.cdr.detectChanges();
+    });
+  }
+
+  updateStatus(record: any, name: string): void {
+    this.statusLoading = true;
+    let status = '';
+    switch (name) {
+      case 'reimbursement_status':
+        status = record.reimbursement_status === 'done' ? 'todo' : 'done';
+        break;
+      case 'review':
+        status = record.review === 'reviewed' ? 'no_review' : 'reviewed';
+        break;
+    }
+    this.http.put(`/api/records/status/${record.id}/${name}`, { status: status }).subscribe((res) => {
+      if (res?.code !== 0) {
+        this.msg.warning(res?.message);
+        return;
+      }
+      this.statusLoading = false;
+      record[name] = status;
+      record.transaction[name] = status;
+      this.msg.success('状态更新成功');
       this.cdr.detectChanges();
     });
   }
