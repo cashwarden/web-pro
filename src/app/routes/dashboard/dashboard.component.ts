@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
 
   getLastRecords() {
     this.http.get('/api/records', {
-      pageSize: 10,
+      pageSize: 8,
       transaction_type: 'expense',
       ledger_id: this.ledger_id,
     }).subscribe((res) => {
