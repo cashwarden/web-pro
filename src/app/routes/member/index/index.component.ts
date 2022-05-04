@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { CacheService } from '@delon/cache';
 import { SFSchema } from '@delon/form';
-import { ModalHelper, _HttpClient } from '@delon/theme';
+import { ModalHelper, SettingsService, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { params } from 'src/app/shared/params';
 import { MemberFormComponent } from '../form/form.component';
@@ -23,6 +23,8 @@ export class MemberIndexComponent implements OnInit {
     pageSize: 100,
     name: '',
   };
+  types: any[] = [];
+  user: any;
 
   // url = `/api/records`;
   searchSchema: SFSchema = {
@@ -37,7 +39,7 @@ export class MemberIndexComponent implements OnInit {
   columns: STColumn[] = [
     { title: '用户名', renderTitle: 'customTitle', render: 'custom' },
     { title: 'Email', index: 'email' },
-    { title: '角色', index: 'role' },
+    { title: '角色', index: 'role_name' },
     {
       title: '状态',
       type: 'badge',
@@ -54,13 +56,13 @@ export class MemberIndexComponent implements OnInit {
         {
           icon: 'edit',
           click: (item: any) => this.form(item),
-          iif: (record) => record.role !== 'owner',
+          iif: (record) => record.role !== 'owner' && this.isOwner,
           iifBehavior: 'disabled',
         },
         {
           icon: 'usergroup-delete',
           click: (record) => this.updateRole(record, 'disabled'),
-          iif: (record) => record.role !== 'owner' && record.role !== 'disabled',
+          iif: (record) => record.role !== 'owner' && record.role !== 'disabled' && this.isOwner,
           tooltip: `冻结用户`,
         },
         // {
@@ -81,18 +83,21 @@ export class MemberIndexComponent implements OnInit {
       ],
     },
   ];
+  isOwner: boolean;
 
   constructor(
     private http: _HttpClient,
     private modal: ModalHelper,
     private cdr: ChangeDetectorRef,
     private message: NzMessageService,
-    private cache: CacheService,
+    private settings: SettingsService,
   ) { }
 
   ngOnInit() {
-
+    this.getTypes();
     this.getData();
+    this.user = this.settings.user;
+    this.isOwner = this.user.role === 'owner';
   }
 
   getData(): void {
@@ -101,6 +106,19 @@ export class MemberIndexComponent implements OnInit {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       this.loading = false;
+    });
+  }
+
+  getTypes(): void {
+    this.http.get(`${this.url}/types`).subscribe((res) => {
+      if (res.code !== 0) {
+        this.message.warning(res.message);
+        return;
+      }
+      if (res.data) {
+        this.types = res.data;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -127,7 +145,7 @@ export class MemberIndexComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(MemberFormComponent, { record }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(MemberFormComponent, { record, types: this.types }, { size: 'md' }).subscribe((res) => {
       if (record.id) {
         // record = res;
         this.getData();

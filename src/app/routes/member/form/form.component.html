@@ -1,10 +1,32 @@
 <div class="modal-header">
-  <div class="modal-title">编辑 {{ record.id }} 信息</div>
+  <div class="modal-title">成员编辑</div>
 </div>
-<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
-<sf *ngIf="i" #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="i" button="none">
-  <div class="modal-footer">
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
+  <!-- <se label="封面">
+    <input type="text" nz-input [(ngModel)]="form.cover" name="cover" />
+  </se> -->
+  <se label="用户名">
+    <input type="text" nz-input [(ngModel)]="form.username" name="username" required />
+  </se>
+  <se label="Email">
+    <input type="text" nz-input [(ngModel)]="form.email" name="email" required />
+  </se>
+  <se label="角色">
+    <nz-select [(ngModel)]="form.role" name="role" required>
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.type" *ngFor="let i of types">
+        {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+  <se label="密码" *ngIf="!record.id">
+    <input type="password" nz-input [(ngModel)]="form.password" name="password" required />
+  </se>
+  <se label="密码" extra="不填写则不修改密码" *ngIf="record.id">
+    <input type="password" nz-input [(ngModel)]="form.password" name="password" />
+  </se>
+  <se col="1">
     <button nz-button type="button" (click)="close()">关闭</button>
-    <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
-  </div>
-</sf>
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>
