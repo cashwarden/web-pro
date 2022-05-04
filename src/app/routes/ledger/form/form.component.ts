@@ -11,7 +11,6 @@ import { params } from 'src/app/shared/params';
 })
 export class LedgerFormComponent implements OnInit {
   record: any = {};
-  types: [];
   ledger_id = 0;
 
   form = {

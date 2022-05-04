@@ -1,23 +1,10 @@
-<div class="pt-lg">
+<div class="pt-md">
   <nz-card>
-    <form nz-form #f="ngForm" se-container size="compact" (ngSubmit)="search()" gutter="24" [labelWidth]="null">
-      <se col="6">
-        <input nz-input [(ngModel)]="q.name" name="name" placeholder="搜索账本名称" />
-      </se>
-      <se col="6">
-        <nz-select [(ngModel)]="q.type" name="type" [nzPlaceHolder]="'全部类型'" nzShowSearch nzAllowClear>
-          <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.type" *ngFor="let i of types">
-            {{ i.name }}
-          </nz-option>
-        </nz-select>
-      </se>
-      <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
-      <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
-    </form>
-    <button nz-button (click)="form()" [nzType]="'primary'">
-      <i nz-icon nzType="plus"></i>
-      <span>新建</span>
-    </button>
+    <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
+      <div nz-col>
+        <sf mode="search" [schema]="searchSchema" (formSubmit)="submit($event)" (formReset)="reset()"></sf>
+      </div>
+    </div>
   </nz-card>
 </div>
 
