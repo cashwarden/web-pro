@@ -14,6 +14,7 @@ import {
   EditOutline,
   ExceptionOutline,
   FolderOpenOutline,
+  FunnelPlotOutline,
   GroupOutline,
   InfoOutline,
   LineChartOutline,
@@ -21,13 +22,13 @@ import {
   PauseCircleOutline,
   PlayCircleOutline,
   PlusOutline,
+  PoundOutline,
   ProfileOutline,
   SettingOutline,
   ThunderboltOutline,
-  WalletOutline,
-  FunnelPlotOutline,
   UnorderedListOutline,
-  PoundOutline
+  UsergroupDeleteOutline,
+  WalletOutline
 } from '@ant-design/icons-angular/icons';
 
 export const ICONS = [
@@ -58,5 +59,6 @@ export const ICONS = [
   ArrowLeftOutline,
   FunnelPlotOutline,
   UnorderedListOutline,
-  PoundOutline
+  PoundOutline,
+  UsergroupDeleteOutline,
 ];

@@ -46,7 +46,9 @@ const routes: Routes = [
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
       { path: 'assets', loadChildren: () => import('./assets/assets.module').then((m) => m.AssetsModule) },
-      { path: 'currency', loadChildren: () => import('./currency/currency.module').then((m) => m.CurrencyModule) }],
+      { path: 'currency', loadChildren: () => import('./currency/currency.module').then((m) => m.CurrencyModule) },
+      { path: 'member', loadChildren: () => import('./member/member.module').then((m) => m.MemberModule) },
+    ],
   },
   // 全屏布局
   // {
@@ -69,7 +71,7 @@ const routes: Routes = [
       { path: 'password-reset', component: UserPasswordResetComponent, data: { title: '重置密码' } },
     ],
   },
-  // 单页不包裹Layout
+  // 单页不包裹 Layout
   { path: 'callback/:type', component: CallbackComponent },
   { path: '**', redirectTo: 'exception/404' },
 ];
