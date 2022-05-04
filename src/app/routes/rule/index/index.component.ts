@@ -82,7 +82,7 @@ export class RuleIndexComponent implements OnInit {
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService) { }
 
   ngOnInit() {
     this.getData();
@@ -141,7 +141,7 @@ export class RuleIndexComponent implements OnInit {
   }
 
   loadSelect(url: string, key: string) {
-    this.http.get(url, { pageSize: 50 }).subscribe((res: any) => {
+    this.http.get(url, { pageSize: 100 }).subscribe((res: any) => {
       if (res.data) {
         if (key === 'tags') {
           this.selectData[key] = res.data.items.map((item: any) => ({ value: item.name, label: item.name }));
