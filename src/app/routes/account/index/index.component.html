@@ -83,11 +83,12 @@
         <sv-container size="small" col="2">
           <sv label="类型">{{ item.type_name }}</sv>
           <sv label="状态">{{ item.status_txt }}</sv>
-          <sv label="默认账号">{{ item.default ? '是' : '否' }}</sv>
+          <sv label="默认账号"> {{ item.default ? '是' : '否' }} </sv>
           <sv label="不计入统计">{{ item.exclude_from_stats ? '是' : '否' }}</sv>
-          <sv label="关键词" col="1">
+          <sv label="关键词">
             <nz-tag *ngFor="let i of item.keywords">{{ i }}</nz-tag>
           </sv>
+          <sv label="成员">{{ item.user.username }}</sv>
           <sv label="备注" col="1">{{ item.remark }}</sv>
         </sv-container>
       </ng-template>
