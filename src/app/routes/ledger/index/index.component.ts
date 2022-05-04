@@ -13,6 +13,7 @@ export class LedgerIndexComponent implements OnInit {
   q: any = {
     page: 1,
     pageSize: 50,
+    expand: 'user',
   };
   types: any[] = [];
   list: any[] = [];
@@ -43,12 +44,7 @@ export class LedgerIndexComponent implements OnInit {
       .map(([key, value]) => (q[key] = value));
     this.q = q;
     this.http.get('/api/ledgers', this.q).subscribe((res) => {
-      const data = res.data;
-      const list = [
-        { name: '我的账本', items: data.items.filter((item: any) => item.creator === true) },
-        { name: '他人账本', items: data.items.filter((item: any) => item.creator === false) },
-      ];
-      this.list = list.filter((item: any) => item.items.length > 0);
+      this.list = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();
     });
