@@ -16,7 +16,7 @@
       </ng-template>
       <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
         <ng-template #nzTitle>
-          <a (click)="form(item)">{{ item.name }}</a>
+          <a (click)="form(item)">{{ item.name }} <span *ngIf="item.default">(default)</span></a>
         </ng-template>
         <ng-template #nzDescription>
           {{ item.remark }}
