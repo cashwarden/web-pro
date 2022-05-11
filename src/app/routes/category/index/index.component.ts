@@ -65,8 +65,8 @@ export class CategoryIndexComponent implements OnInit {
       type: 'badge',
       index: 'default',
       badge: {
-        1: { text: '是', color: 'success' },
-        0: { text: '否', color: 'default' },
+        true: { text: '是', color: 'success' },
+        false: { text: '否', color: 'default' },
       },
     },
     { title: '排序', index: 'sort' },
@@ -95,7 +95,7 @@ export class CategoryIndexComponent implements OnInit {
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private msg: NzMessageService, private cache: CacheService) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private msg: NzMessageService, private cache: CacheService) { }
 
   ngOnInit() {
     this.getData();
