@@ -34,15 +34,15 @@ jobs:
         run: |
           npm ci
           (echo y; echo y; echo y; echo y;) | sudo npm install -g @angular/cli
-          ng build --prod
+          npm run build --prod
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
 
       - name: Copy folder content recursively to remote
         if: github.ref == 'refs/heads/master'
