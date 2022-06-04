@@ -48,7 +48,7 @@ const routes: Routes = [
       { path: 'assets', loadChildren: () => import('./assets/assets.module').then((m) => m.AssetsModule) },
       { path: 'currency', loadChildren: () => import('./currency/currency.module').then((m) => m.CurrencyModule) },
       { path: 'member', loadChildren: () => import('./member/member.module').then((m) => m.MemberModule) },
-    ],
+    { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then((m) => m.CalendarModule) },],
   },
   // 全屏布局
   // {

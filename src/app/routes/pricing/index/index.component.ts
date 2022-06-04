@@ -98,7 +98,7 @@ export class PricingIndexComponent implements OnInit {
     },
     {
       key: '1',
-      action: '日历图（2022Q2）',
+      action: '日历图',
       pro: '✅',
       free: '❌',
     },
