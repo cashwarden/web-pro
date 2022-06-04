@@ -13,8 +13,7 @@
           [valueFormat]="handlePieValueFormat"
           [data]="pieData.expense"
           height="295"
-        ></g2-pie
-        >
+        ></g2-pie>
       </ng-container>
       <ng-container *ngIf="!loading">
         <g2-pie
@@ -86,11 +85,10 @@
       </ng-container>
     </nz-card>
 
-    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最大6笔支出" class="mb-0">
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最大 6 笔支出" class="mb-0">
       <nz-list>
         <app-record-rows [items]="maxRecords"></app-record-rows>
       </nz-list>
     </nz-card>
-
   </div>
 </div>

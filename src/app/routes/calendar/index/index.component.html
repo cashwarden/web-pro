@@ -1,0 +1,34 @@
+<div nz-row [nzGutter]="24" class="pt-lg">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="日历图" class="mb-0">
+      <ng-container *ngIf="!loading">
+        <nz-calendar (nzSelectChange)="selectChange($event)" (nzPanelChange)="panelChange($event)">
+          <ul *nzDateCell="let date" class="events">
+            <div *ngIf="getDateData(date) as dateData">
+              <li>
+                <nz-badge nzStatus="success"> 收入： {{ dateData.income | _currency }} </nz-badge>
+              </li>
+              <li>
+                <nz-badge nzStatus="error"> 支出： {{ dateData.expense | _currency }} </nz-badge>
+              </li>
+            </div>
+          </ul>
+          <ng-container *nzMonthCell="let month">
+            <div *ngIf="getMonthData(month) as monthData" class="notes-month">
+              <section>{{ monthData }}</section>
+              <span>Backlog number</span>
+            </div>
+          </ng-container>
+        </nz-calendar>
+      </ng-container>
+    </nz-card>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="详细记录" class="mb-0">
+      <nz-list>
+        <app-record-rows [items]="records"></app-record-rows>
+      </nz-list>
+    </nz-card>
+  </div>
+</div>
