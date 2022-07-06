@@ -21,7 +21,7 @@ export class RecordFormComponent implements OnInit {
     from_account_id: '',
     to_account_id: '',
     currency_amount: '',
-    currency_code: 'CNY',
+    currency_code: '',
     category_id: '',
     tags: [],
     description: '',
@@ -31,6 +31,7 @@ export class RecordFormComponent implements OnInit {
     exclude_from_stats: false,
     status: 'done',
   };
+  ledger: any;
 
   constructor(
     private http: _HttpClient,
@@ -38,12 +39,16 @@ export class RecordFormComponent implements OnInit {
     private msgSrv: NzMessageService,
     private cdr: ChangeDetectorRef,
     private cache: CacheService,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.record) {
       this.form = Object.assign({}, this.record);
       this.form.date = toDate(this.record.date);
+    } else {
+      this.ledger = this.cache.getNone(params.cacheKey.defaultLedger);
+      this.form.currency_code = this.ledger.base_currency_code;
     }
     this.selectData = this.cache.getNone(this.selectCacheKey);
     this.changeTransactionType(this.form.type);
@@ -72,7 +77,11 @@ export class RecordFormComponent implements OnInit {
         this.msgSrv.warning(res.message);
         return;
       }
-      this.selectData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
+      this.selectData.category_id = res.data.items.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        icon: item.icon_name,
+      }));
       if (!this.record) {
         this.form.category_id = this.selectData.category_id[0].id;
       } else {

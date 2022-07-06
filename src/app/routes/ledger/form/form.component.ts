@@ -11,7 +11,6 @@ import { params } from 'src/app/shared/params';
 })
 export class LedgerFormComponent implements OnInit {
   record: any = {};
-  types: [];
   ledger_id = 0;
 
   form = {
@@ -20,9 +19,12 @@ export class LedgerFormComponent implements OnInit {
     type: 'general_ledger',
     default: false,
     remark: '',
+    base_currency_code: '',
   };
+  codes: [{ code: string, name: string }];
 
-  constructor(private http: _HttpClient, private modal: NzModalRef, private msgSrv: NzMessageService, private cache: CacheService) {}
+  constructor(private http: _HttpClient, private modal: NzModalRef, private msgSrv: NzMessageService, private cache: CacheService) {
+  }
 
   ngOnInit(): void {
     this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);

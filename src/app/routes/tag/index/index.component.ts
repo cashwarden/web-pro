@@ -5,7 +5,7 @@ import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { params } from 'src/app/shared/params';
-import { TagFormComponent } from '.././form/form.component';
+import { TagFormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-tag-index',
@@ -58,7 +58,8 @@ export class TagIndexComponent implements OnInit {
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private cache: CacheService, private msg: NzMessageService) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private cache: CacheService, private msg: NzMessageService) {
+  }
 
   ngOnInit() {
     this.getData();

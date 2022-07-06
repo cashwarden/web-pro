@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <div class="modal-title" *ngIf="record.id">编辑货币</div>
+  <div class="modal-title" *ngIf="!record.id">添加货币</div>
+</div>
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
+
+  <se label="基础货币">
+    <input type="text" nz-input [(ngModel)]="form.currency_code_to" name="currency_code_to" disabled />
+  </se>
+
+  <se label="货币名称">
+    <nz-select [(ngModel)]="form.currency_code_from" name="currency_code_from" required
+               (ngModelChange)="changeCurrency($event)">
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.code" *ngFor="let i of codes">
+        {{ i.name }}
+      </nz-option>
+    </nz-select>
+     <nz-spin nzSimple *ngIf="loading" style="padding-top: 1rem"></nz-spin>
+  </se>
+
+  <se label="汇率" optionalHelp="默认自动获取最新汇率，可修改" *ngIf="form.currency_code_from && !loading">
+    <nz-input-group [nzAddOnBefore]="addOnBefore" [nzAddOnAfter]="form.currency_code_to">
+      <input type="number" nz-input [(ngModel)]="form.rate" name="rate" required />
+    </nz-input-group>
+    <ng-template #addOnBefore>1{{form.currency_code_from}}=</ng-template>
+  </se>
+  <se col="1">
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+    <button nz-button type="button" (click)="close()">关闭</button>
+  </se>
+</form>

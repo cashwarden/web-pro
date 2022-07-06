@@ -12,8 +12,9 @@ import { AccountFormComponent } from './../form/form.component';
 export class AccountIndexComponent implements OnInit {
   q: any = {
     page: 1,
-    pageSize: 50,
+    pageSize: 100,
     status: 'active',
+    expand: 'user',
   };
   accountSorts = [
     { value: '-balance_cent', label: '余额倒序' },
@@ -29,7 +30,7 @@ export class AccountIndexComponent implements OnInit {
   loading = true;
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
-  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) {}
+  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getOverview();

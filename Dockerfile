@@ -1,13 +1,13 @@
 #################################
 # STEP 1: NPM install
 #################################
-FROM node:13-alpine as initial-stage
+FROM node:15-alpine as initial-stage
 
 WORKDIR /srv
 
 COPY package*.json ./
 
-RUN npm install
+RUN  npm ci && npm install -g @angular/cli
 
 #################################
 # STEP 2: Build
@@ -18,7 +18,7 @@ WORKDIR /srv
 
 COPY . .
 
-RUN npm run build -- --prod --build-optimizer
+RUN ng build --prod
 
 #################################
 # STEP 3: Deployment

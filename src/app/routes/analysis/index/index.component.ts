@@ -25,6 +25,7 @@ export class AnalysisIndexComponent implements OnInit {
   date: Date[] = [];
   loading = true;
   types = ['expense', 'income'];
+  maxRecords: Array<{ date: string; out: string; in: string; records: [] }> = [];
 
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
@@ -32,7 +33,7 @@ export class AnalysisIndexComponent implements OnInit {
       title: '分类',
       render: 'custom',
     },
-    { title: '金额', type: 'number', index: 'currency_amount' },
+    { title: '金额', type: 'number', index: 'amount' },
   ];
 
   tabs: Array<{ key: string; name: string; show?: boolean }> = [
@@ -48,7 +49,8 @@ export class AnalysisIndexComponent implements OnInit {
     private cache: CacheService,
     private modal: ModalHelper,
     private msg: NzMessageService,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.date = getTimeDistance('month');
@@ -58,6 +60,7 @@ export class AnalysisIndexComponent implements OnInit {
     this.q.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
     this.getData();
     this.getRecordSumData();
+    this.getMaxRecords();
   }
 
   getData(): void {
@@ -71,8 +74,8 @@ export class AnalysisIndexComponent implements OnInit {
     this.http.get('/api/analysis/category', this.q).subscribe((res) => {
       this.data = deepCopy(res.data);
       this.pieData = deepCopy(res.data);
-      this.pieData.expense = this.pieData.expense.map((item: any) => ({ x: item.category_name, y: item.currency_amount }));
-      this.pieData.income = this.pieData.income.map((item: any) => ({ x: item.category_name, y: item.currency_amount }));
+      this.pieData.expense = this.pieData.expense.map((item: any) => ({ x: item.category_name, y: item.amount }));
+      this.pieData.income = this.pieData.income.map((item: any) => ({ x: item.category_name, y: item.amount }));
 
       this.loading = false;
       this.cdr.detectChanges();
@@ -87,13 +90,14 @@ export class AnalysisIndexComponent implements OnInit {
     this.q = q;
     this.http.get('/api/analysis/date', this.q).subscribe((res) => {
       this.recordSumData = res.data;
+      console.log( this.recordSumData);
       this.recordSumData.expense = this.recordSumData.expense.map((item: any) => ({
         x: item.date,
-        y: item.currency_amount,
+        y: item.amount,
         color: '#f50',
       }));
 
-      this.recordSumData.income = this.recordSumData.income.map((item: any) => ({ x: item.date, y: item.currency_amount }));
+      this.recordSumData.income = this.recordSumData.income.map((item: any) => ({ x: item.date, y: item.amount }));
       this.cdr.detectChanges();
     });
   }
@@ -104,7 +108,22 @@ export class AnalysisIndexComponent implements OnInit {
       this.q = value;
       this.getData();
       this.getRecordSumData();
+      this.getMaxRecords();
     }
+  }
+
+  getMaxRecords() {
+    this.http.get('/api/records', {
+      pageSize: 6,
+      transaction_type: 'expense',
+      ledger_id: this.q.ledger_id,
+      sort: '-amount_cent',
+      date: this.q.date,
+    }).subscribe((res) => {
+      this.maxRecords = res.data.items;
+      this.loading = false;
+      this.cdr.detectChanges();
+    });
   }
 
   changeTab(idx: number): void {
@@ -124,6 +143,7 @@ export class AnalysisIndexComponent implements OnInit {
     this.q.pageSize = 100;
     this.q.reimbursement_status = 'none,todo';
     this.q.exclude_from_stats = 'false';
-    this.modal.create(RecordModalComponent, { q: this.q }, { size: 'md' }).subscribe((res) => {});
+    this.modal.create(RecordModalComponent, { q: this.q }, { size: 'md' }).subscribe((res) => {
+    });
   }
 }

@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Datum } from '@antv/g2plot/lib/dependents';
 import { CacheService } from '@delon/cache';
-import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { G2TagCloudData } from '@delon/chart/tag-cloud';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
@@ -22,7 +20,7 @@ export class DashboardComponent implements OnInit {
   ledger_id = 0;
 
   categoriesData: any;
-  categoriesTotal = 0;
+  categoriesTotal = '';
 
   recordsAnalysisData: any;
   categoriesOptions: any;
@@ -31,7 +29,9 @@ export class DashboardComponent implements OnInit {
   recordsOverview: Array<{ overview: { surplus: number; expense: number; income: number }; key: string; text: string }>;
   water: { overview: { surplus: number; expense: number; income: number }; key: string; text: string; percent?: string };
   accountsOverview: { percent: number; color: string };
-  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private cache: CacheService) {}
+
+  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private cache: CacheService) {
+  }
 
   ngOnInit() {
     this.ledger_id = this.cache.getNone(params.cacheKey.defaultIdLedger);
@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
     this.getOverview();
     this.getTags();
     this.getLastRecords();
-    this.getCategoryiesData();
+    this.getCategoriesData();
     this.getRecordAnalysisData();
   }
 
@@ -52,7 +52,11 @@ export class DashboardComponent implements OnInit {
   // }
 
   getLastRecords() {
-    this.http.get('/api/records', { pageSize: 6, transaction_type: 'expense', ledger_id: this.ledger_id }).subscribe((res) => {
+    this.http.get('/api/records', {
+      pageSize: 8,
+      transaction_type: 'expense',
+      ledger_id: this.ledger_id,
+    }).subscribe((res) => {
       this.lastRecords = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();
@@ -61,36 +65,16 @@ export class DashboardComponent implements OnInit {
 
   getRecordAnalysisData() {
     this.http.get('/api/records/analysis', { ledger_id: this.ledger_id }).subscribe((res) => {
-      this.recordsAnalysisData = {
-        data: res.data,
-        xField: 'x',
-        yField: 'y',
-        meta: {
-          x: {
-            alias: '日期',
-          },
-          y: {
-            alias: '支出金额',
-          },
-        },
-        interactions: [
-          {
-            type: 'slider',
-            cfg: {
-              start: 0,
-              end: 1,
-            },
-          },
-        ],
-      };
+      this.recordsAnalysisData = res.data;
       this.recordsAnalysisLoading = false;
       this.cdr.detectChanges();
     });
   }
 
-  getCategoryiesData() {
+  getCategoriesData() {
     this.http.get('/api/categories/analysis', { ledger_id: this.ledger_id }).subscribe((res) => {
-      this.categoriesData = res.data;
+      this.categoriesData = res.data.items.map((item: any) => ({ x: item.name, y: item.value }));
+      this.categoriesTotal = yuan(res.data.total);
       this.loading = false;
       this.cdr.detectChanges();
     });
@@ -116,11 +100,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  handlePieValueFormat(value: string | number): string {
+  handleValueFormat(value: string | number): string {
     return yuan(value);
-  }
-
-  handlePieClick(data: G2PieClickItem): void {
-    console.log(data);
   }
 }

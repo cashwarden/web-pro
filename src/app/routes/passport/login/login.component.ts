@@ -68,8 +68,8 @@ export class UserLoginComponent implements OnDestroy {
       return;
     }
 
-    // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
-    // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
+    // 默认配置中对所有 HTTP 请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
+    // 然一般来说登录请求不需要校验，因此可以在请求 URL 加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
     this.http
       .post('/api/login?_allow_anonymous=true', {
         username: this.email.value,
@@ -87,9 +87,15 @@ export class UserLoginComponent implements OnDestroy {
         this.cache.set(params.cacheKey.defaultLedger, res.data.default_ledger);
         this.cache.set(params.cacheKey.defaultIdLedger, res.data.default_ledger.id);
 
-        // 设置用户Token信息
+        // 设置用户 Token 信息
         this.tokenService.set({ token: res.data.token });
-        const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
+        const user = {
+          name: res.data.user.username,
+          email: res.data.user.email,
+          avatar: res.data.user.avatar,
+          role: res.data.user.role,
+          base_currency_code: res.data.user.base_currency_code
+        };
         if (res.data.user.status === 'unactivated') {
           this.msg.success('您的邮箱暂未激活，为了方便您找回密码等功能，请去个人设置中激活邮箱', { nzDuration: 5000 });
         }
@@ -105,5 +111,5 @@ export class UserLoginComponent implements OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 }

@@ -9,9 +9,9 @@
   <se label="名称">
     <input type="text" nz-input [(ngModel)]="form.name" name="name" required />
   </se>
-  <se label="类型">
-    <nz-select [(ngModel)]="form.type" name="type" required>
-      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.type" *ngFor="let i of types">
+  <se label="基础货币" optionalHelp="账本有记录之后不支持修改">
+    <nz-select [(ngModel)]="form.base_currency_code" name="base_currency_code" required>
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.code" *ngFor="let i of codes">
         {{ i.name }}
       </nz-option>
     </nz-select>

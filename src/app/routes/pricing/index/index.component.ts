@@ -20,7 +20,7 @@ export class PricingIndexComponent implements OnInit {
     },
     {
       key: '1',
-      action: '小程序记账（2021Q1）',
+      action: '小程序记账',
       pro: '✅',
       free: '✅',
     },
@@ -32,19 +32,7 @@ export class PricingIndexComponent implements OnInit {
     },
     {
       key: '1',
-      action: '微信记账（2021）',
-      pro: '✅',
-      free: '✅',
-    },
-    {
-      key: '1',
       action: 'Telegram 记账',
-      pro: '✅',
-      free: '✅',
-    },
-    {
-      key: '1',
-      action: 'App（2021）',
       pro: '✅',
       free: '✅',
     },
@@ -58,25 +46,25 @@ export class PricingIndexComponent implements OnInit {
       key: '1',
       action: '普通账本',
       pro: '无限',
-      free: '1个',
+      free: '1 个',
     },
     {
       key: '1',
       action: '账户',
       pro: '无限',
-      free: '5个',
+      free: '5 个',
     },
     {
       key: '1',
       action: '定时记账',
       pro: '无限',
-      free: '1个',
+      free: '1 个',
     },
     {
       key: '1',
       action: '规则',
       pro: '无限',
-      free: '5个',
+      free: '5 个',
     },
     {
       key: '1',
@@ -98,7 +86,7 @@ export class PricingIndexComponent implements OnInit {
     },
     {
       key: '1',
-      action: '投资类型账户（2021Q1）',
+      action: '投资类型账户（2022Q4）',
       pro: '✅',
       free: '❌',
     },
@@ -110,19 +98,19 @@ export class PricingIndexComponent implements OnInit {
     },
     {
       key: '1',
-      action: '日历图（2021Q1）',
+      action: '日历图',
       pro: '✅',
       free: '❌',
     },
     {
       key: '1',
-      action: 'API（2021Q1）',
+      action: 'API',
       pro: '✅',
       free: '❌',
     },
     {
       key: '1',
-      action: '多币种（2021Q1）',
+      action: '多币种',
       pro: '✅',
       free: '❌',
     },
@@ -138,7 +126,7 @@ export class PricingIndexComponent implements OnInit {
     private modalHelper: ModalHelper,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getData();

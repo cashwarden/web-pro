@@ -13,8 +13,8 @@
           [valueFormat]="handlePieValueFormat"
           [data]="pieData.expense"
           height="295"
-        ></g2-pie
-      ></ng-container>
+        ></g2-pie>
+      </ng-container>
       <ng-container *ngIf="!loading">
         <g2-pie
           [hasLegend]="true"
@@ -27,7 +27,7 @@
         ></g2-pie>
       </ng-container>
     </nz-card>
-    <nz-card [nzLoading]="loading" [nzBordered]="false" class="ant-card__body-nopadding record-sum-card">
+    <nz-card [nzBordered]="false" class="ant-card__body-nopadding record-sum-card">
       <nz-tabset *ngIf="recordSumData" (nzSelectedIndexChange)="changeTab($event)">
         <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name">
           <div class="bar">
@@ -83,6 +83,12 @@
           </ng-template>
         </st>
       </ng-container>
+    </nz-card>
+
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最大 6 笔支出" class="mb-0">
+      <nz-list>
+        <app-record-rows [items]="maxRecords"></app-record-rows>
+      </nz-list>
     </nz-card>
   </div>
 </div>

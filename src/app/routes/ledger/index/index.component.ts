@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LedgerFormComponent } from './../form/form.component';
@@ -13,18 +14,35 @@ export class LedgerIndexComponent implements OnInit {
   q: any = {
     page: 1,
     pageSize: 50,
+    expand: 'user',
+    name: '',
   };
-  types: any[] = [];
   list: any[] = [];
+  codes: [{ code: string, name: string }];
 
   loading = true;
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
-  constructor(private http: _HttpClient, private msg: NzMessageService, private modal: ModalHelper, private cdr: ChangeDetectorRef) {}
+  searchSchema: SFSchema = {
+    properties: {
+      name: {
+        type: 'string',
+        title: '名称',
+      },
+    },
+  };
+
+  constructor(
+    private http: _HttpClient,
+    private msg: NzMessageService,
+    private modal: ModalHelper,
+    private cdr: ChangeDetectorRef,
+  ) {
+  }
 
   ngOnInit(): void {
     this.getData();
-    this.getTypes();
+    this.loadCodes();
   }
 
   getData(): void {
@@ -35,47 +53,42 @@ export class LedgerIndexComponent implements OnInit {
       .map(([key, value]) => (q[key] = value));
     this.q = q;
     this.http.get('/api/ledgers', this.q).subscribe((res) => {
-      const data = res.data;
-      const list = [
-        { name: '我的账本', items: data.items.filter((item: any) => item.creator === true) },
-        { name: '他人账本', items: data.items.filter((item: any) => item.creator === false) },
-      ];
-      this.list = list.filter((item: any) => item.items.length > 0);
+      this.list = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();
     });
   }
 
-  getTypes(): void {
-    this.http.get('/api/ledgers/types').subscribe((res) => {
+  form(record: { id?: number } = {}): void {
+    this.modal.create(
+      LedgerFormComponent,
+      { record, codes: this.codes },
+      { size: 'md' },
+    ).subscribe((res) => {
+      this.getData();
+      this.cdr.detectChanges();
+    });
+  }
+
+  loadCodes(): void {
+    this.http.get('/api/currencies/codes').subscribe((res: any) => {
       if (res.code !== 0) {
         this.msg.warning(res.message);
         return;
       }
-      if (res.data) {
-        this.types = res.data;
-        this.cdr.detectChanges();
-      }
+      this.codes = res.data;
+      this.cdr.detectChanges();
     });
   }
 
-  search(): void {
+  submit(value: any): void {
+    this.q.name = value.name;
     this.getData();
   }
 
   reset(): void {
-    this.q = {
-      page: 1,
-      pageSize: 50,
-    };
+    this.q.name = '';
     this.getData();
-  }
-
-  form(record: { id?: number } = {}): void {
-    this.modal.create(LedgerFormComponent, { record, types: this.types }, { size: 'md' }).subscribe((res) => {
-      this.getData();
-      this.cdr.detectChanges();
-    });
   }
 
   delete(record: any): void {

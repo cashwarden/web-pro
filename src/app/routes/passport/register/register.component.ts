@@ -6,6 +6,8 @@ import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { CacheService } from '@delon/cache';
+import { params } from 'src/app/shared/params';
 
 @Component({
   selector: 'passport-register',
@@ -24,6 +26,7 @@ export class UserRegisterComponent implements OnDestroy {
     private startupSrv: StartupService,
     public http: _HttpClient,
     public msg: NzMessageService,
+     private cache: CacheService,
   ) {
     this.form = fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -38,9 +41,11 @@ export class UserRegisterComponent implements OnDestroy {
   get username() {
     return this.form.controls.username;
   }
+
   get email() {
     return this.form.controls.email;
   }
+
   get password() {
     return this.form.controls.password;
   }
@@ -108,6 +113,11 @@ export class UserRegisterComponent implements OnDestroy {
       this.msg.success('注册成功，已给您的邮箱发送了一封激活邮件，请尽快激活', { nzDuration: 5000 });
       // 清空路由复用信息
       this.reuseTabService.clear();
+
+      // 默认账本
+      this.cache.set(params.cacheKey.defaultLedger, res.data.default_ledger);
+      this.cache.set(params.cacheKey.defaultIdLedger, res.data.default_ledger.id);
+
       // 设置用户Token信息
       this.tokenService.set({ token: res.data.token });
       const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
@@ -123,5 +133,6 @@ export class UserRegisterComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+  }
 }
