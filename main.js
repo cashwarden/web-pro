@@ -2755,10 +2755,10 @@ function UserRegisterComponent_ng_template_9_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](0, UserRegisterComponent_ng_template_9_ng_container_0_Template, 3, 3, "ng-container", 22);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](1, UserRegisterComponent_ng_template_9_ng_container_1_Template, 3, 3, "ng-container", 22);
 } if (rf & 2) {
-    const i_r9 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r9.errors == null ? null : i_r9.errors.required);
+    const i_r10 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r10.errors == null ? null : i_r10.errors.required);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r9.errors == null ? null : i_r9.errors.email);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r10.errors == null ? null : i_r10.errors.email);
 } }
 function UserRegisterComponent_ng_template_15_ng_container_0_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementContainerStart"](0);
@@ -2782,10 +2782,10 @@ function UserRegisterComponent_ng_template_15_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](0, UserRegisterComponent_ng_template_15_ng_container_0_Template, 3, 3, "ng-container", 22);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](1, UserRegisterComponent_ng_template_15_ng_container_1_Template, 3, 3, "ng-container", 22);
 } if (rf & 2) {
-    const i_r12 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r12.errors == null ? null : i_r12.errors.required);
+    const i_r13 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r13.errors == null ? null : i_r13.errors.required);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r12.errors == null ? null : i_r12.errors.username);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r13.errors == null ? null : i_r13.errors.username);
 } }
 function UserRegisterComponent_ng_template_22_div_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "div", 30);
@@ -2866,10 +2866,16 @@ function UserRegisterComponent_ng_template_28_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](0, UserRegisterComponent_ng_template_28_ng_container_0_Template, 3, 3, "ng-container", 22);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](1, UserRegisterComponent_ng_template_28_ng_container_1_Template, 3, 3, "ng-container", 22);
 } if (rf & 2) {
-    const i_r18 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r18.errors == null ? null : i_r18.errors.required);
+    const i_r19 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r19.errors == null ? null : i_r19.errors.required);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r18.errors == null ? null : i_r18.errors.equar);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngIf", i_r19.errors == null ? null : i_r19.errors.equar);
+} }
+function UserRegisterComponent_nz_option_33_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](0, "nz-option", 33);
+} if (rf & 2) {
+    const i_r22 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzLabel", i_r22.name)("nzValue", i_r22.code);
 } }
 const _c0 = function () { return { "width.px": 240 }; };
 class UserRegisterComponent {
@@ -2882,6 +2888,7 @@ class UserRegisterComponent {
         this.http = http;
         this.msg = msg;
         this.cache = cache;
+        this.currencies = [];
         this.error = '';
         this.visible = false;
         this.status = 'pool';
@@ -2891,6 +2898,8 @@ class UserRegisterComponent {
             pass: 'normal',
             pool: 'exception',
         };
+        this.currencies = settingsService.app.currencies;
+        console.log(this.currencies);
         this.form = fb.group({
             email: [null, [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].email]],
             username: [null, [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_0__["Validators"].minLength(3)]],
@@ -2908,6 +2917,9 @@ class UserRegisterComponent {
     }
     get password() {
         return this.form.controls.password;
+    }
+    get base_currency_code() {
+        return this.form.controls.base_currency_code;
     }
     // #endregion
     static checkPassword(control) {
@@ -2960,7 +2972,7 @@ class UserRegisterComponent {
             // 默认账本
             this.cache.set(src_app_shared_params__WEBPACK_IMPORTED_MODULE_3__["params"].cacheKey.defaultLedger, res.data.default_ledger);
             this.cache.set(src_app_shared_params__WEBPACK_IMPORTED_MODULE_3__["params"].cacheKey.defaultIdLedger, res.data.default_ledger.id);
-            // 设置用户Token信息
+            // 设置用户 Token 信息
             this.tokenService.set({ token: res.data.token });
             const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
             this.settingsService.setUser(user);
@@ -2978,7 +2990,7 @@ class UserRegisterComponent {
     }
 }
 UserRegisterComponent.ɵfac = function UserRegisterComponent_Factory(t) { return new (t || UserRegisterComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_delon_theme__WEBPACK_IMPORTED_MODULE_6__["SettingsService"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_delon_abc_reuse_tab__WEBPACK_IMPORTED_MODULE_1__["ReuseTabService"], 8), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_delon_auth__WEBPACK_IMPORTED_MODULE_2__["DA_SERVICE_TOKEN"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_core__WEBPACK_IMPORTED_MODULE_7__["StartupService"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_delon_theme__WEBPACK_IMPORTED_MODULE_6__["_HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](ng_zorro_antd_message__WEBPACK_IMPORTED_MODULE_8__["NzMessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_delon_cache__WEBPACK_IMPORTED_MODULE_9__["CacheService"])); };
-UserRegisterComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({ type: UserRegisterComponent, selectors: [["passport-register"]], decls: 41, vars: 22, consts: [["nz-form", "", "role", "form", 3, "formGroup", "ngSubmit"], ["class", "mb-lg", 3, "nzType", "nzMessage", "nzShowIcon", 4, "ngIf"], ["nzExtra", "\u627E\u56DE\u5BC6\u7801\u7684\u552F\u4E00\u9014\u5F84", 3, "nzErrorTip"], ["nzSize", "large", "nzPrefixIcon", "mail"], ["nz-input", "", "formControlName", "email", "name", "email", "placeholder", "Email"], ["emailErrorTip", ""], [3, "nzErrorTip"], ["nzSize", "large", "nzPrefixIcon", "user"], ["nz-input", "", "formControlName", "username", "name", "username", "placeholder", "Username"], ["usernameErrorTip", ""], ["nzSize", "large", "nzAddonBeforeIcon", "lock", "nz-popover", "", "nzPopoverPlacement", "right", "nzPopoverTrigger", "focus", "nzPopoverOverlayClassName", "register-password-cdk", 3, "nzPopoverVisible", "nzPopoverOverlayStyle", "nzPopoverContent", "nzPopoverVisibleChange"], ["nz-input", "", "type", "password", "formControlName", "password", "placeholder", "Password"], ["pwdCdkTpl", ""], ["nzSize", "large", "nzPrefixIcon", "lock"], ["nz-input", "", "type", "password", "formControlName", "confirm", "placeholder", "Confirm Password"], ["confirmErrorTip", ""], ["nzExtra", "\u60A8\u7684\u57FA\u7840\u8D27\u5E01\uFF0C\u6682\u65F6\u53EA\u652F\u6301\u4EBA\u6C11\u5E01"], ["nzSize", "large", "formControlName", "base_currency_code", "ngModel", "CNY", "nzAllowClear", "", "nzPlaceHolder", "Select Base Currency Code"], ["nzLabel", "CNY", "nzValue", "CNY"], ["nz-button", "", "nzType", "primary", "nzSize", "large", "type", "submit", 1, "submit", 3, "nzLoading"], ["routerLink", "/passport/login", 1, "login"], [1, "mb-lg", 3, "nzType", "nzMessage", "nzShowIcon"], [4, "ngIf"], [2, "padding", "4px 0"], [3, "ngSwitch"], ["class", "success", 4, "ngSwitchCase"], ["class", "warning", 4, "ngSwitchCase"], ["class", "error", 4, "ngSwitchDefault"], [3, "nzPercent", "nzStatus", "nzStrokeWidth", "nzShowInfo"], [1, "mt-sm"], [1, "success"], [1, "warning"], [1, "error"]], template: function UserRegisterComponent_Template(rf, ctx) { if (rf & 1) {
+UserRegisterComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({ type: UserRegisterComponent, selectors: [["passport-register"]], decls: 41, vars: 24, consts: [["nz-form", "", "role", "form", 3, "formGroup", "ngSubmit"], ["class", "mb-lg", 3, "nzType", "nzMessage", "nzShowIcon", 4, "ngIf"], ["nzExtra", "\u627E\u56DE\u5BC6\u7801\u7684\u552F\u4E00\u9014\u5F84", 3, "nzErrorTip"], ["nzSize", "large", "nzPrefixIcon", "mail"], ["nz-input", "", "formControlName", "email", "name", "email", "placeholder", "Email"], ["emailErrorTip", ""], [3, "nzErrorTip"], ["nzSize", "large", "nzPrefixIcon", "user"], ["nz-input", "", "formControlName", "username", "name", "username", "placeholder", "Username"], ["usernameErrorTip", ""], ["nzSize", "large", "nzAddonBeforeIcon", "lock", "nz-popover", "", "nzPopoverPlacement", "right", "nzPopoverTrigger", "focus", "nzPopoverOverlayClassName", "register-password-cdk", 3, "nzPopoverVisible", "nzPopoverOverlayStyle", "nzPopoverContent", "nzPopoverVisibleChange"], ["nz-input", "", "type", "password", "formControlName", "password", "placeholder", "Password"], ["pwdCdkTpl", ""], ["nzSize", "large", "nzPrefixIcon", "lock"], ["nz-input", "", "type", "password", "formControlName", "confirm", "placeholder", "Confirm Password"], ["confirmErrorTip", ""], ["nzExtra", "\u4E0D\u652F\u6301\u4FEE\u6539"], ["formControlName", "base_currency_code", "nzSize", "large", "nzShowSearch", "", 3, "nzPlaceHolder"], [3, "nzLabel", "nzValue", 4, "ngFor", "ngForOf"], ["nz-button", "", "nzType", "primary", "nzSize", "large", "type", "submit", 1, "submit", 3, "nzLoading"], ["routerLink", "/passport/login", 1, "login"], [1, "mb-lg", 3, "nzType", "nzMessage", "nzShowIcon"], [4, "ngIf"], [2, "padding", "4px 0"], [3, "ngSwitch"], ["class", "success", 4, "ngSwitchCase"], ["class", "warning", 4, "ngSwitchCase"], ["class", "error", 4, "ngSwitchDefault"], [3, "nzPercent", "nzStatus", "nzStrokeWidth", "nzShowInfo"], [1, "mt-sm"], [1, "success"], [1, "warning"], [1, "error"], [3, "nzLabel", "nzValue"]], template: function UserRegisterComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "h3");
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipe"](2, "translate");
@@ -3023,7 +3035,7 @@ UserRegisterComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](30, "nz-form-item");
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](31, "nz-form-control", 16);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](32, "nz-select", 17);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](33, "nz-option", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](33, UserRegisterComponent_nz_option_33_Template, 1, 2, "nz-option", 18);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
@@ -3044,7 +3056,7 @@ UserRegisterComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵde
         const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵreference"](23);
         const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵreference"](29);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](2, 13, "app.register.register"));
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](2, 15, "app.register.register"));
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("formGroup", ctx.form);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
@@ -3054,18 +3066,22 @@ UserRegisterComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzErrorTip", _r3);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzErrorTip", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](19, 15, "validation.password.required"));
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzErrorTip", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](19, 17, "validation.password.required"));
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzPopoverVisible", ctx.visible)("nzPopoverOverlayStyle", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](21, _c0))("nzPopoverContent", _r5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzPopoverVisible", ctx.visible)("nzPopoverOverlayStyle", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](23, _c0))("nzPopoverContent", _r5);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](5);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzErrorTip", _r7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzPlaceHolder", "Select Base Currency Code");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("ngForOf", ctx.currencies);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("nzLoading", ctx.http.loading);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](37, 17, "app.register.register"), " ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](37, 19, "app.register.register"), " ");
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](40, 19, "app.register.sign-in"));
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NgControlStatusGroup"], ng_zorro_antd_form__WEBPACK_IMPORTED_MODULE_10__["NzFormDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormGroupDirective"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgIf"], ng_zorro_antd_grid__WEBPACK_IMPORTED_MODULE_12__["NzRowDirective"], ng_zorro_antd_form__WEBPACK_IMPORTED_MODULE_10__["NzFormItemComponent"], ng_zorro_antd_grid__WEBPACK_IMPORTED_MODULE_12__["NzColDirective"], ng_zorro_antd_form__WEBPACK_IMPORTED_MODULE_10__["NzFormControlComponent"], ng_zorro_antd_core_transition_patch__WEBPACK_IMPORTED_MODULE_13__["ɵNzTransitionPatchDirective"], ng_zorro_antd_input__WEBPACK_IMPORTED_MODULE_14__["NzInputGroupComponent"], ng_zorro_antd_input__WEBPACK_IMPORTED_MODULE_14__["NzInputDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControlName"], ng_zorro_antd_popover__WEBPACK_IMPORTED_MODULE_15__["NzPopoverDirective"], ng_zorro_antd_select__WEBPACK_IMPORTED_MODULE_16__["NzSelectComponent"], ng_zorro_antd_select__WEBPACK_IMPORTED_MODULE_16__["NzOptionComponent"], ng_zorro_antd_button__WEBPACK_IMPORTED_MODULE_17__["NzButtonComponent"], ng_zorro_antd_core_wave__WEBPACK_IMPORTED_MODULE_18__["NzWaveDirective"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterLinkWithHref"], ng_zorro_antd_alert__WEBPACK_IMPORTED_MODULE_19__["NzAlertComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgSwitch"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgSwitchCase"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgSwitchDefault"], ng_zorro_antd_progress__WEBPACK_IMPORTED_MODULE_20__["NzProgressComponent"]], pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__["TranslatePipe"]], styles: ["[_nghost-%COMP%] {\n  display: block;\n  width: 368px;\n  margin: 0 auto;\n}\n[_nghost-%COMP%]     h3 {\n  margin-bottom: 20px;\n  font-size: 16px;\n}\n[_nghost-%COMP%]     .submit {\n  width: 50%;\n}\n[_nghost-%COMP%]     .login {\n  float: right;\n  line-height: 40px;\n}\n  .register-password-cdk .success,   .register-password-cdk .warning,   .register-password-cdk .error {\n  transition: color 0.3s;\n}\n  .register-password-cdk .success {\n  color: #52c41a;\n}\n  .register-password-cdk .warning {\n  color: #faad14;\n}\n  .register-password-cdk .error {\n  color: #ff4d4f;\n}\n  .register-password-cdk .progress-pass > .progress .ant-progress-bg {\n  background-color: #faad14;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlZ2lzdGVyLmNvbXBvbmVudC5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDRGQUE0RjtBQUM1Riw2Q0FBNkM7QUFDN0Msc0JBQXNCO0FBQ3RCLDZGQUE2RjtBQUY3RjtFQUNFLGNBQUE7RUFDQSxZQUFBO0VBQ0EsY0FBQTtBQUlGO0FBUEE7RUFNTSxtQkFBQTtFQUNBLGVBQUE7QUFJTjtBQVhBO0VBVU0sVUFBQTtBQUlOO0FBZEE7RUFhTSxZQUFBO0VBQ0EsaUJBQUE7QUFJTjtBQUFBOzs7RUFLTSxzQkFBQTtBQUFOO0FBTEE7RUFRTSxjQUFBO0FBQU47QUFSQTtFQVdNLGNBQUE7QUFBTjtBQVhBO0VBY00sY0FBQTtBQUFOO0FBZEE7RUFrQlEseUJBQUE7QUFEUiIsImZpbGUiOiJyZWdpc3Rlci5jb21wb25lbnQubGVzcyIsInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgJ35AZGVsb24vdGhlbWUvaW5kZXgnO1xuOmhvc3Qge1xuICBkaXNwbGF5OiBibG9jaztcbiAgd2lkdGg6IDM2OHB4O1xuICBtYXJnaW46IDAgYXV0bztcbiAgOjpuZy1kZWVwIHtcbiAgICBoMyB7XG4gICAgICBtYXJnaW4tYm90dG9tOiAyMHB4O1xuICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgIH1cbiAgICAuc3VibWl0IHtcbiAgICAgIHdpZHRoOiA1MCU7XG4gICAgfVxuICAgIC5sb2dpbiB7XG4gICAgICBmbG9hdDogcmlnaHQ7XG4gICAgICBsaW5lLWhlaWdodDogQGJ0bi1oZWlnaHQtbGc7XG4gICAgfVxuICB9XG59XG46Om5nLWRlZXAge1xuICAucmVnaXN0ZXItcGFzc3dvcmQtY2RrIHtcbiAgICAuc3VjY2VzcyxcbiAgICAud2FybmluZyxcbiAgICAuZXJyb3Ige1xuICAgICAgdHJhbnNpdGlvbjogY29sb3IgMC4zcztcbiAgICB9XG4gICAgLnN1Y2Nlc3Mge1xuICAgICAgY29sb3I6IEBzdWNjZXNzLWNvbG9yO1xuICAgIH1cbiAgICAud2FybmluZyB7XG4gICAgICBjb2xvcjogQHdhcm5pbmctY29sb3I7XG4gICAgfVxuICAgIC5lcnJvciB7XG4gICAgICBjb2xvcjogQGVycm9yLWNvbG9yO1xuICAgIH1cbiAgICAucHJvZ3Jlc3MtcGFzcyA+IC5wcm9ncmVzcyB7XG4gICAgICAuYW50LXByb2dyZXNzLWJnIHtcbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogQHdhcm5pbmctY29sb3I7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](40, 21, "app.register.sign-in"));
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_0__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NgControlStatusGroup"], ng_zorro_antd_form__WEBPACK_IMPORTED_MODULE_10__["NzFormDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormGroupDirective"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgIf"], ng_zorro_antd_grid__WEBPACK_IMPORTED_MODULE_12__["NzRowDirective"], ng_zorro_antd_form__WEBPACK_IMPORTED_MODULE_10__["NzFormItemComponent"], ng_zorro_antd_grid__WEBPACK_IMPORTED_MODULE_12__["NzColDirective"], ng_zorro_antd_form__WEBPACK_IMPORTED_MODULE_10__["NzFormControlComponent"], ng_zorro_antd_core_transition_patch__WEBPACK_IMPORTED_MODULE_13__["ɵNzTransitionPatchDirective"], ng_zorro_antd_input__WEBPACK_IMPORTED_MODULE_14__["NzInputGroupComponent"], ng_zorro_antd_input__WEBPACK_IMPORTED_MODULE_14__["NzInputDirective"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControlName"], ng_zorro_antd_popover__WEBPACK_IMPORTED_MODULE_15__["NzPopoverDirective"], ng_zorro_antd_select__WEBPACK_IMPORTED_MODULE_16__["NzSelectComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgForOf"], ng_zorro_antd_button__WEBPACK_IMPORTED_MODULE_17__["NzButtonComponent"], ng_zorro_antd_core_wave__WEBPACK_IMPORTED_MODULE_18__["NzWaveDirective"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterLinkWithHref"], ng_zorro_antd_alert__WEBPACK_IMPORTED_MODULE_19__["NzAlertComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgSwitch"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgSwitchCase"], _angular_common__WEBPACK_IMPORTED_MODULE_11__["NgSwitchDefault"], ng_zorro_antd_progress__WEBPACK_IMPORTED_MODULE_20__["NzProgressComponent"], ng_zorro_antd_select__WEBPACK_IMPORTED_MODULE_16__["NzOptionComponent"]], pipes: [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__["TranslatePipe"]], styles: ["[_nghost-%COMP%] {\n  display: block;\n  width: 368px;\n  margin: 0 auto;\n}\n[_nghost-%COMP%]     h3 {\n  margin-bottom: 20px;\n  font-size: 16px;\n}\n[_nghost-%COMP%]     .submit {\n  width: 50%;\n}\n[_nghost-%COMP%]     .login {\n  float: right;\n  line-height: 40px;\n}\n  .register-password-cdk .success,   .register-password-cdk .warning,   .register-password-cdk .error {\n  transition: color 0.3s;\n}\n  .register-password-cdk .success {\n  color: #52c41a;\n}\n  .register-password-cdk .warning {\n  color: #faad14;\n}\n  .register-password-cdk .error {\n  color: #ff4d4f;\n}\n  .register-password-cdk .progress-pass > .progress .ant-progress-bg {\n  background-color: #faad14;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlZ2lzdGVyLmNvbXBvbmVudC5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDRGQUE0RjtBQUM1Riw2Q0FBNkM7QUFDN0Msc0JBQXNCO0FBQ3RCLDZGQUE2RjtBQUY3RjtFQUNFLGNBQUE7RUFDQSxZQUFBO0VBQ0EsY0FBQTtBQUlGO0FBUEE7RUFNTSxtQkFBQTtFQUNBLGVBQUE7QUFJTjtBQVhBO0VBVU0sVUFBQTtBQUlOO0FBZEE7RUFhTSxZQUFBO0VBQ0EsaUJBQUE7QUFJTjtBQUFBOzs7RUFLTSxzQkFBQTtBQUFOO0FBTEE7RUFRTSxjQUFBO0FBQU47QUFSQTtFQVdNLGNBQUE7QUFBTjtBQVhBO0VBY00sY0FBQTtBQUFOO0FBZEE7RUFrQlEseUJBQUE7QUFEUiIsImZpbGUiOiJyZWdpc3Rlci5jb21wb25lbnQubGVzcyIsInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgJ35AZGVsb24vdGhlbWUvaW5kZXgnO1xuOmhvc3Qge1xuICBkaXNwbGF5OiBibG9jaztcbiAgd2lkdGg6IDM2OHB4O1xuICBtYXJnaW46IDAgYXV0bztcbiAgOjpuZy1kZWVwIHtcbiAgICBoMyB7XG4gICAgICBtYXJnaW4tYm90dG9tOiAyMHB4O1xuICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgIH1cbiAgICAuc3VibWl0IHtcbiAgICAgIHdpZHRoOiA1MCU7XG4gICAgfVxuICAgIC5sb2dpbiB7XG4gICAgICBmbG9hdDogcmlnaHQ7XG4gICAgICBsaW5lLWhlaWdodDogQGJ0bi1oZWlnaHQtbGc7XG4gICAgfVxuICB9XG59XG46Om5nLWRlZXAge1xuICAucmVnaXN0ZXItcGFzc3dvcmQtY2RrIHtcbiAgICAuc3VjY2VzcyxcbiAgICAud2FybmluZyxcbiAgICAuZXJyb3Ige1xuICAgICAgdHJhbnNpdGlvbjogY29sb3IgMC4zcztcbiAgICB9XG4gICAgLnN1Y2Nlc3Mge1xuICAgICAgY29sb3I6IEBzdWNjZXNzLWNvbG9yO1xuICAgIH1cbiAgICAud2FybmluZyB7XG4gICAgICBjb2xvcjogQHdhcm5pbmctY29sb3I7XG4gICAgfVxuICAgIC5lcnJvciB7XG4gICAgICBjb2xvcjogQGVycm9yLWNvbG9yO1xuICAgIH1cbiAgICAucHJvZ3Jlc3MtcGFzcyA+IC5wcm9ncmVzcyB7XG4gICAgICAuYW50LXByb2dyZXNzLWJnIHtcbiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogQHdhcm5pbmctY29sb3I7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */"] });
 
 
 /***/ }),
