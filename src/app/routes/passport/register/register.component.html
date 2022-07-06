@@ -70,9 +70,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzExtra="您的基础货币，暂时只支持人民币">
-      <nz-select nzSize="large" formControlName="base_currency_code" ngModel="CNY" nzAllowClear nzPlaceHolder="Select Base Currency Code">
-        <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
+    <nz-form-control nzExtra="不支持修改">
+      <nz-select formControlName="base_currency_code" [nzPlaceHolder]="'Select Base Currency Code'" nzSize="large" nzShowSearch>
+        <nz-option *ngFor="let i of currencies" [nzLabel]="i.name" [nzValue]="i.code"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>

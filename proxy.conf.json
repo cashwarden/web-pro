@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://stage-api.cashwarden.com/v1",
+    "target": "https://test-api.cashwarden.com/v1",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
