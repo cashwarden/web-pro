@@ -48,18 +48,19 @@
 
     <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
     <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
+    <button nz-button (click)="form()" [nzType]="'primary'">
+      <i nz-icon nzType="plus"></i>
+      <span>新建</span>
+    </button>
   </form>
-  <button nz-button (click)="form()" [nzType]="'primary'">
-    <i nz-icon nzType="plus"></i>
-    <span>新建</span>
-  </button>
 </nz-card>
 
 <nz-list [nzDataSource]="list" [nzLoading]="loading" [nzRenderItem]="item" [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }">
   <ng-template #item let-item>
     <g2-card [title]="title" [bordered]="true" [total]="item.balance | _currency" [footer]="footer" [avatar]="avatar" [action]="action">
       <ng-template #title>
-        <a routerLink="/account/view/{{ item.id }}">{{ item.name }}</a>
+        <a class="text-md pr-sm" routerLink="/account/view/{{ item.id }}">{{ item.name }}</a>
+        <nz-tag nzColor="success" *ngIf="item.default">Default</nz-tag>
       </ng-template>
       <ng-template #avatar>
         <i nz-icon nzIconfont="icon-{{ item.type }}" class="icon-md" (click)="form(item)"></i>

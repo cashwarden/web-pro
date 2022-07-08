@@ -3,9 +3,9 @@
     <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
       <div nz-col>
         <sf mode="search" [schema]="searchSchema" (formSubmit)="submit($event)" (formReset)="reset()"></sf>
-        <div nz-col>
-          <button (click)="form()" nz-button nzType="primary">新建</button>
-        </div>
+      </div>
+      <div nz-col>
+        <button (click)="form()" nz-button nzType="primary">新建</button>
       </div>
     </div>
   </nz-card>
@@ -19,7 +19,8 @@
       </ng-template>
       <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
         <ng-template #nzTitle>
-          <a (click)="form(item)">{{ item.name }} <span *ngIf="item.default">(default)</span></a>
+          <a class="text-md pr-sm" (click)="form(item)">{{ item.name }}</a>
+          <nz-tag nzColor="success" *ngIf="item.default">Default</nz-tag>
         </ng-template>
         <ng-template #nzDescription>
           {{ item.remark }}
