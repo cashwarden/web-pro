@@ -15,6 +15,8 @@ import { params } from 'src/app/shared/params';
   styleUrls: ['./register.component.less'],
 })
 export class UserRegisterComponent implements OnDestroy {
+  currencies: any[] = [];
+
   constructor(
     fb: FormBuilder,
     private router: Router,
@@ -26,8 +28,11 @@ export class UserRegisterComponent implements OnDestroy {
     private startupSrv: StartupService,
     public http: _HttpClient,
     public msg: NzMessageService,
-     private cache: CacheService,
+    private cache: CacheService,
   ) {
+    this.currencies = settingsService.app.currencies;
+    console.log(this.currencies);
+
     this.form = fb.group({
       email: [null, [Validators.required, Validators.email]],
       username: [null, [Validators.required, Validators.minLength(3)]],
@@ -48,6 +53,10 @@ export class UserRegisterComponent implements OnDestroy {
 
   get password() {
     return this.form.controls.password;
+  }
+
+  get base_currency_code() {
+    return this.form.controls.base_currency_code;
   }
 
   form: FormGroup;
@@ -118,7 +127,7 @@ export class UserRegisterComponent implements OnDestroy {
       this.cache.set(params.cacheKey.defaultLedger, res.data.default_ledger);
       this.cache.set(params.cacheKey.defaultIdLedger, res.data.default_ledger.id);
 
-      // 设置用户Token信息
+      // 设置用户 Token 信息
       this.tokenService.set({ token: res.data.token });
       const user = { name: res.data.user.username, email: res.data.user.email, avatar: res.data.user.avatar };
       this.settingsService.setUser(user);

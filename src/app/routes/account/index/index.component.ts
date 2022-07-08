@@ -75,7 +75,8 @@ export class AccountIndexComponent implements OnInit {
   reset(): void {
     this.q = {
       page: 1,
-      pageSize: 50,
+      pageSize: 100,
+      expand: 'user',
     };
     this.getData();
   }
