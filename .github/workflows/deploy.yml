@@ -1,9 +1,9 @@
 name: Deploy CI
 on:
   push:
-    branches: [master]
+    branches: [master, stage, test]
   pull_request:
-    branches: [master]
+    branches: [master, stage, test]
 
 jobs:
   build:
@@ -16,6 +16,24 @@ jobs:
       - uses: actions/checkout@v1
       - name: Setup kernel for react native, increase watchers
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+      - name: Set WORK_DIR to test
+        if: endsWith(github.ref, '/test')
+        run: |
+          echo "WORK_DIR=/home/www/test-cashwarden-web-pro" >> $GITHUB_ENV
+          echo "HOST=test.cashwarden.com" >> $GITHUB_ENV
+
+      - name: Set WORK_DIR to stage
+        if: endsWith(github.ref, '/stage')
+        run: |
+          echo "WORK_DIR=/home/www/stage-cashwarden-web-pro" >> $GITHUB_ENV &&
+          echo "HOST=stage.cashwarden.com" >> $GITHUB_ENV
+
+      - name: Set WORK_DIR to production
+        if: endsWith(github.ref, '/master')
+        run: |
+          echo "WORK_DIR=/home/www/cashwarden-web-pro" >> $GITHUB_ENV
+          echo "HOST=www.cashwarden.com" >> $GITHUB_ENV
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -37,6 +55,7 @@ jobs:
           npm run build --prod
 
       - name: Deploy
+        if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -45,18 +64,16 @@ jobs:
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
       - name: Copy folder content recursively to remote
-        if: github.ref == 'refs/heads/master'
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -avuz
           path: dist/
-          remote_path: ${{ secrets.SSH_PATH }}
-          remote_host: www.cashwarden.com
+          remote_path: ${{ env.WORK_DIR }}
+          remote_host: ${{ env.HOST }}
           remote_user: ${{ secrets.SSH_USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Slack Workflow Notification
-        if: github.ref == 'refs/heads/master'
         uses: Gamesight/slack-workflow-status@master
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
