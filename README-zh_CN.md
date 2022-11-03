@@ -7,6 +7,7 @@
 <h1 align="center">CashWarden</h1>
 
 <div align="center">
+
   一款开源的资产管理系统
 
   [![CI](https://github.com/cashwarden/web/workflows/Deploy%20CI/badge.svg)](https://github.com/cashwarden/web/actions)
